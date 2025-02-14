@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { AgChartsEnterpriseModule } from "ag-charts-enterprise";
 import React, {
   StrictMode,

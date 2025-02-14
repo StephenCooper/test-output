@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import React, { StrictMode, useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
