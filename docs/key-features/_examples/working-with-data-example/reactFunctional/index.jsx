@@ -1,19 +1,14 @@
-'use client';
+"use client";
 import React, { StrictMode, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
-
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
-
 ModuleRegistry.registerModules([AllCommunityModule]);
-
 const gridDiv = document.querySelector("#myGrid");
-
 const rowSelection = {
   mode: "multiRow",
   headerCheckbox: false,
 };
-
 const GridExample = () => {
   const [rowData, setRowData] = useState([
     {
@@ -269,7 +264,6 @@ const GridExample = () => {
       month: "May",
     },
   ]);
-
   const [columnDefs, setColumnDefs] = useState([
     {
       field: "make",
@@ -315,14 +309,12 @@ const GridExample = () => {
       },
     },
   ]);
-
   const defaultColDef = useMemo(() => {
     return {
       filter: "agTextColumnFilter",
       floatingFilter: true,
     };
   }, []);
-
   return (
     <div style={{ height: 500 }}>
       <AgGridReact
@@ -337,7 +329,6 @@ const GridExample = () => {
     </div>
   );
 };
-
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

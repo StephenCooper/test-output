@@ -1,5 +1,4 @@
-'use client';
-import "ag-grid-enterprise";
+"use client";
 import { AgChartsEnterpriseModule } from "ag-charts-enterprise";
 import React, {
   StrictMode,

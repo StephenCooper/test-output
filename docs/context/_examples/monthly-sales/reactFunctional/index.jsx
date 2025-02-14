@@ -1,5 +1,4 @@
-'use client';
-import "ag-grid-enterprise";
+"use client";
 import React, {
   StrictMode,
   useCallback,
@@ -8,7 +7,6 @@ import React, {
   useState,
 } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   CellStyleModule,
   ClientSideRowModelApiModule,
@@ -25,9 +23,7 @@ import {
   SetFilterModule,
 } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react";
-
 import "./styles.css";
-
 ModuleRegistry.registerModules([
   ClientSideRowModelApiModule,
   RenderApiModule,
@@ -40,19 +36,15 @@ ModuleRegistry.registerModules([
   FiltersToolPanelModule,
   ValidationModule /* Development Only */,
 ]);
-
 const monthValueGetter =
   '(ctx.month < ctx.months.indexOf(colDef.field)) ? data[colDef.field + "_bud"] : data[colDef.field + "_act"]';
-
 const monthCellClassRules = {
   "cell-act": "ctx.month < ctx.months.indexOf(colDef.field)",
   "cell-bud": "ctx.month >= ctx.months.indexOf(colDef.field)",
   "cell-negative": "x < 0",
 };
-
 const yearToDateValueGetter =
   'var total = 0; ctx.months.forEach( function(monthName, monthIndex) { if (monthIndex<=ctx.month) { total += data[monthName + "_act"]; } }); return total; ';
-
 const accountingCellRenderer = function (params) {
   if (params.value == null) {
     return "";
@@ -62,7 +54,6 @@ const accountingCellRenderer = function (params) {
     return "(" + Math.abs(params.value).toLocaleString() + ")";
   }
 };
-
 const monthNames = [
   "Budget Only",
   "Year to Jan",
@@ -78,13 +69,11 @@ const monthNames = [
   "Year to Nov",
   "Full Year",
 ];
-
 const rowSelection = {
   mode: "multiRow",
   headerCheckbox: false,
   groupSelects: "descendants",
 };
-
 const GridExample = () => {
   const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
@@ -188,18 +177,16 @@ const GridExample = () => {
       cellRenderer: "agGroupCellRenderer",
     };
   }, []);
-
-  const onGridReady = useCallback(() => {
+  const onGridReady = useCallback((params) => {
     fetch("https://www.ag-grid.com/example-assets/monthly-sales.json")
       .then((resp) => resp.json())
       .then((data) => {
         setRowData(data);
       });
   }, []);
-
   const onChangeMonth = useCallback(
     (i) => {
-      var newMonth = (context.current.month += i);
+      let newMonth = (context.current.month += i);
       if (newMonth < -1) {
         newMonth = -1;
       }
@@ -215,11 +202,9 @@ const GridExample = () => {
     },
     [monthNames],
   );
-
   const onQuickFilterChanged = useCallback((value) => {
     gridRef.current.api.setGridOption("quickFilterText", value);
   }, []);
-
   return (
     <div style={containerStyle}>
       <div className="test-container">
@@ -272,7 +257,6 @@ const GridExample = () => {
     </div>
   );
 };
-
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

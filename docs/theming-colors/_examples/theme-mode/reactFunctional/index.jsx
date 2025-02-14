@@ -1,8 +1,6 @@
-'use client';
-import "ag-grid-enterprise";
+"use client";
 import React, { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   AllCommunityModule,
   ModuleRegistry,
@@ -10,9 +8,7 @@ import {
 } from "ag-grid-community";
 import { AllEnterpriseModule } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react";
-
 ModuleRegistry.registerModules([AllCommunityModule, AllEnterpriseModule]);
-
 const theme = themeQuartz
   .withParams(
     {
@@ -30,7 +26,6 @@ const theme = themeQuartz
     },
     "dark-red",
   );
-
 const GridExample = () => {
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column" }}>
@@ -55,12 +50,10 @@ const GridExample = () => {
     </div>
   );
 };
-
 function setDarkMode(enabled) {
   document.body.dataset.agThemeMode = enabled ? "dark-red" : "light-red";
 }
 setDarkMode(false);
-
 const rowData = (() => {
   const rowData = [];
   for (let i = 0; i < 10; i++) {
@@ -74,9 +67,7 @@ const rowData = (() => {
   }
   return rowData;
 })();
-
 const columnDefs = [{ field: "make" }, { field: "model" }, { field: "price" }];
-
 const defaultColDef = {
   flex: 1,
   minWidth: 100,
@@ -85,7 +76,6 @@ const defaultColDef = {
   enableRowGroup: true,
   enablePivot: true,
 };
-
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

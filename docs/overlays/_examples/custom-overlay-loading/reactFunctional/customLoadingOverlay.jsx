@@ -1,5 +1,4 @@
 import React from "react";
-
 export default (props) => {
   return (
     <div className="ag-overlay-loading-center" role="presentation">

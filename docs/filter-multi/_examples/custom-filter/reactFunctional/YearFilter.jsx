@@ -1,25 +1,19 @@
 import React, { useCallback, useRef } from "react";
-
 import { useGridFilter } from "ag-grid-react";
-
 export default ({ model, onModelChange }) => {
   const refInput = useRef(null);
-
   const doesFilterPass = useCallback((params) => {
     return params.data.year >= 2004;
   }, []);
-
   const afterGuiAttached = useCallback((params) => {
     if (!params || !params.suppressFocus) {
-      refInput.current.focus();
+      refInput.current?.focus();
     }
   }, []);
-
   useGridFilter({
     doesFilterPass,
     afterGuiAttached,
   });
-
   return (
     <div className="year-filter">
       <label>

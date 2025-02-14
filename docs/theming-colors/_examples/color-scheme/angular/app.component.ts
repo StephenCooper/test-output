@@ -1,4 +1,3 @@
-import "ag-grid-enterprise";
 import { Component } from "@angular/core";
 
 import { AgGridAngular } from "ag-grid-angular";

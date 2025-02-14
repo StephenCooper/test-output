@@ -1,7 +1,6 @@
-'use client';
+"use client";
 import React, { StrictMode, useCallback, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   CellStyleModule,
   ClientSideRowModelModule,
@@ -11,9 +10,7 @@ import {
   ValidationModule,
 } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
-
 import "./styles.css";
-
 ModuleRegistry.registerModules([
   NumberEditorModule,
   TextEditorModule,
@@ -21,24 +18,20 @@ ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
-
 const ragCellClassRules = {
   "rag-green-outer": (params) => params.value === 2008,
   "rag-blue-outer": (params) => params.value === 2004,
   "rag-red-outer": (params) => params.value === 2000,
 };
-
 const cellStyle = (params) => {
   const color = numberToColor(params.value);
   return {
     backgroundColor: color,
   };
 };
-
 const cellClass = (params) => {
   return params.value === "Swimming" ? "rag-green" : "rag-blue";
 };
-
 const numberToColor = (val) => {
   if (val === 0) {
     return "#ffaaaa";
@@ -48,11 +41,9 @@ const numberToColor = (val) => {
     return "#aaffaa";
   }
 };
-
 const ragRenderer = (params) => {
   return <span className="rag-element">{params.value}</span>;
 };
-
 const numberParser = (params) => {
   const newValue = params.newValue;
   let valueAsNumber;
@@ -63,7 +54,6 @@ const numberParser = (params) => {
   }
   return valueAsNumber;
 };
-
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
@@ -122,13 +112,11 @@ const GridExample = () => {
       editable: true,
     };
   }, []);
-
   const onGridReady = useCallback((params) => {
     fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
       .then((resp) => resp.json())
       .then((data) => setRowData(data));
   }, []);
-
   return (
     <div style={containerStyle}>
       <div style={gridStyle}>
@@ -142,7 +130,6 @@ const GridExample = () => {
     </div>
   );
 };
-
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

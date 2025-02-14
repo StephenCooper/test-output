@@ -1,21 +1,15 @@
 import React, { useCallback, useEffect, useState } from "react";
-
 export default (props) => {
   const { node, value } = props;
   const [expanded, setExpanded] = useState(node.expanded);
-
   useEffect(() => {
     const expandListener = (event) => setExpanded(event.node.expanded);
-
     node.addEventListener("expandedChanged", expandListener);
-
     return () => {
       node.removeEventListener("expandedChanged", expandListener);
     };
   }, []);
-
   const onClick = useCallback(() => node.setExpanded(!node.expanded), [node]);
-
   return (
     <div
       style={{

@@ -1,5 +1,4 @@
-'use client';
-import "ag-grid-enterprise";
+"use client";
 import React, {
   StrictMode,
   useCallback,
@@ -8,7 +7,6 @@ import React, {
   useState,
 } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   ClientSideRowModelApiModule,
   ClientSideRowModelModule,
@@ -25,7 +23,6 @@ import {
   MasterDetailModule,
 } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react";
-
 ModuleRegistry.registerModules([
   ClientSideRowModelApiModule,
   RowSelectionModule,
@@ -38,11 +35,9 @@ ModuleRegistry.registerModules([
   ColumnsToolPanelModule,
   ValidationModule /* Development Only */,
 ]);
-
 let allRowData;
-
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [rowData, setRowData] = useState();
@@ -66,12 +61,10 @@ const GridExample = () => {
     return {
       refreshStrategy: "everything",
       detailGridOptions: {
-        rowSelection: {
-          mode: "multiRow",
-          headerCheckbox: false,
-          checkboxes: true,
+        rowSelection: { mode: "multiRow", headerCheckbox: false },
+        getRowId: (params) => {
+          return String(params.data.callId);
         },
-        getRowId: (params) => String(params.data.callId),
         columnDefs: [
           { field: "callId" },
           { field: "direction" },
@@ -85,12 +78,10 @@ const GridExample = () => {
         },
       },
       getDetailRowData: (params) => {
-        // params.successCallback([]);
         params.successCallback(params.data.callRecords);
       },
     };
   }, []);
-
   const onGridReady = useCallback((params) => {
     fetch("https://www.ag-grid.com/example-assets/master-detail-data.json")
       .then((resp) => resp.json())
@@ -99,7 +90,6 @@ const GridExample = () => {
         setRowData(data);
       });
   }, []);
-
   const onFirstDataRendered = useCallback(
     (params) => {
       // arbitrarily expand a row for presentational purposes
@@ -132,7 +122,6 @@ const GridExample = () => {
     },
     [allRowData],
   );
-
   return (
     <div style={containerStyle}>
       <div style={gridStyle}>
@@ -151,7 +140,6 @@ const GridExample = () => {
     </div>
   );
 };
-
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

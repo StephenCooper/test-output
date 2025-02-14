@@ -1,11 +1,8 @@
 import React, { memo, useEffect, useRef, useState } from "react";
-
 export default memo(({ value, onValueChange, stopEditing }) => {
   const isHappy = (value) => value === "Happy";
-
   const [ready, setReady] = useState(false);
   const refContainer = useRef(null);
-
   const checkAndToggleMoodIfLeftRight = (event) => {
     if (ready) {
       if (["ArrowLeft", "ArrowRight"].indexOf(event.key) > -1) {
@@ -16,28 +13,22 @@ export default memo(({ value, onValueChange, stopEditing }) => {
       }
     }
   };
-
   useEffect(() => {
-    refContainer.current.focus();
+    refContainer.current?.focus();
     setReady(true);
   }, []);
-
   useEffect(() => {
     window.addEventListener("keydown", checkAndToggleMoodIfLeftRight);
-
     return () => {
       window.removeEventListener("keydown", checkAndToggleMoodIfLeftRight);
     };
   }, [checkAndToggleMoodIfLeftRight, ready]);
-
   const onClick = (happy) => {
     onValueChange(happy ? "Happy" : "Sad");
     stopEditing();
   };
-
   const happyClass = isHappy(value) ? "selected" : "default";
   const sadClass = !isHappy(value) ? "selected" : "default";
-
   return (
     <div
       ref={refContainer}

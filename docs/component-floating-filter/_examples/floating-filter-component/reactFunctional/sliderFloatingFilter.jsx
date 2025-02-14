@@ -1,8 +1,6 @@
 import React from "react";
-
 export default ({ model, onModelChange, maxValue }) => {
   const value = (model && model.filter) || 0;
-
   const onChange = ({ target: { value: newValue } }) => {
     onModelChange(
       newValue === "" || newValue === "0"
@@ -15,7 +13,6 @@ export default ({ model, onModelChange, maxValue }) => {
           },
     );
   };
-
   return (
     <input
       type="range"

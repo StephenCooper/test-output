@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, {
   StrictMode,
   useCallback,
@@ -7,7 +7,6 @@ import React, {
   useState,
 } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   ClientSideRowModelModule,
   CustomFilterModule,
@@ -17,11 +16,9 @@ import {
   ValidationModule,
 } from "ag-grid-community";
 import { AgGridReact, getInstance } from "ag-grid-react";
-
-import { getData } from "./data.jsx";
-import PartialMatchFilter from "./partialMatchFilter.jsx";
+import { getData } from "./data.tsx";
+import PartialMatchFilter from "./partialMatchFilter";
 import "./styles.css";
-
 ModuleRegistry.registerModules([
   TextFilterModule,
   TextEditorModule,
@@ -29,9 +26,8 @@ ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
-
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [rowData, setRowData] = useState(getData());
@@ -50,7 +46,6 @@ const GridExample = () => {
       filter: true,
     };
   }, []);
-
   const onClicked = useCallback(() => {
     gridRef.current.api.getColumnFilterInstance("name").then((instance) => {
       getInstance(instance, (component) => {
@@ -60,7 +55,6 @@ const GridExample = () => {
       });
     });
   }, []);
-
   return (
     <div style={containerStyle}>
       <div className="example-wrapper">
@@ -71,6 +65,7 @@ const GridExample = () => {
         >
           Invoke Filter Instance Method
         </button>
+
         <div style={gridStyle}>
           <AgGridReact
             ref={gridRef}
@@ -83,7 +78,6 @@ const GridExample = () => {
     </div>
   );
 };
-
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

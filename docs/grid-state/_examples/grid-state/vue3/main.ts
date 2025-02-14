@@ -1,4 +1,3 @@
-import "ag-grid-enterprise";
 import { createApp, defineComponent, ref, shallowRef } from "vue";
 
 import type {

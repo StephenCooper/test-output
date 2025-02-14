@@ -1,4 +1,3 @@
-import "ag-grid-enterprise";
 import { createApp, defineComponent, ref } from "vue";
 
 import type { ColDef } from "ag-grid-community";

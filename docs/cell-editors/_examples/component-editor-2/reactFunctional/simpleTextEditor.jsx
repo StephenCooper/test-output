@@ -1,13 +1,10 @@
 import React, { useEffect, useRef } from "react";
-
 export default ({ value, onValueChange, eventKey, rowIndex, column }, ref) => {
   const updateValue = (val) => {
     onValueChange(val === "" ? null : val);
   };
-
   useEffect(() => {
     let startValue;
-
     if (eventKey === "Backspace") {
       startValue = "";
     } else if (eventKey && eventKey.length === 1) {
@@ -18,14 +15,10 @@ export default ({ value, onValueChange, eventKey, rowIndex, column }, ref) => {
     if (startValue == null) {
       startValue = "";
     }
-
     updateValue(startValue);
-
-    refInput.current.focus();
+    refInput.current?.focus();
   }, []);
-
   const refInput = useRef(null);
-
   return (
     <input
       value={value || ""}

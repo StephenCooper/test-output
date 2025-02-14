@@ -1,5 +1,4 @@
-'use client';
-import "ag-grid-enterprise";
+"use client";
 import React, {
   StrictMode,
   useCallback,
@@ -8,7 +7,6 @@ import React, {
   useState,
 } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   CellStyleModule,
   ClientSideRowModelModule,
@@ -22,9 +20,7 @@ import {
 } from "ag-grid-community";
 import { RowGroupingModule } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react";
-
 import "./styles.css";
-
 ModuleRegistry.registerModules([
   HighlightChangesModule,
   TextEditorModule,
@@ -36,7 +32,6 @@ ModuleRegistry.registerModules([
   RowGroupingModule,
   ValidationModule /* Development Only */,
 ]);
-
 const MIN_BOOK_COUNT = 10;
 const MAX_BOOK_COUNT = 20;
 const MIN_TRADE_COUNT = 1;
@@ -71,7 +66,6 @@ const products = [
   "Sugar No.11",
   "Sugar No.14",
 ];
-
 const portfolios = [
   "Aggressive",
   "Defensive",
@@ -79,23 +73,19 @@ const portfolios = [
   "Speculative",
   "Hybrid",
 ];
-
 // as we create books, we remember what products they belong to, so we can
 // add to these books later when use clicks one of the buttons
 const productToPortfolioToBooks = {};
-
 // start the book id's and trade id's at some future random number,
 // looks more realistic than starting them at 0
 let nextBookId = 62472;
 let nextTradeId = 24287;
 let nextBatchId = 101;
-
 // simple value getter, however we can see how many times it gets called. this
 // gives us an indication to how many rows get recalculated when data changes
 const changeValueGetter = (params) => {
   return params.data.previous - params.data.current;
 };
-
 // build up the test data
 const createRowData = () => {
   const data = [];
@@ -120,11 +110,9 @@ const createRowData = () => {
   }
   return data;
 };
-
 const randomBetween = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
-
 const createTradeRecord = (product, portfolio, book, batch) => {
   const current = Math.floor(Math.random() * 100000) + 100;
   const previous = current + Math.floor(Math.random() * 10000) - 2000;
@@ -148,23 +136,19 @@ const createTradeRecord = (product, portfolio, book, batch) => {
   };
   return trade;
 };
-
 const numberCellFormatter = (params) => {
   return Math.floor(params.value)
     .toString()
     .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
 };
-
 const createBookName = () => {
   nextBookId++;
   return "GL-" + nextBookId;
 };
-
 const createTradeId = () => {
   nextTradeId++;
   return nextTradeId;
 };
-
 const updateSomeItems = (rowData) => {
   const updateCount = randomBetween(1, 6);
   for (let k = 0; k < updateCount; k++) {
@@ -182,7 +166,6 @@ const updateSomeItems = (rowData) => {
     rowData[indexToUpdate] = updatedItem;
   }
 };
-
 const addSomeItems = (rowData) => {
   const addCount = randomBetween(1, 6);
   const batch = nextBatchId++;
@@ -195,7 +178,6 @@ const addSomeItems = (rowData) => {
     rowData.push(trade);
   }
 };
-
 const removeSomeItems = (rowData) => {
   const removeCount = randomBetween(1, 6);
   for (let i = 0; i < removeCount; i++) {
@@ -206,7 +188,6 @@ const removeSomeItems = (rowData) => {
     rowData.splice(indexToRemove, 1);
   }
 };
-
 // makes a copy of the original and merges in the new values
 const updateImmutableObject = (original, newValues) => {
   // start with new object
@@ -221,21 +202,17 @@ const updateImmutableObject = (original, newValues) => {
   });
   return newObject;
 };
-
 const rowSelection = {
   mode: "multiRow",
   groupSelects: "descendants",
   headerCheckbox: false,
 };
-
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-
   // a list of the data, that we modify as we go. if you are using an immutable
   // data store (such as Redux) then this would be similar to your store of data.
   const [globalRowData, setGlobalData] = useState(createRowData());
-
   const [rowData, setRowData] = useState();
   const [columnDefs, setColumnDefs] = useState([
     // these are the row groups, so they are all hidden (they are showd in the group column)
@@ -395,7 +372,6 @@ const GridExample = () => {
   const getRowId = useCallback(function (params) {
     return String(params.data.trade);
   }, []);
-
   const updateData = useCallback(() => {
     const rowData = globalRowData.splice(0);
     removeSomeItems(rowData);
@@ -403,10 +379,8 @@ const GridExample = () => {
     updateSomeItems(rowData);
     setGlobalData(rowData);
   }, [globalRowData]);
-
   // update rowData when our "global store" updates
   useEffect(() => setRowData(globalRowData), [globalRowData]);
-
   return (
     <div style={containerStyle}>
       <div className="example-wrapper">
@@ -429,7 +403,6 @@ const GridExample = () => {
     </div>
   );
 };
-
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

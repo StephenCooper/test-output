@@ -1,5 +1,4 @@
-'use client';
-import "ag-grid-enterprise";
+"use client";
 import React, { StrictMode, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
 

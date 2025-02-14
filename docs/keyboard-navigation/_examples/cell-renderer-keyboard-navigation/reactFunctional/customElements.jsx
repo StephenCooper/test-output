@@ -1,5 +1,4 @@
 import React from "react";
-
 export default ({ data }) => {
   return (
     <div className="custom-element">

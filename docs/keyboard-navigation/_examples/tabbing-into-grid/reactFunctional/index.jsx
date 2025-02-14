@@ -1,7 +1,6 @@
-'use client';
+"use client";
 import React, { StrictMode, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   ClientSideRowModelModule,
   ModuleRegistry,
@@ -12,9 +11,7 @@ import {
   ValidationModule,
 } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
-
 import "./styles.css";
-
 ModuleRegistry.registerModules([
   NumberEditorModule,
   TextEditorModule,
@@ -23,9 +20,8 @@ ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
-
 const GridExample = () => {
-  const [rowData, setRowData] = useState(null);
+  const [rowData, setRowData] = useState();
   const columnDefs = useMemo(
     () => [
       {
@@ -49,17 +45,14 @@ const GridExample = () => {
     ],
     [],
   );
-
   const onGridReady = (params) => {
     const updateData = (data) => {
       setRowData(data);
     };
-
     fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
       .then((resp) => resp.json())
       .then((data) => updateData(data));
   };
-
   const defaultColDef = useMemo(
     () => ({
       editable: true,
@@ -69,7 +62,6 @@ const GridExample = () => {
     }),
     [],
   );
-
   return (
     <div style={{ width: "100%", height: "100%" }}>
       <div className="test-container">
@@ -95,7 +87,6 @@ const GridExample = () => {
     </div>
   );
 };
-
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

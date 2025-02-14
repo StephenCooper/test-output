@@ -1,8 +1,6 @@
-'use client';
-import "ag-grid-enterprise";
+"use client";
 import React, { StrictMode, useCallback, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   ClientSideRowModelModule,
   ModuleRegistry,
@@ -19,11 +17,9 @@ import {
   TextFilterModule,
 } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react";
-
-import YearFilter from "./YearFilter.jsx";
-import YearFloatingFilter from "./YearFloatingFilter.jsx";
+import YearFilter from "./YearFilter";
+import YearFloatingFilter from "./YearFloatingFilter";
 import "./style.css";
-
 ModuleRegistry.registerModules([
   NumberFilterModule,
   TextFilterModule,
@@ -36,7 +32,6 @@ ModuleRegistry.registerModules([
   FiltersToolPanelModule,
   ValidationModule /* Development Only */,
 ]);
-
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
@@ -69,13 +64,11 @@ const GridExample = () => {
       suppressHeaderContextMenu: true,
     };
   }, []);
-
   const onGridReady = useCallback((params) => {
     fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
       .then((resp) => resp.json())
       .then((data) => setRowData(data));
   }, []);
-
   return (
     <div style={containerStyle}>
       <div style={gridStyle}>
@@ -89,7 +82,6 @@ const GridExample = () => {
     </div>
   );
 };
-
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

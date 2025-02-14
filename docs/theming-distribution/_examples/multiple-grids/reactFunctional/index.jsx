@@ -1,7 +1,6 @@
-'use client';
+"use client";
 import React, { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   AllCommunityModule,
   ModuleRegistry,
@@ -10,11 +9,8 @@ import {
   themeQuartz,
 } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
-
 import "./style.css";
-
 ModuleRegistry.registerModules([AllCommunityModule]);
-
 const GridExample = () => {
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column" }}>
@@ -73,7 +69,6 @@ const GridExample = () => {
     </div>
   );
 };
-
 const rowData = (() => {
   const rowData = [];
   for (let i = 0; i < 10; i++) {
@@ -87,16 +82,13 @@ const rowData = (() => {
   }
   return rowData;
 })();
-
 const columnDefs = [{ field: "make" }, { field: "model" }, { field: "price" }];
-
 const defaultColDef = {
   editable: true,
   flex: 1,
   minWidth: 100,
   filter: true,
 };
-
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

@@ -1,7 +1,6 @@
-'use client';
+"use client";
 import React, { StrictMode, useCallback, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   ClientSideRowModelModule,
   DateFilterModule,
@@ -10,17 +9,14 @@ import {
   ValidationModule,
 } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
-
-import CustomDateComponent from "./customDateComponent.jsx";
+import CustomDateComponent from "./customDateComponent";
 import "./styles.css";
-
 ModuleRegistry.registerModules([
   DateFilterModule,
   TextFilterModule,
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
-
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
@@ -43,7 +39,6 @@ const GridExample = () => {
     };
   }, []);
   const components = useMemo(() => ({ agDateInput: CustomDateComponent }), []);
-
   const onGridReady = useCallback(() => {
     fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
       .then((resp) => resp.json())
@@ -64,7 +59,6 @@ const GridExample = () => {
         );
       });
   }, []);
-
   return (
     <div style={containerStyle}>
       <div style={gridStyle}>
@@ -79,7 +73,6 @@ const GridExample = () => {
     </div>
   );
 };
-
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

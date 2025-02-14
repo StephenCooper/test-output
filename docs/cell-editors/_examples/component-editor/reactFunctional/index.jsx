@@ -1,7 +1,6 @@
-'use client';
+"use client";
 import React, { StrictMode, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   ClientSideRowModelModule,
   CustomEditorModule,
@@ -11,10 +10,8 @@ import {
   ValidationModule,
 } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
-
-import NumericEditor from "./numericEditor.jsx";
+import NumericEditor from "./numericEditor";
 import "./styles.css";
-
 ModuleRegistry.registerModules([
   TextEditorModule,
   TextFilterModule,
@@ -22,7 +19,6 @@ ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
-
 const GridExample = () => {
   const [rowData] = useState([
     { name: "Bob", mood: "Happy", number: 10 },
@@ -39,7 +35,6 @@ const GridExample = () => {
     { name: "Jenny", mood: "Happy", number: 34 },
     { name: "Larry", mood: "Happy", number: 13 },
   ]);
-
   const columnDefs = useMemo(
     () => [
       {
@@ -48,7 +43,7 @@ const GridExample = () => {
         width: 300,
       },
       {
-        headerName: "Numeric",
+        headerName: "Custom Numeric",
         field: "number",
         cellEditor: NumericEditor,
         editable: true,
@@ -57,7 +52,6 @@ const GridExample = () => {
     ],
     [],
   );
-
   const defaultColDef = useMemo(
     () => ({
       editable: true,
@@ -67,7 +61,6 @@ const GridExample = () => {
     }),
     [],
   );
-
   return (
     <div style={{ width: "100%", height: "100%" }}>
       <div
@@ -85,7 +78,6 @@ const GridExample = () => {
     </div>
   );
 };
-
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

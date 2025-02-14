@@ -1,7 +1,6 @@
-'use client';
+"use client";
 import React, { StrictMode, useCallback, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   ClientSideRowModelModule,
   ModuleRegistry,
@@ -10,16 +9,13 @@ import {
   ValidationModule,
 } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
-
-import NumberFloatingFilterComponent from "./numberFloatingFilterComponent.jsx";
-
+import NumberFloatingFilterComponent from "./numberFloatingFilterComponent";
 ModuleRegistry.registerModules([
   TextFilterModule,
   NumberFilterModule,
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
-
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
@@ -75,7 +71,6 @@ const GridExample = () => {
       floatingFilter: true,
     };
   }, []);
-
   const onGridReady = useCallback((params) => {
     fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
       .then((resp) => resp.json())
@@ -83,7 +78,6 @@ const GridExample = () => {
         setRowData(data);
       });
   }, []);
-
   return (
     <div style={containerStyle}>
       <div style={gridStyle}>
@@ -97,7 +91,6 @@ const GridExample = () => {
     </div>
   );
 };
-
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

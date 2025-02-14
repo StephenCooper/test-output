@@ -1,16 +1,12 @@
-'use client';
+"use client";
 import React, { StrictMode, useState } from "react";
 import { createRoot } from "react-dom/client";
-
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
-
 ModuleRegistry.registerModules([AllCommunityModule]);
-
-const CustomButtonComponent = (props) => {
+const CustomButtonComponent = () => {
   return <button onClick={() => window.alert("clicked")}>Push Me!</button>;
 };
-
 const GridExample = () => {
   const [rowData, setRowData] = useState([
     { make: "Tesla", model: "Model Y", price: 64950, electric: true },
@@ -34,7 +30,6 @@ const GridExample = () => {
     { field: "electric", flex: 1 },
     { field: "button", cellRenderer: CustomButtonComponent, flex: 1 },
   ]);
-
   return (
     <div style={{ width: "100%", height: "100%" }}>
       <div style={{ width: "100%", height: "100%" }}>
@@ -43,7 +38,6 @@ const GridExample = () => {
     </div>
   );
 };
-
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

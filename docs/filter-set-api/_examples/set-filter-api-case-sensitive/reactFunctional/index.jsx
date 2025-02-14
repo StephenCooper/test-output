@@ -1,5 +1,4 @@
-'use client';
-import "ag-grid-enterprise";
+"use client";
 import React, {
   StrictMode,
   useCallback,
@@ -8,7 +7,6 @@ import React, {
   useState,
 } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   ClientSideRowModelModule,
   ModuleRegistry,
@@ -21,10 +19,8 @@ import {
   SetFilterModule,
 } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react";
-
-import { getData } from "./data.jsx";
+import { getData } from "./data";
 import "./styles.css";
-
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   SetFilterModule,
@@ -33,12 +29,10 @@ ModuleRegistry.registerModules([
   FiltersToolPanelModule,
   ValidationModule /* Development Only */,
 ]);
-
 const colourCellRenderer = (props) => {
   if (!props.value || props.value === "(Select All)") {
     return props.value;
   }
-
   const styles = {
     verticalAlign: "middle",
     border: "1px solid black",
@@ -55,14 +49,11 @@ const colourCellRenderer = (props) => {
     </React.Fragment>
   );
 };
-
 const FILTER_TYPES = {
   insensitive: "colour",
   sensitive: "colour_1",
 };
-
 const MANGLED_COLOURS = ["ReD", "OrAnGe", "WhItE", "YeLlOw"];
-
 const GridExample = () => {
   const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
@@ -96,11 +87,9 @@ const GridExample = () => {
       floatingFilter: true,
     };
   }, []);
-
   const onFirstDataRendered = useCallback((params) => {
     gridRef.current.api.getToolPanelInstance("filters").expandFilters();
   }, []);
-
   const setModel = useCallback((type) => {
     gridRef.current.api
       .setColumnFilterModel(FILTER_TYPES[type], { values: MANGLED_COLOURS })
@@ -108,7 +97,6 @@ const GridExample = () => {
         gridRef.current.api.onFilterChanged();
       });
   }, []);
-
   const getModel = useCallback(
     (type) => {
       alert(
@@ -121,7 +109,6 @@ const GridExample = () => {
     },
     [alert],
   );
-
   const setFilterValues = useCallback((type) => {
     gridRef.current.api
       .getColumnFilterInstance(FILTER_TYPES[type])
@@ -131,7 +118,6 @@ const GridExample = () => {
         gridRef.current.api.onFilterChanged();
       });
   }, []);
-
   const getValues = useCallback(
     (type) => {
       gridRef.current.api
@@ -142,17 +128,16 @@ const GridExample = () => {
     },
     [alert],
   );
-
   const reset = useCallback((type) => {
     gridRef.current.api
       .getColumnFilterInstance(FILTER_TYPES[type])
       .then((instance) => {
         instance.resetFilterValues();
-        instance.setModel(null);
-        gridRef.current.api.onFilterChanged();
+        instance.setModel(null).then(() => {
+          gridRef.current.api.onFilterChanged();
+        });
       });
   }, []);
-
   return (
     <div style={containerStyle}>
       <div className="example-wrapper">
@@ -205,7 +190,6 @@ const GridExample = () => {
     </div>
   );
 };
-
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

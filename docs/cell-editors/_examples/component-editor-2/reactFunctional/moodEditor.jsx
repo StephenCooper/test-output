@@ -1,11 +1,8 @@
 import React, { memo, useEffect, useRef, useState } from "react";
-
 export default memo(({ value, onValueChange, stopEditing }) => {
   const isHappy = (value) => value === "Happy";
-
   const [ready, setReady] = useState(false);
   const refContainer = useRef(null);
-
   const checkAndToggleMoodIfLeftRight = (event) => {
     if (ready) {
       if (["ArrowLeft", "ArrowRight"].indexOf(event.key) > -1) {
@@ -16,25 +13,20 @@ export default memo(({ value, onValueChange, stopEditing }) => {
       }
     }
   };
-
   useEffect(() => {
-    refContainer.current.focus();
+    refContainer.current?.focus();
     setReady(true);
   }, []);
-
   useEffect(() => {
     window.addEventListener("keydown", checkAndToggleMoodIfLeftRight);
-
     return () => {
       window.removeEventListener("keydown", checkAndToggleMoodIfLeftRight);
     };
   }, [checkAndToggleMoodIfLeftRight, ready]);
-
   const onClick = (happy) => {
     onValueChange(happy ? "Happy" : "Sad");
     stopEditing();
   };
-
   const mood = {
     borderRadius: 15,
     border: "1px solid grey",
@@ -43,24 +35,20 @@ export default memo(({ value, onValueChange, stopEditing }) => {
     textAlign: "center",
     display: "inline-block",
   };
-
   const unselected = {
     paddingLeft: 10,
     paddingRight: 10,
     border: "1px solid transparent",
     padding: 4,
   };
-
   const selected = {
     paddingLeft: 10,
     paddingRight: 10,
     border: "1px solid lightgreen",
     padding: 4,
   };
-
   const happyStyle = isHappy(value) ? selected : unselected;
   const sadStyle = !isHappy(value) ? selected : unselected;
-
   return (
     <div
       ref={refContainer}

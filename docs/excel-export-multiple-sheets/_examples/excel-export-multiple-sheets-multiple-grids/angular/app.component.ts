@@ -1,4 +1,3 @@
-import "ag-grid-enterprise";
 import { HttpClient } from "@angular/common/http";
 import { ChangeDetectionStrategy, Component, ViewChild } from "@angular/core";
 

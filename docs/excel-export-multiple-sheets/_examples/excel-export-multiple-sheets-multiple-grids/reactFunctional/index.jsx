@@ -1,8 +1,6 @@
-'use client';
-import "ag-grid-enterprise";
+"use client";
 import React, { StrictMode, useCallback, useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   ClientSideRowModelApiModule,
   ClientSideRowModelModule,
@@ -18,9 +16,7 @@ import {
   exportMultipleSheetsAsExcel,
 } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react";
-
 import "./styles.css";
-
 ModuleRegistry.registerModules([
   ClientSideRowModelApiModule,
   TextFilterModule,
@@ -31,7 +27,6 @@ ModuleRegistry.registerModules([
   ExcelExportModule,
   ValidationModule /* Development Only */,
 ]);
-
 const SportRenderer = (props) => {
   return (
     <i
@@ -41,7 +36,6 @@ const SportRenderer = (props) => {
     ></i>
   );
 };
-
 const leftColumns = [
   {
     rowDrag: true,
@@ -58,7 +52,6 @@ const leftColumns = [
   { field: "athlete" },
   { field: "sport" },
 ];
-
 const rightColumns = [
   {
     rowDrag: true,
@@ -81,24 +74,20 @@ const rightColumns = [
     cellRenderer: SportRenderer,
   },
 ];
-
 const defaultColDef = {
   flex: 1,
   minWidth: 100,
   filter: true,
 };
-
 const rowSelection = {
   mode: "multiRow",
 };
-
 const GridExample = () => {
   const [leftApi, setLeftApi] = useState(null);
   const [rightApi, setRightApi] = useState(null);
   const [rawData, setRawData] = useState([]);
   const [leftRowData, setLeftRowData] = useState(null);
   const [rightRowData, setRightRowData] = useState([]);
-
   useEffect(() => {
     if (!rawData.length) {
       fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
@@ -106,7 +95,6 @@ const GridExample = () => {
         .then((data) => {
           const athletes = [];
           let i = 0;
-
           while (athletes.length < 20 && i < data.length) {
             var pos = i++;
             if (athletes.some((rec) => rec.athlete === data[pos].athlete)) {
@@ -118,43 +106,34 @@ const GridExample = () => {
         });
     }
   }, [rawData]);
-
   const loadGrids = useCallback(() => {
     setLeftRowData([...rawData.slice(0, rawData.length / 2)]);
     setRightRowData([...rawData.slice(rawData.length / 2)]);
     leftApi.deselectAll();
   }, [leftApi, rawData]);
-
   useEffect(() => {
     if (rawData.length) {
       loadGrids();
     }
   }, [rawData, loadGrids]);
-
   const reset = () => {
     loadGrids();
   };
-
   const onExcelExport = () => {
-    var spreadsheets = [];
-
+    const spreadsheets = [];
     spreadsheets.push(
       leftApi.getSheetDataForExcel({ sheetName: "Athletes" }),
       rightApi.getSheetDataForExcel({ sheetName: "Selected Athletes" }),
     );
-
     exportMultipleSheetsAsExcel({
       data: spreadsheets,
       fileName: "ag-grid.xlsx",
     });
   };
-
   const getRowId = (params) => params.data.athlete;
-
   const onDragStop = useCallback(
     (params) => {
-      var nodes = params.nodes;
-
+      const nodes = params.nodes;
       leftApi.applyTransaction({
         remove: nodes.map(function (node) {
           return node.data;
@@ -163,27 +142,22 @@ const GridExample = () => {
     },
     [leftApi],
   );
-
   useEffect(() => {
     if (!leftApi || !rightApi) {
       return;
     }
     const dropZoneParams = rightApi.getRowDropZoneParams({ onDragStop });
-
     leftApi.removeRowDropZone(dropZoneParams);
     leftApi.addRowDropZone(dropZoneParams);
   }, [leftApi, rightApi, onDragStop]);
-
   const onGridReady = (params, side) => {
     if (side === 0) {
       setLeftApi(params.api);
     }
-
     if (side === 1) {
       setRightApi(params.api);
     }
   };
-
   const getTopToolBar = () => (
     <div>
       <button
@@ -203,13 +177,12 @@ const GridExample = () => {
       </button>
     </div>
   );
-
   const getGridWrapper = (id) => (
     <div className="panel panel-primary" style={{ marginRight: "10px" }}>
       <div className="panel-heading">
         {id === 0 ? "Athletes" : "Selected Athletes"}
       </div>
-      <div className="panel-body">
+      <div className="panel-body" style={{ height: "100%" }}>
         <AgGridReact
           defaultColDef={defaultColDef}
           getRowId={getRowId}
@@ -224,7 +197,6 @@ const GridExample = () => {
       </div>
     </div>
   );
-
   return (
     <div className="top-container">
       {getTopToolBar()}
@@ -235,7 +207,6 @@ const GridExample = () => {
     </div>
   );
 };
-
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

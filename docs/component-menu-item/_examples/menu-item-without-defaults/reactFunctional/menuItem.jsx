@@ -1,11 +1,4 @@
-import React, {
-  KeyboardEvent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-
+import React, { useCallback, useEffect, useRef, useState } from "react";
 export default ({ column, api, active, onActiveChange }) => {
   const filterWrapperRef = useRef(null);
   const optionRef = useRef(null);
@@ -16,27 +9,22 @@ export default ({ column, api, active, onActiveChange }) => {
       });
     }
   }, [filterWrapperRef.current]);
-
   const [expanded, setExpanded] = useState(false);
-
   useEffect(() => {
     if (active) {
-      optionRef.current.focus();
+      optionRef.current?.focus();
     }
   }, [active]);
-
   const onOptionKeyDown = useCallback((e) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
       setExpanded((oldExpanded) => !oldExpanded);
     }
   }, []);
-
   const onFilterWrapperKeyDown = useCallback((e) => {
     // stop the menu from handling keyboard navigation inside the filter
     e.stopPropagation();
   }, []);
-
   return (
     <div>
       <div

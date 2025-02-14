@@ -1,5 +1,4 @@
 import React from "react";
-
 export default ({ model, onModelChange }) => {
   return (
     <div className="year-filter">

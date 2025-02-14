@@ -1,5 +1,4 @@
-'use client';
-import "ag-grid-enterprise";
+"use client";
 import React, {
   StrictMode,
   useCallback,
@@ -8,7 +7,6 @@ import React, {
   useState,
 } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   ClientSideRowModelModule,
   CustomEditorModule,
@@ -23,10 +21,8 @@ import {
   ContextMenuModule,
 } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react";
-
-import NumericCellEditor from "./numericCellEditor.jsx";
+import NumericCellEditor from "./numericCellEditor";
 import "./styles.css";
-
 ModuleRegistry.registerModules([
   SelectEditorModule,
   ClientSideRowModelModule,
@@ -37,7 +33,6 @@ ModuleRegistry.registerModules([
   TextEditorModule,
   ValidationModule /* Development Only */,
 ]);
-
 function getRowData() {
   const rowData = [];
   for (let i = 0; i < 10; i++) {
@@ -68,7 +63,6 @@ function getRowData() {
   }
   return rowData;
 }
-
 const GridExample = () => {
   const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
@@ -100,13 +94,11 @@ const GridExample = () => {
       cellDataType: false,
     };
   }, []);
-
   const onCellValueChanged = useCallback((event) => {
     console.log(
       "onCellValueChanged: " + event.colDef.field + " = " + event.newValue,
     );
   }, []);
-
   const onRowValueChanged = useCallback((event) => {
     const data = event.data;
     console.log(
@@ -121,11 +113,9 @@ const GridExample = () => {
         ")",
     );
   }, []);
-
   const onBtStopEditing = useCallback(() => {
     gridRef.current.api.stopEditing();
   }, []);
-
   const onBtStartEditing = useCallback(() => {
     gridRef.current.api.setFocusedCell(1, "make");
     gridRef.current.api.startEditingCell({
@@ -133,7 +123,6 @@ const GridExample = () => {
       colKey: "make",
     });
   }, []);
-
   return (
     <div style={containerStyle}>
       <div className="example-wrapper">
@@ -160,7 +149,6 @@ const GridExample = () => {
     </div>
   );
 };
-
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

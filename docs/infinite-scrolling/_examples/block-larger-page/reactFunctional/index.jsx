@@ -1,8 +1,6 @@
-'use client';
-import "ag-grid-enterprise";
+"use client";
 import React, { StrictMode, useCallback, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   InfiniteRowModelModule,
   ModuleRegistry,
@@ -17,9 +15,7 @@ import {
   SetFilterModule,
 } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react";
-
-import { countries } from "./countries.jsx";
-
+import { countries } from "./countries";
 ModuleRegistry.registerModules([
   NumberFilterModule,
   PaginationModule,
@@ -30,13 +26,10 @@ ModuleRegistry.registerModules([
   ColumnsToolPanelModule,
   ValidationModule /* Development Only */,
 ]);
-
 const filterParams = { values: countries() };
-
 const sortAndFilter = (allOfTheData, sortModel, filterModel) => {
   return sortData(sortModel, filterData(filterModel, allOfTheData));
 };
-
 const sortData = (sortModel, data) => {
   const sortPresent = sortModel && sortModel.length > 0;
   if (!sortPresent) {
@@ -65,7 +58,6 @@ const sortData = (sortModel, data) => {
   });
   return resultOfSort;
 };
-
 const filterData = (filterModel, data) => {
   const filterPresent = filterModel && Object.keys(filterModel).length > 0;
   if (!filterPresent) {
@@ -109,7 +101,6 @@ const filterData = (filterModel, data) => {
   }
   return resultOfFilter;
 };
-
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
@@ -168,7 +159,6 @@ const GridExample = () => {
   const getRowId = useCallback(function (params) {
     return params.data.id;
   }, []);
-
   const onGridReady = useCallback((params) => {
     fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
       .then((resp) => resp.json())
@@ -208,7 +198,6 @@ const GridExample = () => {
         params.api.setGridOption("datasource", dataSource);
       });
   }, []);
-
   return (
     <div style={containerStyle}>
       <div style={gridStyle}>
@@ -230,7 +219,6 @@ const GridExample = () => {
     </div>
   );
 };
-
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

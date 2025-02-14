@@ -4,14 +4,11 @@ import React, {
   useImperativeHandle,
   useState,
 } from "react";
-
 export default forwardRef((props, ref) => {
   const [value, setValue] = useState(props.value);
-
   useEffect(() => {
     console.log("renderer created");
   }, []);
-
   useImperativeHandle(ref, () => {
     return {
       refresh(params) {
@@ -21,6 +18,5 @@ export default forwardRef((props, ref) => {
       },
     };
   });
-
   return <span>{new Array(value).fill("#").join("")}</span>;
 });

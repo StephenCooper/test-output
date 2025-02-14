@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, {
   StrictMode,
   useCallback,
@@ -7,7 +7,6 @@ import React, {
   useState,
 } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   ClientSideRowModelModule,
   ColumnAutoSizeModule,
@@ -15,29 +14,24 @@ import {
   ValidationModule,
 } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
-
 import "./styles.css";
-
 ModuleRegistry.registerModules([
   ColumnAutoSizeModule,
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
-
 const columnDefinitions = [
   { field: "athlete" },
   { field: "age" },
   { field: "country" },
   { field: "sport" },
 ];
-
 const updatedHeaderColumnDefs = [
   { field: "athlete", headerName: "C1" },
   { field: "age", headerName: "C2" },
   { field: "country", headerName: "C3" },
   { field: "sport", headerName: "C4" },
 ];
-
 const GridExample = () => {
   const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
@@ -50,21 +44,17 @@ const GridExample = () => {
     }),
     [],
   );
-
   const onGridReady = useCallback(() => {
     fetch("https://www.ag-grid.com/example-assets/small-olympic-winners.json")
       .then((resp) => resp.json())
       .then((data) => setRowData(data));
   }, []);
-
   const onBtUpdateHeaders = useCallback(() => {
     setColumnDefs(updatedHeaderColumnDefs);
   }, []);
-
   const onBtRestoreHeaders = useCallback(() => {
     setColumnDefs(columnDefinitions);
   }, []);
-
   return (
     <div style={containerStyle}>
       <div className="test-container">
@@ -87,7 +77,6 @@ const GridExample = () => {
     </div>
   );
 };
-
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

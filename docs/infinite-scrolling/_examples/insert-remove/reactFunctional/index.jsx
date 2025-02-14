@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, {
   StrictMode,
   useCallback,
@@ -7,7 +7,6 @@ import React, {
   useState,
 } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   InfiniteRowModelModule,
   ModuleRegistry,
@@ -17,7 +16,6 @@ import {
   ValidationModule,
 } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
-
 ModuleRegistry.registerModules([
   RowApiModule,
   ScrollApiModule,
@@ -25,7 +23,6 @@ ModuleRegistry.registerModules([
   InfiniteRowModelModule,
   ValidationModule /* Development Only */,
 ]);
-
 const valueFormatter = function (params) {
   if (typeof params.value === "number") {
     return "£" + params.value.toLocaleString();
@@ -33,11 +30,9 @@ const valueFormatter = function (params) {
     return params.value;
   }
 };
-
 // this counter is used to give id's to the rows
 let sequenceId = 0;
 let allOfTheData = [];
-
 const createRowData = (id) => {
   const makes = ["Toyota", "Ford", "Porsche", "Chevy", "Honda", "Nissan"];
   const models = [
@@ -56,7 +51,6 @@ const createRowData = (id) => {
     price: 72000,
   };
 };
-
 const insertItemsAt2 = (count) => {
   const newDataItems = [];
   for (let i = 0; i < count; i++) {
@@ -66,12 +60,10 @@ const insertItemsAt2 = (count) => {
   }
   return newDataItems;
 };
-
 const GridExample = () => {
   const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-
   const [columnDefs, setColumnDefs] = useState([
     {
       headerName: "Item ID",
@@ -144,7 +136,6 @@ const GridExample = () => {
       fontWeight: "normal",
     };
   }, []);
-
   const onGridReady = useCallback((params) => {
     sequenceId = 1;
     allOfTheData = [];
@@ -152,7 +143,6 @@ const GridExample = () => {
       allOfTheData.push(createRowData(sequenceId++));
     }
   }, []);
-
   const insertItemsAt2AndRefresh = useCallback((count) => {
     insertItemsAt2(count);
     // if the data has stopped looking for the last row, then we need to adjust the
@@ -170,7 +160,6 @@ const GridExample = () => {
     // get grid to refresh the data
     gridRef.current.api.refreshInfiniteCache();
   }, []);
-
   const removeItem = useCallback(
     (start, limit) => {
       allOfTheData.splice(start, limit);
@@ -178,19 +167,15 @@ const GridExample = () => {
     },
     [allOfTheData],
   );
-
   const refreshCache = useCallback(() => {
     gridRef.current.api.refreshInfiniteCache();
   }, []);
-
   const purgeCache = useCallback(() => {
     gridRef.current.api.purgeInfiniteCache();
   }, []);
-
   const setRowCountTo200 = useCallback(() => {
     gridRef.current.api.setRowCount(200, false);
   }, []);
-
   const rowsAndMaxFound = useCallback(() => {
     console.log(
       "getDisplayedRowCount() => " + gridRef.current.api.getDisplayedRowCount(),
@@ -199,20 +184,17 @@ const GridExample = () => {
       "isLastRowIndexKnown() => " + gridRef.current.api.isLastRowIndexKnown(),
     );
   }, []);
-
   // function just gives new prices to the row data, it does not update the grid
   const setPricesHigh = useCallback(() => {
     allOfTheData.forEach(function (dataItem) {
       dataItem.price = Math.round(55500 + 400 * (0.5 + Math.random()));
     });
   }, [allOfTheData]);
-
   const setPricesLow = useCallback(() => {
     allOfTheData.forEach(function (dataItem) {
       dataItem.price = Math.round(1000 + 100 * (0.5 + Math.random()));
     });
   }, [allOfTheData]);
-
   const jumpTo500 = useCallback(() => {
     // first up, need to make sure the grid is actually showing 500 or more rows
     if ((gridRef.current.api.getDisplayedRowCount() || 0) < 501) {
@@ -221,7 +203,6 @@ const GridExample = () => {
     // next, we can jump to the row
     gridRef.current.api.ensureIndexVisible(500);
   }, []);
-
   return (
     <div style={containerStyle}>
       <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
@@ -261,7 +242,6 @@ const GridExample = () => {
     </div>
   );
 };
-
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>
