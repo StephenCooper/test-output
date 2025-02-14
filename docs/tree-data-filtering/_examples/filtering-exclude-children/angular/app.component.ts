@@ -1,0 +1,111 @@
+import { Component } from "@angular/core";
+import { AgGridAngular } from "ag-grid-angular";
+import "./styles.css";
+import {
+  ClientSideRowModelModule,
+  ColDef,
+  ColGroupDef,
+  GetDataPath,
+  GridApi,
+  GridOptions,
+  GridReadyEvent,
+  ModuleRegistry,
+  TextFilterModule,
+  ValidationModule,
+  createGrid,
+} from "ag-grid-community";
+import { TreeDataModule } from "ag-grid-enterprise";
+import { getData } from "./data";
+ModuleRegistry.registerModules([
+  ClientSideRowModelModule,
+  TreeDataModule,
+  TextFilterModule,
+  ValidationModule /* Development Only */,
+]);
+
+@Component({
+  selector: "my-app",
+  standalone: true,
+  imports: [AgGridAngular],
+  template: `<div class="example-wrapper">
+    <div class="example-header">
+      <label>
+        <span>excludeChildrenWhenTreeDataFiltering:</span>
+        <input
+          type="checkbox"
+          id="excludeChildrenWhenTreeDataFiltering"
+          (click)="toggleFilter()"
+          checked=""
+        />
+      </label>
+    </div>
+    <ag-grid-angular
+      style="width: 100%; height: 100%;"
+      [columnDefs]="columnDefs"
+      [defaultColDef]="defaultColDef"
+      [autoGroupColumnDef]="autoGroupColumnDef"
+      [rowData]="rowData"
+      [treeData]="true"
+      [groupDefaultExpanded]="groupDefaultExpanded"
+      [excludeChildrenWhenTreeDataFiltering]="true"
+      [getDataPath]="getDataPath"
+      (gridReady)="onGridReady($event)"
+    />
+  </div> `,
+})
+export class AppComponent {
+  private gridApi!: GridApi;
+
+  columnDefs: ColDef[] = [
+    { field: "created" },
+    { field: "modified" },
+    {
+      field: "size",
+      aggFunc: "sum",
+      valueFormatter: (params) => {
+        const sizeInKb = params.value / 1024;
+        if (sizeInKb > 1024) {
+          return `${+(sizeInKb / 1024).toFixed(2)} MB`;
+        } else {
+          return `${+sizeInKb.toFixed(2)} KB`;
+        }
+      },
+    },
+  ];
+  defaultColDef: ColDef = {
+    flex: 1,
+  };
+  autoGroupColumnDef: ColDef = {
+    headerName: "File Explorer",
+    minWidth: 150,
+    filter: "agTextColumnFilter",
+    cellRendererParams: {
+      suppressCount: true,
+    },
+  };
+  rowData: any[] | null = getData();
+  groupDefaultExpanded = -1;
+  getDataPath: GetDataPath = (data) => data.path;
+
+  toggleFilter() {
+    const checkbox = document.querySelector<HTMLInputElement>(
+      "#excludeChildrenWhenTreeDataFiltering",
+    )!;
+    this.gridApi.setGridOption(
+      "excludeChildrenWhenTreeDataFiltering",
+      checkbox.checked,
+    );
+  }
+
+  onGridReady(params: GridReadyEvent) {
+    this.gridApi = params.api;
+
+    params.api.setFilterModel({
+      "ag-Grid-AutoColumn": {
+        filterType: "text",
+        type: "startsWith",
+        filter: "ProjectAlpha",
+      },
+    });
+  }
+}

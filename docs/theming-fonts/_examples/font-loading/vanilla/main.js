@@ -1,0 +1,43 @@
+const columnDefs = [
+  { field: "athlete", minWidth: 170 },
+  { field: "age" },
+  { field: "country" },
+  { field: "year" },
+  { field: "date" },
+];
+
+let gridApi;
+
+const myTheme = agGrid.themeQuartz.withParams({
+  // the grid will load these fonts for you if loadThemeGoogleFonts=true
+  fontFamily: { googleFont: "Delius" },
+  headerFontFamily: { googleFont: "Sixtyfour Convergence" },
+  cellFontFamily: { googleFont: "Turret Road" },
+  // these fonts are awesome, so they should be large too
+  fontSize: 20,
+  headerFontSize: 25,
+});
+
+const gridOptions = {
+  theme: myTheme,
+  loadThemeGoogleFonts: true,
+  columnDefs: columnDefs,
+  defaultColDef: {
+    editable: true,
+    filter: true,
+    enableRowGroup: true,
+    enablePivot: true,
+    enableValue: true,
+  },
+  sideBar: true,
+};
+
+// setup the grid after the page has finished loading
+document.addEventListener("DOMContentLoaded", function () {
+  const gridDiv = document.querySelector("#myGrid");
+  gridApi = agGrid.createGrid(gridDiv, gridOptions);
+
+  fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
+    .then((response) => response.json())
+    .then((data) => gridApi.setGridOption("rowData", data));
+});

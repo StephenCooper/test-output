@@ -1,0 +1,95 @@
+import { Component } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { AgGridAngular } from "ag-grid-angular";
+import "./styles.css";
+import {
+  ClientSideRowModelModule,
+  ColDef,
+  ColGroupDef,
+  GridApi,
+  GridOptions,
+  GridReadyEvent,
+  ModuleRegistry,
+  NumberFilterModule,
+  SideBarDef,
+  ValidationModule,
+  createGrid,
+} from "ag-grid-community";
+import {
+  ColumnMenuModule,
+  ColumnsToolPanelModule,
+  ContextMenuModule,
+  FiltersToolPanelModule,
+  PivotModule,
+  RowGroupingPanelModule,
+  SetFilterModule,
+} from "ag-grid-enterprise";
+ModuleRegistry.registerModules([
+  NumberFilterModule,
+  ClientSideRowModelModule,
+  ColumnsToolPanelModule,
+  FiltersToolPanelModule,
+  ColumnMenuModule,
+  ContextMenuModule,
+  PivotModule,
+  SetFilterModule,
+  RowGroupingPanelModule,
+  ValidationModule /* Development Only */,
+]);
+import { CustomDragAndDropImage } from "./custom-drag-and-drop-image.component";
+import { IOlympicData } from "./interfaces";
+
+@Component({
+  selector: "my-app",
+  standalone: true,
+  imports: [AgGridAngular, CustomDragAndDropImage],
+  template: `<ag-grid-angular
+    style="width: 100%; height: 100%;"
+    [columnDefs]="columnDefs"
+    [defaultColDef]="defaultColDef"
+    [sideBar]="true"
+    [rowGroupPanelShow]="rowGroupPanelShow"
+    [dragAndDropImageComponent]="dragAndDropImageComponent"
+    [dragAndDropImageComponentParams]="dragAndDropImageComponentParams"
+    [rowData]="rowData"
+    (gridReady)="onGridReady($event)"
+  /> `,
+})
+export class AppComponent {
+  columnDefs: ColDef[] = [
+    { field: "athlete" },
+    { field: "country" },
+    { field: "year", width: 100 },
+    { field: "date" },
+    { field: "sport" },
+    { field: "gold" },
+    { field: "silver" },
+    { field: "bronze" },
+  ];
+  defaultColDef: ColDef = {
+    width: 170,
+    filter: true,
+    // allow every column to be aggregated
+    enableValue: true,
+    // allow every column to be grouped
+    enableRowGroup: true,
+    // allow every column to be pivoted
+    enablePivot: true,
+  };
+  rowGroupPanelShow: "always" | "onlyWhenGrouping" | "never" = "always";
+  dragAndDropImageComponent: any = CustomDragAndDropImage;
+  dragAndDropImageComponentParams: any = {
+    accentColour: "SlateGray",
+  };
+  rowData!: IOlympicData[];
+
+  constructor(private http: HttpClient) {}
+
+  onGridReady(params: GridReadyEvent<IOlympicData>) {
+    this.http
+      .get<
+        IOlympicData[]
+      >("https://www.ag-grid.com/example-assets/olympic-winners.json")
+      .subscribe((data) => (this.rowData = data));
+  }
+}
