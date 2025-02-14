@@ -1,19 +1,9 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useCallback, useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
-import {
-  ModuleRegistry,
-  ValidationModule,
-  createGrid,
-} from "ag-grid-community";
+import { ModuleRegistry, ValidationModule } from "ag-grid-community";
 import {
   ColumnMenuModule,
   ColumnsToolPanelModule,
@@ -50,7 +40,7 @@ const createServerSideDatasource = (server) => {
   };
 };
 
-const createFakeServer = (allData) => {
+function createFakeServer(allData) {
   return {
     getData: (request) => {
       // take a slice of the total rows for requested block
@@ -64,14 +54,14 @@ const createFakeServer = (allData) => {
       };
     },
   };
-};
+}
 
-const getLastRowIndex = (request, results) => {
+function getLastRowIndex(request, results) {
   if (!results) return undefined;
   const currentLastRow = (request.startRow || 0) + results.length;
   // if on or after the last block, work out the last row, otherwise return 'undefined'
   return currentLastRow < (request.endRow || 0) ? currentLastRow : undefined;
-};
+}
 
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);

@@ -1,18 +1,11 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import {
   ModuleRegistry,
   colorSchemeVariable,
-  createGrid,
   createPart,
   createTheme,
 } from "ag-grid-community";
@@ -42,7 +35,7 @@ const myCheckboxStyle = createPart({
             box-shadow: 0 0 5px 4px var(--ag-checkbox-glow-color);
             width: 16px;
             height: 16px;
-        
+
             &.ag-checked {
                 box-shadow: 0 0 5px 4px var(--ag-checkbox-checked-glow-color);
                 &::before {
@@ -64,13 +57,13 @@ const myCheckboxStyle = createPart({
             appearance: none;
             -webkit-appearance: none;
             border-radius: 4px;
-        
+
             &:focus {
                 box-shadow: 0 0 3px 3px yellow;
                 outline: none;
             }
         }
-        
+
         `,
 });
 

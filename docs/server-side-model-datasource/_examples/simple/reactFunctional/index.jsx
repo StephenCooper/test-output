@@ -1,19 +1,9 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useCallback, useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
-import {
-  ModuleRegistry,
-  ValidationModule,
-  createGrid,
-} from "ag-grid-community";
+import { ModuleRegistry, ValidationModule } from "ag-grid-community";
 import {
   ColumnMenuModule,
   ColumnsToolPanelModule,
@@ -47,7 +37,7 @@ const createServerSideDatasource = (server) => {
   };
 };
 
-const createFakeServer = (allData) => {
+function createFakeServer(allData) {
   return {
     getData: (request) => {
       // in this simplified fake server all rows are contained in an array
@@ -58,7 +48,7 @@ const createFakeServer = (allData) => {
       };
     },
   };
-};
+}
 
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);

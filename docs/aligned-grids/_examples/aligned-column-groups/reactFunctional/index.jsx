@@ -11,7 +11,9 @@ import {
   ValidationModule,
 } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
+
 import "./styles.css";
+
 ModuleRegistry.registerModules([
   TextFilterModule,
   ColumnAutoSizeModule,
@@ -20,9 +22,11 @@ ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
+
 const GridExample = () => {
   const topGridRef = useRef(null);
   const bottomGridRef = useRef(null);
+
   const defaultColDef = useMemo(
     () => ({
       filter: true,
@@ -31,6 +35,7 @@ const GridExample = () => {
     }),
     [],
   );
+
   const columnDefs = useMemo(
     () => [
       {
@@ -60,13 +65,16 @@ const GridExample = () => {
     ],
     [],
   );
+
   const [rowData, setRowData] = useState([]);
+
   const autoSizeStrategy = useMemo(
     () => ({
       type: "fitGridWidth",
     }),
     [],
   );
+
   const onGridReady = (params) => {
     fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
       .then((resp) => resp.json())
@@ -74,11 +82,13 @@ const GridExample = () => {
         setRowData(data);
       });
   };
+
   const onFirstDataRendered = (params) => {
     // mix up some columns
     params.api.moveColumnByIndex(11, 4);
     params.api.moveColumnByIndex(11, 4);
   };
+
   return (
     <div className="container">
       <div className="grid">
@@ -108,6 +118,7 @@ const GridExample = () => {
     </div>
   );
 };
+
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

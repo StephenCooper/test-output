@@ -15,7 +15,6 @@ import {
   ModuleRegistry,
   NumberFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
@@ -33,11 +32,11 @@ ModuleRegistry.registerModules([
   ValidationModule /* Development Only */,
 ]);
 
-const countryKeyCreator = (params) => {
+function countryKeyCreator(params) {
   return params.value.name;
-};
+}
 
-const patchData = (data) => {
+function patchData(data) {
   // hack the data, replace each country with an object of country name and code
   data.forEach((row) => {
     const countryName = row.country;
@@ -47,10 +46,10 @@ const patchData = (data) => {
       code: countryCode,
     };
   });
-};
+}
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [rowData, setRowData] = useState();

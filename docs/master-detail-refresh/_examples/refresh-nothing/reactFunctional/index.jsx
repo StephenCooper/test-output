@@ -23,6 +23,7 @@ import {
   MasterDetailModule,
 } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react";
+
 ModuleRegistry.registerModules([
   ClientSideRowModelApiModule,
   RowSelectionModule,
@@ -35,7 +36,9 @@ ModuleRegistry.registerModules([
   ColumnsToolPanelModule,
   ValidationModule /* Development Only */,
 ]);
+
 let allRowData;
+
 const GridExample = () => {
   const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
@@ -84,6 +87,7 @@ const GridExample = () => {
       },
     };
   }, []);
+
   const onGridReady = useCallback((params) => {
     fetch("https://www.ag-grid.com/example-assets/master-detail-data.json")
       .then((resp) => resp.json())
@@ -92,6 +96,7 @@ const GridExample = () => {
         setRowData(data);
       });
   }, []);
+
   const onFirstDataRendered = useCallback(
     (params) => {
       // arbitrarily expand a row for presentational purposes
@@ -124,6 +129,7 @@ const GridExample = () => {
     },
     [allRowData],
   );
+
   return (
     <div style={containerStyle}>
       <div style={gridStyle}>
@@ -142,6 +148,7 @@ const GridExample = () => {
     </div>
   );
 };
+
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

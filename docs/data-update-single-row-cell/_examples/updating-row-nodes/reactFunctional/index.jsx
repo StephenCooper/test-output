@@ -21,7 +21,6 @@ import {
   TextEditorModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   ClientSideRowModelApiModule,
@@ -35,7 +34,7 @@ ModuleRegistry.registerModules([
   ValidationModule /* Development Only */,
 ]);
 
-const generateNewFordData = () => {
+function generateNewFordData() {
   const newPrice = Math.floor(Math.random() * 100000);
   const newModel = "T-" + Math.floor(Math.random() * 1000);
   return {
@@ -44,10 +43,10 @@ const generateNewFordData = () => {
     model: newModel,
     price: newPrice,
   };
-};
+}
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [rowData, setRowData] = useState([

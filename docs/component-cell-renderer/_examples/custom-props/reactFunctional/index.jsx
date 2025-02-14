@@ -10,34 +10,32 @@ import React, {
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./styles.css";
-import CustomButtonComponent from "./customButtonComponent.jsx";
-import MissionResultRenderer from "./missionResultRenderer.jsx";
 import {
   ClientSideRowModelModule,
   ModuleRegistry,
   RowApiModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
+import CustomButtonComponent from "./customButtonComponent.jsx";
+import MissionResultRenderer from "./missionResultRenderer.jsx";
 ModuleRegistry.registerModules([
   RowApiModule,
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
 
-// Row Data Interface
-const successIconSrc = (params) => {
+function successIconSrc(params) {
   if (params === true) {
     return "https://www.ag-grid.com/example-assets/icons/tick-in-circle.png";
   } else {
     return "https://www.ag-grid.com/example-assets/icons/cross-in-circle.png";
   }
-};
+}
 
 const onClick = () => alert("Mission Launched");
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [rowData, setRowData] = useState([]);

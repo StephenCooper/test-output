@@ -7,11 +7,14 @@ import {
   ValidationModule,
 } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
+
 import "./styles.css";
+
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
+
 const GridExample = () => {
   const gridRef = useRef(null);
   const [rowData, setRowData] = useState(null);
@@ -34,6 +37,7 @@ const GridExample = () => {
     height: "100%",
     width: "100%",
   });
+
   const onGridReady = (params) => {
     fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
       .then((resp) => resp.json())
@@ -41,21 +45,26 @@ const GridExample = () => {
         setRowData(data);
       });
   };
+
   const fillLarge = () => {
     setWidthAndHeight("100%", "100%");
   };
+
   const fillMedium = () => {
     setWidthAndHeight("60%", "60%");
   };
+
   const fillExact = () => {
     setWidthAndHeight("400px", "400px");
   };
+
   const setWidthAndHeight = (width, height) => {
     setStyle({
       width,
       height,
     });
   };
+
   return (
     <div className="example-wrapper">
       <div style={{ marginBottom: "5px" }}>
@@ -76,6 +85,7 @@ const GridExample = () => {
     </div>
   );
 };
+
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

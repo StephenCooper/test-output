@@ -5,11 +5,14 @@ import React, {
   useRef,
 } from "react";
 import { useGridFilter } from "ag-grid-react";
+
 export default forwardRef(({ model, onModelChange, getValue }, ref) => {
   const refInput = useRef(null);
+
   const doesFilterPass = useCallback(
     ({ node }) => {
       const value = getValue(node).toString().toLowerCase();
+
       return model.value
         .toLowerCase()
         .split(" ")
@@ -17,15 +20,18 @@ export default forwardRef(({ model, onModelChange, getValue }, ref) => {
     },
     [model],
   );
+
   const afterGuiAttached = useCallback(() => {
     window.setTimeout(() => {
       refInput.current?.focus();
     });
   }, []);
+
   useGridFilter({
     doesFilterPass,
     afterGuiAttached,
   });
+
   useImperativeHandle(ref, () => {
     return {
       componentMethod(message) {
@@ -33,15 +39,18 @@ export default forwardRef(({ model, onModelChange, getValue }, ref) => {
       },
     };
   });
+
   const onChange = ({ target: { value } }) => {
     onModelChange({ value });
   };
+
   const style = {
     borderRadius: "5px",
     width: "200px",
     height: "50px",
     padding: "10px",
   };
+
   return (
     <div style={style}>
       Partial Match Filter:

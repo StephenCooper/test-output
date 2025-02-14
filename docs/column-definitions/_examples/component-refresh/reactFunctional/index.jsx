@@ -9,10 +9,12 @@ import {
 import { AgGridReact } from "ag-grid-react";
 import MedalCellRenderer from "./medalCellRenderer";
 import UpdateCellRenderer from "./updateCellRenderer";
+
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
+
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
@@ -31,6 +33,7 @@ const GridExample = () => {
       minWidth: 100,
     };
   }, []);
+
   const onGridReady = useCallback((params) => {
     fetch("https://www.ag-grid.com/example-assets/small-olympic-winners.json")
       .then((resp) => resp.json())
@@ -38,6 +41,7 @@ const GridExample = () => {
         setRowData(data);
       });
   }, []);
+
   return (
     <div style={containerStyle}>
       <div style={gridStyle}>
@@ -51,6 +55,7 @@ const GridExample = () => {
     </div>
   );
 };
+
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

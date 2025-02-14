@@ -12,7 +12,9 @@ import {
   ValidationModule,
 } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
+
 import "./styles.css";
+
 ModuleRegistry.registerModules([
   ColumnApiModule,
   TextFilterModule,
@@ -22,9 +24,11 @@ ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
+
 const GridExample = () => {
   const topGrid = useRef(null);
   const bottomGrid = useRef(null);
+
   const columnDefs = useMemo(
     () => [
       { field: "athlete" },
@@ -49,6 +53,7 @@ const GridExample = () => {
     ],
     [],
   );
+
   const defaultColDef = useMemo(
     () => ({
       filter: true,
@@ -56,30 +61,37 @@ const GridExample = () => {
     }),
     [],
   );
+
   const [rowData, setRowData] = useState([]);
+
   const autoSizeStrategy = useMemo(
     () => ({
       type: "fitGridWidth",
     }),
     [],
   );
+
   const onGridReady = (params) => {
     fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
       .then((resp) => resp.json())
       .then((data) => setRowData(data));
   };
+
   const onCbAthlete = (event) => {
     // we only need to update one grid, as the other is a slave
     topGrid.current.api.setColumnsVisible(["athlete"], event.target.checked);
   };
+
   const onCbAge = (event) => {
     // we only need to update one grid, as the other is a slave
     topGrid.current.api.setColumnsVisible(["age"], event.target.checked);
   };
+
   const onCbCountry = (event) => {
     // we only need to update one grid, as the other is a slave
     topGrid.current.api.setColumnsVisible(["country"], event.target.checked);
   };
+
   return (
     <div className="container">
       <div className="header">
@@ -135,6 +147,7 @@ const GridExample = () => {
     </div>
   );
 };
+
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

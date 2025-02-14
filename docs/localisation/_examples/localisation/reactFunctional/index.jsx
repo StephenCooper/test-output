@@ -1,13 +1,7 @@
 "use client";
 
 import { AG_GRID_LOCALE_DE } from "@ag-grid-community/locale";
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useCallback, useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import { AgChartsEnterpriseModule } from "ag-charts-enterprise";
@@ -23,7 +17,6 @@ import {
   TextEditorModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   CellSelectionModule,

@@ -1,6 +1,7 @@
 'use client';
 import React, { StrictMode, useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
+
 import {
   ClientSideRowModelModule,
   CsvExportModule,
@@ -17,7 +18,9 @@ import {
   SetFilterModule,
 } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react";
+
 import "./styles.css";
+
 // Register shared Modules globally
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
@@ -32,16 +35,20 @@ const rightModules = [
   CsvExportModule,
   ExcelExportModule,
 ];
+
 const columns = [{ field: "id" }, { field: "color" }, { field: "value1" }];
+
 const defaultColDef = {
   flex: 1,
   minWidth: 80,
   filter: true,
   floatingFilter: true,
 };
+
 const GridExample = () => {
   const [leftRowData, setLeftRowData] = useState([]);
   const [rightRowData, setRightRowData] = useState([]);
+
   let rowIdSequence = 100;
   useEffect(() => {
     const createRowBlock = () =>
@@ -50,9 +57,11 @@ const GridExample = () => {
         color: color,
         value1: Math.floor(Math.random() * 100),
       }));
+
     setLeftRowData(createRowBlock());
     setRightRowData(createRowBlock());
   }, []);
+
   return (
     <div className="example-wrapper">
       <div className="inner-col">
@@ -75,6 +84,7 @@ const GridExample = () => {
     </div>
   );
 };
+
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

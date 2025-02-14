@@ -15,8 +15,10 @@ import {
   MasterDetailModule,
 } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react";
+
 import DetailCellRenderer from "./detailCellRenderer";
 import "./styles.css";
+
 ModuleRegistry.registerModules([
   ClientSideRowModelApiModule,
   HighlightChangesModule,
@@ -27,7 +29,9 @@ ModuleRegistry.registerModules([
   ColumnsToolPanelModule,
   ValidationModule /* Development Only */,
 ]);
+
 let allRowData;
+
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
@@ -48,6 +52,7 @@ const GridExample = () => {
   const detailCellRenderer = useMemo(() => {
     return DetailCellRenderer;
   }, []);
+
   const onGridReady = useCallback((params) => {
     fetch("https://www.ag-grid.com/example-assets/master-detail-data.json")
       .then((resp) => resp.json())
@@ -56,6 +61,7 @@ const GridExample = () => {
         setRowData(allRowData);
       });
   }, []);
+
   const onFirstDataRendered = useCallback(
     (params) => {
       setInterval(() => {
@@ -84,6 +90,7 @@ const GridExample = () => {
     },
     [allRowData],
   );
+
   return (
     <div style={containerStyle}>
       <div style={gridStyle}>
@@ -102,6 +109,7 @@ const GridExample = () => {
     </div>
   );
 };
+
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

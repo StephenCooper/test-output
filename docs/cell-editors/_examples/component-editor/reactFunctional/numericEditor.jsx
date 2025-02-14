@@ -1,17 +1,21 @@
 import React, { memo, useCallback, useEffect, useRef } from "react";
 import { useGridCellEditor } from "ag-grid-react";
+
 // backspace starts the editor on Windows
 const KEY_BACKSPACE = "Backspace";
 const KEY_F2 = "F2";
 const KEY_ENTER = "Enter";
 const KEY_TAB = "Tab";
+
 export default memo(({ value, onValueChange, eventKey, stopEditing }) => {
   const updateValue = (val) => {
     onValueChange(val === "" ? null : parseInt(val));
   };
+
   useEffect(() => {
     let startValue;
     let highlightAllOnFocus = true;
+
     if (eventKey === KEY_BACKSPACE) {
       // if backspace or delete pressed, we clear the cell
       startValue = "";
@@ -29,7 +33,9 @@ export default memo(({ value, onValueChange, eventKey, stopEditing }) => {
     if (startValue == null) {
       startValue = "";
     }
+
     updateValue(startValue);
+
     // get ref from React component
     const eInput = refInput.current;
     eInput.focus();
@@ -46,36 +52,46 @@ export default memo(({ value, onValueChange, eventKey, stopEditing }) => {
       }
     }
   }, []);
+
   const refInput = useRef(null);
+
   const isLeftOrRight = (event) => {
     return ["ArrowLeft", "ArrowLeft"].indexOf(event.key) > -1;
   };
+
   const isCharNumeric = (charStr) => {
     return !!/^\d+$/.test(charStr);
   };
+
   const isNumericKey = (event) => {
     const charStr = event.key;
     return isCharNumeric(charStr);
   };
+
   const isBackspace = (event) => {
     return event.key === KEY_BACKSPACE;
   };
+
   const finishedEditingPressed = (event) => {
     const key = event.key;
     return key === KEY_ENTER || key === KEY_TAB;
   };
+
   const onKeyDown = (event) => {
     if (isLeftOrRight(event) || isBackspace(event)) {
       event.stopPropagation();
       return;
     }
+
     if (!finishedEditingPressed(event) && !isNumericKey(event)) {
       if (event.preventDefault) event.preventDefault();
     }
+
     if (finishedEditingPressed(event)) {
       stopEditing();
     }
   };
+
   // Gets called once before editing starts, to give editor a chance to
   // cancel the editing before it even starts.
   const isCancelBeforeStart = useCallback(() => {
@@ -83,6 +99,7 @@ export default memo(({ value, onValueChange, eventKey, stopEditing }) => {
       !!eventKey && eventKey.length === 1 && "1234567890".indexOf(eventKey) < 0
     );
   }, [eventKey]);
+
   // Gets called once when editing is finished (eg if Enter is pressed).
   // If you return true, then the result of the edit will be ignored.
   const isCancelAfterEnd = useCallback(() => {
@@ -90,10 +107,12 @@ export default memo(({ value, onValueChange, eventKey, stopEditing }) => {
     // not very practical, but demonstrates the method.
     return value != null && value > 1000000;
   }, [value]);
+
   useGridCellEditor({
     isCancelBeforeStart,
     isCancelAfterEnd,
   });
+
   return (
     <input
       ref={refInput}

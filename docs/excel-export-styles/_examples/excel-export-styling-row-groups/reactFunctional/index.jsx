@@ -17,7 +17,6 @@ import {
   NumberFilterModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
@@ -37,11 +36,11 @@ ModuleRegistry.registerModules([
   ValidationModule /* Development Only */,
 ]);
 
-const rowGroupCallback = (params) => {
+function rowGroupCallback(params) {
   return params.node.key;
-};
+}
 
-const getIndentClass = (params) => {
+function getIndentClass(params) {
   let indent = 0;
   let node = params.node;
   while (node && node.parent) {
@@ -49,10 +48,10 @@ const getIndentClass = (params) => {
     node = node.parent;
   }
   return "indent-" + indent;
-};
+}
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [rowData, setRowData] = useState();

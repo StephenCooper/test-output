@@ -21,7 +21,9 @@ import {
   SetFilterModule,
 } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react";
+
 import CustomStatsToolPanel from "./customStatsToolPanel";
+
 ModuleRegistry.registerModules([
   ClientSideRowModelApiModule,
   NumberEditorModule,
@@ -36,6 +38,7 @@ ModuleRegistry.registerModules([
   EventApiModule,
   ValidationModule /* Development Only */,
 ]);
+
 const myTheme = themeQuartz.withPart(
   iconOverrides({
     type: "image",
@@ -48,6 +51,7 @@ const myTheme = themeQuartz.withPart(
     },
   }),
 );
+
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
@@ -107,6 +111,7 @@ const GridExample = () => {
       defaultToolPanel: "customStats",
     };
   }, []);
+
   const onGridReady = useCallback((params) => {
     fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
       .then((resp) => resp.json())
@@ -114,9 +119,11 @@ const GridExample = () => {
         setRowData(data);
       });
   }, []);
+
   const onCellValueChanged = useCallback((params) => {
     params.api.refreshClientSideRowModel();
   }, []);
+
   return (
     <div style={containerStyle}>
       <div style={{ height: "100%", boxSizing: "border-box" }}>
@@ -136,6 +143,7 @@ const GridExample = () => {
     </div>
   );
 };
+
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

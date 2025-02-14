@@ -1,25 +1,18 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useCallback, useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./style.css";
-import FullWidthCellRenderer from "./fullWidthCellRenderer.jsx";
-import { getData } from "./data.jsx";
 import {
   ClientSideRowModelModule,
   ModuleRegistry,
   RowDragModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
+import { getData } from "./data";
+import FullWidthCellRenderer from "./fullWidthCellRenderer.jsx";
 ModuleRegistry.registerModules([
   TextFilterModule,
   RowDragModule,
@@ -27,7 +20,7 @@ ModuleRegistry.registerModules([
   ValidationModule /* Development Only */,
 ]);
 
-const countryCellRenderer = (params) => {
+function countryCellRenderer(params) {
   if (!params.fullWidth) {
     return params.value;
   }
@@ -38,12 +31,12 @@ const countryCellRenderer = (params) => {
   return (
     '<span style="cursor: default;">' + flag + " " + params.value + "</span>"
   );
-};
+}
 
-const isFullWidth = (data) => {
+function isFullWidth(data) {
   // return true when country is Peru, France or Italy
   return ["Peru", "France", "Italy"].indexOf(data.name) >= 0;
-};
+}
 
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);

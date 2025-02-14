@@ -16,7 +16,6 @@ import {
   NumberEditorModule,
   TextEditorModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { ColumnMenuModule, ContextMenuModule } from "ag-grid-enterprise";
 ModuleRegistry.registerModules([
@@ -29,7 +28,7 @@ ModuleRegistry.registerModules([
   ValidationModule /* Development Only */,
 ]);
 
-const getValue = (inputSelector) => {
+function getValue(inputSelector) {
   const text = document.querySelector(inputSelector).value;
   switch (text) {
     case "none":
@@ -39,16 +38,16 @@ const getValue = (inputSelector) => {
     default:
       return text;
   }
-};
+}
 
-const getParams = () => {
+function getParams() {
   return {
     columnSeparator: getValue("#columnSeparator"),
   };
-};
+}
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [rowData, setRowData] = useState([

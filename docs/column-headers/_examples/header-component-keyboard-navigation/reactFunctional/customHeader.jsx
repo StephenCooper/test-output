@@ -1,4 +1,5 @@
 import React from 'react';
+
 export default ({ displayName }) => {
     return (<div className="custom-header">
             <span>{displayName}</span>
@@ -9,3 +10,4 @@ export default ({ displayName }) => {
             </a>
         </div>);
 };
+

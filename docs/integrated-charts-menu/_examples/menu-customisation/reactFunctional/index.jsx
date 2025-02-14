@@ -10,7 +10,6 @@ import React, {
 } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
-import { getData } from "./data.jsx";
 import { AgChartsEnterpriseModule } from "ag-charts-enterprise";
 import {
   ClientSideRowModelModule,
@@ -18,13 +17,13 @@ import {
   NumberFilterModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
   ContextMenuModule,
   IntegratedChartsModule,
 } from "ag-grid-enterprise";
+import { getData } from "./data";
 ModuleRegistry.registerModules([
   TextFilterModule,
   NumberFilterModule,
@@ -36,7 +35,7 @@ ModuleRegistry.registerModules([
 ]);
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 
@@ -62,6 +61,7 @@ const GridExample = () => {
     const isInitialModeDark =
       document.documentElement.dataset.agThemeMode?.includes("dark");
 
+    // update chart themes based on dark mode status
     const updateChartThemes = (isDark) => {
       const themes = [
         "ag-default",
@@ -104,6 +104,7 @@ const GridExample = () => {
     };
     trySetInitial(0);
 
+    // event handler for color scheme changes
     const handleColorSchemeChange = (event) => {
       const { darkMode } = event.detail;
       updateChartThemes(darkMode);

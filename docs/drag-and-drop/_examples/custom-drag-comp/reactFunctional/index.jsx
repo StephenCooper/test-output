@@ -1,17 +1,9 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useCallback, useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./style.css";
-import DragSourceRenderer from "./dragSourceRenderer.jsx";
-import { getData } from "./data.jsx";
 import {
   ClientSideRowModelModule,
   ModuleRegistry,
@@ -19,8 +11,9 @@ import {
   RowStyleModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
+import { getData } from "./data";
+import DragSourceRenderer from "./dragSourceRenderer.jsx";
 ModuleRegistry.registerModules([
   TextFilterModule,
   RowDragModule,

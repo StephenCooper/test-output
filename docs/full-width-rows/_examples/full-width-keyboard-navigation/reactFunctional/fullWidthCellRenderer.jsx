@@ -1,6 +1,8 @@
 import React from 'react';
+
 export default (props) => {
     const { code, name, language } = props.data;
+    
     return (<div className="full-width-panel">
             <button>
                 <img width="15" height="10" src={`https://www.ag-grid.com/example-assets/flags/${code}.png`}/>
@@ -11,3 +13,4 @@ export default (props) => {
             </a>
         </div>);
 };
+

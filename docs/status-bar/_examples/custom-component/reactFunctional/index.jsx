@@ -13,9 +13,11 @@ import {
 } from "ag-grid-community";
 import { CellSelectionModule, StatusBarModule } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react";
+
 import ClickableStatusBarComponent from "./clickableStatusBarComponent";
 import CountStatusBarComponent from "./countStatusBarComponent";
 import "./styles.css";
+
 ModuleRegistry.registerModules([
   EventApiModule,
   TextEditorModule,
@@ -27,9 +29,11 @@ ModuleRegistry.registerModules([
   CellSelectionModule,
   ValidationModule /* Development Only */,
 ]);
+
 const rowSelection = {
   mode: "multiRow",
 };
+
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
@@ -83,6 +87,7 @@ const GridExample = () => {
       ],
     };
   }, []);
+
   return (
     <div style={containerStyle}>
       <div style={gridStyle}>
@@ -97,6 +102,7 @@ const GridExample = () => {
     </div>
   );
 };
+
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

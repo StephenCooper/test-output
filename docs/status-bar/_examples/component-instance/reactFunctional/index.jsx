@@ -17,8 +17,10 @@ import {
 } from "ag-grid-community";
 import { CellSelectionModule, StatusBarModule } from "ag-grid-enterprise";
 import { AgGridReact, getInstance } from "ag-grid-react";
+
 import ClickableStatusBarComponent from "./clickableStatusBarComponent";
 import "./styles.css";
+
 ModuleRegistry.registerModules([
   TextEditorModule,
   TextFilterModule,
@@ -28,9 +30,11 @@ ModuleRegistry.registerModules([
   CellSelectionModule,
   ValidationModule /* Development Only */,
 ]);
+
 const rowSelection = {
   mode: "multiRow",
 };
+
 const GridExample = () => {
   const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
@@ -83,6 +87,7 @@ const GridExample = () => {
       ],
     };
   }, []);
+
   const toggleStatusBarComp = useCallback(() => {
     getInstance(
       gridRef.current.api.getStatusPanel("statusBarCompKey"),
@@ -91,6 +96,7 @@ const GridExample = () => {
       },
     );
   }, []);
+
   return (
     <div style={containerStyle}>
       <button onClick={toggleStatusBarComp} style={{ marginBottom: "10px" }}>
@@ -110,6 +116,7 @@ const GridExample = () => {
     </div>
   );
 };
+
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

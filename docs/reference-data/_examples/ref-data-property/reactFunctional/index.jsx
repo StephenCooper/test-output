@@ -1,23 +1,14 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useCallback, useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
-import ColourCellRenderer from "./colourCellRenderer.jsx";
-import { getData } from "./data.jsx";
 import {
   ClientSideRowModelModule,
   ModuleRegistry,
   SelectEditorModule,
   TextEditorModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
@@ -26,6 +17,8 @@ import {
   RichSelectModule,
   SetFilterModule,
 } from "ag-grid-enterprise";
+import { getData } from "./data";
+import ColourCellRenderer from "./colourCellRenderer.jsx";
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ColumnsToolPanelModule,
@@ -51,30 +44,30 @@ const colourMappings = {
   fg: "Forest Green",
 };
 
-const extractKeys = (mappings) => {
+function extractKeys(mappings) {
   return Object.keys(mappings);
-};
+}
 
 const carCodes = extractKeys(carMappings);
 
 const colourCodes = extractKeys(colourMappings);
 
-const currencyFormatter = (params) => {
+function currencyFormatter(params) {
   const value = Math.floor(params.value);
   if (isNaN(value)) {
     return "";
   }
   return "£" + value.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
-};
+}
 
-const numberValueSetter = (params) => {
+function numberValueSetter(params) {
   const valueAsNumber = parseFloat(params.newValue);
   if (isNaN(valueAsNumber) || !isFinite(params.newValue)) {
     return false; // don't set invalid numbers!
   }
   params.data.price = valueAsNumber;
   return true;
-};
+}
 
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);

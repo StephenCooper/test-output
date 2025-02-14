@@ -1,20 +1,9 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useCallback, useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
-import { FakeServer } from "./fakeServer.jsx";
-import {
-  ModuleRegistry,
-  ValidationModule,
-  createGrid,
-} from "ag-grid-community";
+import { ModuleRegistry, ValidationModule } from "ag-grid-community";
 import {
   ColumnMenuModule,
   ColumnsToolPanelModule,
@@ -22,6 +11,7 @@ import {
   RowGroupingModule,
   ServerSideRowModelModule,
 } from "ag-grid-enterprise";
+import { FakeServer } from "./fakeServer";
 ModuleRegistry.registerModules([
   ColumnsToolPanelModule,
   ColumnMenuModule,
@@ -55,7 +45,7 @@ const getServerSideDatasource = (server) => {
   };
 };
 
-const addPivotResultCols = (request, response, api) => {
+function addPivotResultCols(request, response, api) {
   // check if pivot colDefs already exist
   const existingPivotColDefs = api.getPivotResultColumns();
   if (existingPivotColDefs && existingPivotColDefs.length > 0) {
@@ -68,9 +58,9 @@ const addPivotResultCols = (request, response, api) => {
   );
   // supply pivot result columns to the grid
   api.setPivotResultColumns(pivotResultColumns);
-};
+}
 
-const addColDef = (colId, parts, res, request) => {
+function addColDef(colId, parts, res, request) {
   if (parts.length === 0) return [];
   const first = parts[0];
   const existing = res.find((r) => "groupId" in r && r.groupId === first);
@@ -102,7 +92,7 @@ const addColDef = (colId, parts, res, request) => {
     res.push(colDef);
   }
   return res;
-};
+}
 
 const createPivotResultColumns = (request, pivotFields) => {
   if (request.pivotMode && request.pivotCols.length > 0) {

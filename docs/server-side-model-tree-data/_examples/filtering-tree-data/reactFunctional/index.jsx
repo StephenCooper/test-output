@@ -1,20 +1,12 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useCallback, useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
-import { FakeServer } from "./fakeServer.jsx";
 import {
   ModuleRegistry,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
@@ -24,6 +16,7 @@ import {
   SetFilterModule,
   TreeDataModule,
 } from "ag-grid-enterprise";
+import { FakeServer } from "./fakeServer";
 ModuleRegistry.registerModules([
   ColumnsToolPanelModule,
   ColumnMenuModule,
@@ -35,29 +28,29 @@ ModuleRegistry.registerModules([
   ValidationModule /* Development Only */,
 ]);
 
-const valueGetter = (params) => {
+function valueGetter(params) {
   // server is returning a string, so need to convert to `Date`.
   // could instead do this inside `IServerSideDatasource.getRows`
   return params.data.startDate ? new Date(params.data.startDate) : null;
-};
+}
 
-const cellValueFormatter = (params) => {
+function cellValueFormatter(params) {
   return params.value ? params.value.toLocaleDateString() : null;
-};
+}
 
-const floatingFilterValueFormatter = (params) => {
+function floatingFilterValueFormatter(params) {
   return params.value ? params.value.toLocaleDateString() : "(Blanks)";
-};
+}
 
-const dateKeyCreator = (params) => {
+function dateKeyCreator(params) {
   // this is what is being sent in the Filter Model to the server, so want the matching format
   return params.value ? params.value.toISOString() : null;
-};
+}
 
-const treeDataKeyCreator = (params) => {
+function treeDataKeyCreator(params) {
   // tree data group filter value is a string[], so convert to a unique string
   return params.value ? params.value.join(",") : null;
-};
+}
 
 let fakeServer;
 
@@ -83,7 +76,7 @@ const getServerSideDatasource = (server) => {
   };
 };
 
-const getDatesAsync = (params) => {
+function getDatesAsync(params) {
   if (!fakeServer) {
     // wait for init
     setTimeout(() => getDatesAsync(params), 500);
@@ -100,9 +93,9 @@ const getDatesAsync = (params) => {
   setTimeout(() => {
     params.success(dates);
   }, 500);
-};
+}
 
-const getEmployeesAsync = (params) => {
+function getEmployeesAsync(params) {
   if (!fakeServer) {
     // wait for init
     setTimeout(() => getEmployeesAsync(params), 500);
@@ -113,7 +106,7 @@ const getEmployeesAsync = (params) => {
   setTimeout(() => {
     params.success(employees);
   }, 500);
-};
+}
 
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);

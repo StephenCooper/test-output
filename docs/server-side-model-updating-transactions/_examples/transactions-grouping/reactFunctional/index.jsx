@@ -11,23 +11,22 @@ import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./styles.css";
 import {
-  changePortfolioOnServer,
-  createRowOnServer,
-  data,
-  deletePortfolioOnServer,
-} from "./data.jsx";
-import { FakeServer } from "./fakeServer.jsx";
-import {
   HighlightChangesModule,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   RowGroupingModule,
   ServerSideRowModelApiModule,
   ServerSideRowModelModule,
 } from "ag-grid-enterprise";
+import {
+  changePortfolioOnServer,
+  createRowOnServer,
+  data,
+  deletePortfolioOnServer,
+} from "./data";
+import { FakeServer } from "./fakeServer";
 ModuleRegistry.registerModules([
   HighlightChangesModule,
   RowGroupingModule,
@@ -36,7 +35,7 @@ ModuleRegistry.registerModules([
   ValidationModule /* Development Only */,
 ]);
 
-const getServerSideDatasource = (server) => {
+function getServerSideDatasource(server) {
   return {
     getRows: (params) => {
       const response = server.getData(params.request);
@@ -55,19 +54,19 @@ const getServerSideDatasource = (server) => {
       }, 300);
     },
   };
-};
+}
 
-const logResults = (transaction, result) => {
+function logResults(transaction, result) {
   console.log(
     "[Example] - Applied transaction:",
     transaction,
     "Result:",
     result,
   );
-};
+}
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 

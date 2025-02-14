@@ -10,7 +10,6 @@ import React, {
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./styles.css";
-import { getData, globalRowData } from "./data.jsx";
 import {
   CellStyleModule,
   ClientSideRowModelApiModule,
@@ -18,9 +17,9 @@ import {
   HighlightChangesModule,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { RowGroupingModule, RowGroupingPanelModule } from "ag-grid-enterprise";
+import { getData, globalRowData } from "./data";
 ModuleRegistry.registerModules([
   ClientSideRowModelApiModule,
   CellStyleModule,
@@ -33,13 +32,13 @@ ModuleRegistry.registerModules([
 
 const UPDATE_COUNT = 20;
 
-const numberCellFormatter = (params) => {
+function numberCellFormatter(params) {
   return Math.floor(params.value)
     .toString()
     .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
-};
+}
 
-const startFeed = (api) => {
+function startFeed(api) {
   let count = 1;
   setInterval(() => {
     const thisCount = count++;
@@ -66,10 +65,10 @@ const startFeed = (api) => {
     api.applyTransactionAsync({ update: newItems }, resultCallback);
     console.log("applyTransactionAsync() - " + thisCount);
   }, 500);
-};
+}
 
 // makes a copy of the original and merges in the new values
-const copyObject = (object) => {
+function copyObject(object) {
   // start with new object
   const newObject = {};
   // copy in the old values
@@ -77,10 +76,10 @@ const copyObject = (object) => {
     newObject[key] = object[key];
   });
   return newObject;
-};
+}
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 

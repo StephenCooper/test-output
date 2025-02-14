@@ -1,22 +1,14 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./styles.css";
 import {
   CellStyleModule,
   ClientSideRowModelModule,
-  GridApi,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   CellStyleModule,
@@ -24,13 +16,13 @@ ModuleRegistry.registerModules([
   ValidationModule /* Development Only */,
 ]);
 
-const currencyFormatter = (params) => {
+function currencyFormatter(params) {
   const value = Math.floor(params.value);
   if (isNaN(value)) {
     return "";
   }
   return "£" + value.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
-};
+}
 
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);

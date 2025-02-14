@@ -10,11 +10,13 @@ import {
 import { AgGridReact } from "ag-grid-react";
 import { getData } from "./data";
 import "./styles.css";
+
 ModuleRegistry.registerModules([
   ColumnApiModule,
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
+
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const [gridVisible, setGridVisible] = useState(true);
@@ -28,28 +30,34 @@ const GridExample = () => {
     { field: "medals.gold", headerName: "Gold Medals" },
     { field: "person.age", headerName: "Age" },
   ]);
+
   const onGridReady = useCallback((params) => {
     setGridApi(params.api);
   }, []);
+
   const onGridPreDestroyed = useCallback(
     (params) => {
       const allColumns = gridApi?.getColumns();
       if (!allColumns) {
         return;
       }
+
       const currentColumnWidths = allColumns.map((column) => ({
         field: column.getColDef().field || "-",
         width: column.getActualWidth(),
       }));
+
       setColumnsWidthOnPreDestroyed(currentColumnWidths);
       setGridApi(undefined);
     },
     [gridApi],
   );
+
   const updateColumnWidth = useCallback(() => {
     if (!gridApi) {
       return;
     }
+
     const newWidths = gridApi.getColumns().map((column) => {
       return {
         key: column.getColId(),
@@ -58,27 +66,33 @@ const GridExample = () => {
     });
     gridApi.setColumnWidths(newWidths);
   }, [gridApi]);
+
   const destroyGrid = useCallback(() => {
     setGridVisible(false);
   }, []);
+
   const reloadGrid = useCallback(() => {
     const updatedColumnDefs = columnDefs.map((val) => {
       const colDef = val;
       const result = {
         ...colDef,
       };
+
       if (colDef.field) {
         const width = columnsWidthOnPreDestroyed.find(
           (columnWidth) => columnWidth.field === colDef.field,
         );
         result.width = width ? width.width : colDef.width;
       }
+
       return result;
     });
+
     setColumnsWidthOnPreDestroyed([]);
     setColumnDefs(updatedColumnDefs);
     setGridVisible(true);
   }, [columnsWidthOnPreDestroyed, columnDefs]);
+
   return (
     <div style={containerStyle}>
       <div className="test-container">
@@ -131,6 +145,7 @@ const GridExample = () => {
     </div>
   );
 };
+
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

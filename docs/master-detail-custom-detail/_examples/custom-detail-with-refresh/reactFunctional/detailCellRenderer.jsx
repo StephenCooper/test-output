@@ -1,9 +1,12 @@
 import React, { memo, useEffect, useState } from "react";
+
 const DetailCellRenderer = ({ data }) => {
   const [callCount, setCallCount] = useState(data.calls);
+
   useEffect(() => {
     setCallCount(data.calls);
   }, [data.calls]);
+
   return (
     <div role="gridcell">
       <form>
@@ -27,4 +30,5 @@ const DetailCellRenderer = ({ data }) => {
     </div>
   );
 };
+
 export default memo(DetailCellRenderer);

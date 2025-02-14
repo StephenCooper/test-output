@@ -1,4 +1,5 @@
 import React from 'react';
+
 export default (props) => {
     return (<div className="custom-tooltip" style={{ backgroundColor: props.color || '#999' }}>
             <div>
@@ -7,3 +8,4 @@ export default (props) => {
             <div>{props.value}</div>
         </div>);
 };
+

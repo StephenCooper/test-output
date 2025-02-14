@@ -10,12 +10,7 @@ import React, {
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./styles.css";
-import {
-  IsServerSideGroup,
-  ModuleRegistry,
-  ValidationModule,
-  createGrid,
-} from "ag-grid-community";
+import { ModuleRegistry, ValidationModule } from "ag-grid-community";
 import {
   ColumnMenuModule,
   ColumnsToolPanelModule,
@@ -34,10 +29,10 @@ ModuleRegistry.registerModules([
   ValidationModule /* Development Only */,
 ]);
 
-const createFakeServer = (fakeServerData) => {
+function createFakeServer(fakeServerData) {
   const fakeServer = {
     getData: (request) => {
-      function extractRowsFromData(groupKeys, data) {
+      const extractRowsFromData = (groupKeys, data) => {
         if (groupKeys.length === 0) {
           return data.map(function (d) {
             return {
@@ -58,14 +53,14 @@ const createFakeServer = (fakeServerData) => {
             );
           }
         }
-      }
+      };
       return extractRowsFromData(request.groupKeys, fakeServerData);
     },
   };
   return fakeServer;
-};
+}
 
-const createServerSideDatasource = (fakeServer) => {
+function createServerSideDatasource(fakeServer) {
   const dataSource = {
     getRows: (params) => {
       console.log("ServerSideDatasource.getRows: params = ", params);
@@ -85,10 +80,10 @@ const createServerSideDatasource = (fakeServer) => {
     },
   };
   return dataSource;
-};
+}
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 

@@ -13,7 +13,9 @@ import {
   ValidationModule,
 } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
+
 import "./styles.css";
+
 ModuleRegistry.registerModules([
   DragAndDropModule,
   ClientSideRowModelApiModule,
@@ -24,10 +26,12 @@ ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
+
 const baseDefaultColDef = {
   flex: 1,
   filter: true,
 };
+
 const baseGridOptions = {
   getRowId: (params) => {
     return String(params.data.id);
@@ -39,12 +43,14 @@ const baseGridOptions = {
   },
   rowDragManaged: true,
 };
+
 const baseColumnDefs = [
   { field: "id", dndSource: true, width: 90 },
   { field: "color" },
   { field: "value1" },
   { field: "value2" },
 ];
+
 const leftGridOptions = {
   ...baseGridOptions,
   columnDefs: [...baseColumnDefs],
@@ -52,6 +58,7 @@ const leftGridOptions = {
     ...baseDefaultColDef,
   },
 };
+
 const rightGridOptions = {
   ...baseGridOptions,
   columnDefs: [...baseColumnDefs],
@@ -59,17 +66,23 @@ const rightGridOptions = {
     ...baseDefaultColDef,
   },
 };
+
 let nextRowId = 100;
+
 const GridExample = () => {
   const leftGridRef = useRef(null);
   const rightGridRef = useRef(null);
+
   const onLeftGridReady = (params) => {
     params.api.setGridOption("rowData", createLeftRowData());
   };
+
   const onRightGridReady = (params) => {
     params.api.setGridOption("rowData", []);
   };
+
   const createLeftRowData = () => ["Red", "Green", "Blue"].map(createDataItem);
+
   const createDataItem = (color) => {
     const newDataItem = {
       id: nextRowId++,
@@ -77,8 +90,10 @@ const GridExample = () => {
       value1: Math.floor(Math.random() * 100),
       value2: Math.floor(Math.random() * 100),
     };
+
     return newDataItem;
   };
+
   const binDragOver = (event) => {
     const dragSupported =
       event.dataTransfer.types.indexOf("application/json") >= 0;
@@ -87,59 +102,75 @@ const GridExample = () => {
       event.preventDefault();
     }
   };
+
   const binDrop = (event) => {
     event.preventDefault();
     const jsonData = event.dataTransfer.getData("application/json");
     const data = JSON.parse(jsonData);
+
     // if data missing or data has no id, do nothing
     if (!data || data.id == null) {
       return;
     }
+
     const transaction = {
       remove: [data],
     };
+
     const rowIsInLeftGrid = !!leftGridRef.current.api.getRowNode(data.id);
     if (rowIsInLeftGrid) {
       leftGridRef.current.api.applyTransaction(transaction);
     }
+
     const rowIsInRightGrid = !!rightGridRef.current.api.getRowNode(data.id);
     if (rowIsInRightGrid) {
       rightGridRef.current.api.applyTransaction(transaction);
     }
   };
+
   const dragStart = (color, event) => {
     const newItem = createDataItem(color);
     const jsonData = JSON.stringify(newItem);
+
     event.dataTransfer.setData("application/json", jsonData);
   };
+
   const gridDragOver = (event) => {
     const dragSupported = event.dataTransfer.types.length;
+
     if (dragSupported) {
       event.dataTransfer.dropEffect = "copy";
       event.preventDefault();
     }
   };
+
   const gridDrop = (grid, event) => {
     event.preventDefault();
+
     const jsonData = event.dataTransfer.getData("application/json");
     const data = JSON.parse(jsonData);
+
     // if data missing or data has no it, do nothing
     if (!data || data.id == null) {
       return;
     }
+
     const gridApi =
       grid === "left" ? leftGridRef.current.api : rightGridRef.current.api;
+
     // do nothing if row is already in the grid, otherwise we would have duplicates
     const rowAlreadyInGrid = !!gridApi.getRowNode(data.id);
     if (rowAlreadyInGrid) {
       console.log("not adding row to avoid duplicates in the grid");
       return;
     }
+
     const transaction = {
       add: [data],
     };
     gridApi.applyTransaction(transaction);
   };
+
   return (
     <div className="outer">
       <div
@@ -214,6 +245,7 @@ const GridExample = () => {
     </div>
   );
 };
+
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

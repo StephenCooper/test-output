@@ -1,9 +1,12 @@
 import React, { forwardRef, useImperativeHandle, useState } from "react";
+
 export default forwardRef((props, ref) => {
   const [visible, setVisible] = useState(true);
+
   const onClick = () => {
     alert("Selected Row Count: " + props.api.getSelectedRows().length);
   };
+
   useImperativeHandle(ref, () => {
     return {
       setVisible: (visible) => {
@@ -14,6 +17,7 @@ export default forwardRef((props, ref) => {
       },
     };
   });
+
   if (visible) {
     return (
       <div className="container">
@@ -26,5 +30,6 @@ export default forwardRef((props, ref) => {
       </div>
     );
   }
+
   return null;
 });

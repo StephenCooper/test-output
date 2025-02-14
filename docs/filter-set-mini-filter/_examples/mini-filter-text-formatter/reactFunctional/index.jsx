@@ -1,12 +1,6 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useCallback, useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import {
@@ -14,7 +8,6 @@ import {
   ModuleRegistry,
   NumberFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
@@ -32,7 +25,7 @@ ModuleRegistry.registerModules([
   ValidationModule /* Development Only */,
 ]);
 
-const replaceAccents = (value) => {
+function replaceAccents(value) {
   return value
     .replace(new RegExp("[àáâãäå]", "g"), "a")
     .replace(new RegExp("æ", "g"), "ae")
@@ -45,7 +38,7 @@ const replaceAccents = (value) => {
     .replace(new RegExp("[ùúûü]", "g"), "u")
     .replace(new RegExp("[ýÿ]", "g"), "y")
     .replace(new RegExp("\\W", "g"), "");
-};
+}
 
 const filterParams = {
   textFormatter: replaceAccents,

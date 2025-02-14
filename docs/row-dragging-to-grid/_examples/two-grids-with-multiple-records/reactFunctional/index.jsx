@@ -11,7 +11,9 @@ import {
   ValidationModule,
 } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
+
 import "./styles.css";
+
 ModuleRegistry.registerModules([
   ClientSideRowModelApiModule,
   TextFilterModule,
@@ -20,6 +22,7 @@ ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
+
 const SportRenderer = (props) => {
   return (
     <i
@@ -29,6 +32,7 @@ const SportRenderer = (props) => {
     ></i>
   );
 };
+
 const leftColumns = [
   {
     rowDrag: true,
@@ -45,6 +49,7 @@ const leftColumns = [
   { field: "athlete" },
   { field: "sport" },
 ];
+
 const rightColumns = [
   {
     rowDrag: true,
@@ -67,14 +72,17 @@ const rightColumns = [
     cellRenderer: SportRenderer,
   },
 ];
+
 const defaultColDef = {
   flex: 1,
   minWidth: 100,
   filter: true,
 };
+
 const rowSelection = {
   mode: "multiRow",
 };
+
 const GridExample = () => {
   const [leftApi, setLeftApi] = useState(null);
   const [rightApi, setRightApi] = useState(null);
@@ -82,6 +90,7 @@ const GridExample = () => {
   const [leftRowData, setLeftRowData] = useState(null);
   const [rightRowData, setRightRowData] = useState([]);
   const [radioChecked, setRadioChecked] = useState(0);
+
   useEffect(() => {
     if (!rawData.length) {
       fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
@@ -89,6 +98,7 @@ const GridExample = () => {
         .then((data) => {
           const athletes = [];
           let i = 0;
+
           while (athletes.length < 20 && i < data.length) {
             var pos = i++;
             if (athletes.some((rec) => rec.athlete === data[pos].athlete)) {
@@ -100,27 +110,34 @@ const GridExample = () => {
         });
     }
   }, [rawData]);
+
   const loadGrids = useCallback(() => {
     setLeftRowData([...rawData]);
     setRightRowData([]);
     leftApi.deselectAll();
   }, [leftApi, rawData]);
+
   useEffect(() => {
     if (rawData.length) {
       loadGrids();
     }
   }, [rawData, loadGrids]);
+
   const reset = () => {
     setRadioChecked(0);
     loadGrids();
   };
+
   const onRadioChange = (e) => {
     setRadioChecked(parseInt(e.target.value, 10));
   };
+
   const getRowId = (params) => params.data.athlete;
+
   const onDragStop = useCallback(
     (params) => {
       const nodes = params.nodes;
+
       if (radioChecked === 0) {
         leftApi.applyTransaction({
           remove: nodes.map(function (node) {
@@ -133,22 +150,27 @@ const GridExample = () => {
     },
     [leftApi, radioChecked],
   );
+
   useEffect(() => {
     if (!leftApi || !rightApi) {
       return;
     }
     const dropZoneParams = rightApi.getRowDropZoneParams({ onDragStop });
+
     leftApi.removeRowDropZone(dropZoneParams);
     leftApi.addRowDropZone(dropZoneParams);
   }, [leftApi, rightApi, onDragStop]);
+
   const onGridReady = (params, side) => {
     if (side === 0) {
       setLeftApi(params.api);
     }
+
     if (side === 1) {
       setRightApi(params.api);
     }
   };
+
   const getTopToolBar = () => (
     <div className="example-toolbar panel panel-default">
       <div className="panel-body">
@@ -191,6 +213,7 @@ const GridExample = () => {
       </div>
     </div>
   );
+
   const getGridWrapper = (id) => (
     <div className="panel panel-primary" style={{ marginRight: "10px" }}>
       <div className="panel-heading">
@@ -211,6 +234,7 @@ const GridExample = () => {
       </div>
     </div>
   );
+
   return (
     <div className="top-container">
       {getTopToolBar()}
@@ -221,6 +245,7 @@ const GridExample = () => {
     </div>
   );
 };
+
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

@@ -16,7 +16,6 @@ import {
   NumberFilterModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
@@ -25,7 +24,7 @@ ModuleRegistry.registerModules([
   ValidationModule /* Development Only */,
 ]);
 
-const headerClassFunc = (params) => {
+function headerClassFunc(params) {
   let foundC = false;
   let foundG = false;
   // for the bottom row of headers, column is present,
@@ -48,10 +47,10 @@ const headerClassFunc = (params) => {
   } else if (foundC) {
     return "column-group-c";
   }
-};
+}
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [rowData, setRowData] = useState();

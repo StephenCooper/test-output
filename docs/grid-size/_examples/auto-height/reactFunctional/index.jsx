@@ -17,7 +17,6 @@ import {
   PinnedRowModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
@@ -37,7 +36,7 @@ ModuleRegistry.registerModules([
   ValidationModule /* Development Only */,
 ]);
 
-const createRow = (index) => {
+function createRow(index) {
   const makes = ["Toyota", "Ford", "BMW", "Phantom", "Porsche"];
   return {
     id: "D" + (1000 + index),
@@ -54,18 +53,18 @@ const createRow = (index) => {
     val9: Math.floor(Math.random() * 1000),
     val10: Math.floor(Math.random() * 1000),
   };
-};
+}
 
-const getData = (count) => {
+function getData(count) {
   const rowData = [];
   for (let i = 0; i < count; i++) {
     rowData.push(createRow(i));
   }
   return rowData;
-};
+}
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [rowData, setRowData] = useState(getData(5));

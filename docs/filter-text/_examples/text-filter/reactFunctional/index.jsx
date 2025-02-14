@@ -1,12 +1,6 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useCallback, useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import {
@@ -14,7 +8,6 @@ import {
   ModuleRegistry,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
@@ -22,9 +15,9 @@ ModuleRegistry.registerModules([
   ValidationModule /* Development Only */,
 ]);
 
-const contains = (target, lookingFor) => {
+function contains(target, lookingFor) {
   return target && target.indexOf(lookingFor) >= 0;
-};
+}
 
 const athleteFilterParams = {
   filterOptions: ["contains", "notContains"],

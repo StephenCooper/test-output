@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+
 const DetailCellRenderer = ({ data }) => {
     const firstRecord = data.callRecords[0];
     const [callId, setCallId] = useState(firstRecord.callId);
     const [number, setNumber] = useState(firstRecord.number);
     const [direction, setDirection] = useState(firstRecord.direction);
+    
     return (<div role="gridcell" className="cell-renderer-outer">
             <form>
                 <div>
@@ -32,4 +34,6 @@ const DetailCellRenderer = ({ data }) => {
             </form>
         </div>);
 };
+
 export default DetailCellRenderer;
+

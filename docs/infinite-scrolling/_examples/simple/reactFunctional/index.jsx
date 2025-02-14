@@ -7,13 +7,16 @@ import {
   ValidationModule,
 } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
+
 ModuleRegistry.registerModules([
   InfiniteRowModelModule,
   ValidationModule /* Development Only */,
 ]);
+
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
+
   const [columnDefs, setColumnDefs] = useState([
     // this row shows the row index, doesn't use any data from the row
     {
@@ -50,6 +53,7 @@ const GridExample = () => {
       sortable: false,
     };
   }, []);
+
   const onGridReady = useCallback((params) => {
     fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
       .then((resp) => resp.json())
@@ -78,6 +82,7 @@ const GridExample = () => {
         params.api.setGridOption("datasource", dataSource);
       });
   }, []);
+
   return (
     <div style={containerStyle}>
       <div style={gridStyle}>
@@ -97,6 +102,7 @@ const GridExample = () => {
     </div>
   );
 };
+
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

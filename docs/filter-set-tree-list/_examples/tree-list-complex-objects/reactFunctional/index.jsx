@@ -1,20 +1,12 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useCallback, useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
-import { getData } from "./data.jsx";
 import {
   ClientSideRowModelModule,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
@@ -24,6 +16,7 @@ import {
   SetFilterModule,
   TreeDataModule,
 } from "ag-grid-enterprise";
+import { getData } from "./data";
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ColumnsToolPanelModule,
@@ -40,9 +33,9 @@ const pathLookup = getData().reduce((pathMap, row) => {
   return pathMap;
 }, {});
 
-const treeListFormatter = (pathKey, _level, parentPathKeys) => {
+function treeListFormatter(pathKey, _level, parentPathKeys) {
   return pathLookup[[...parentPathKeys, pathKey].join(".")];
-};
+}
 
 const valueFormatter = (params) => {
   return params.value ? pathLookup[params.value.join(".")] : "(Blanks)";

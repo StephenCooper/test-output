@@ -1,16 +1,9 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useCallback, useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./style.css";
-import { getData } from "./data.jsx";
 import {
   ClientSideRowModelModule,
   DragAndDropModule,
@@ -19,8 +12,8 @@ import {
   RowStyleModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
+import { getData } from "./data";
 ModuleRegistry.registerModules([
   DragAndDropModule,
   TextFilterModule,
@@ -30,7 +23,7 @@ ModuleRegistry.registerModules([
   ValidationModule /* Development Only */,
 ]);
 
-const onRowDrag = (params) => {
+function onRowDrag(params) {
   // create the data that we want to drag
   const rowNode = params.rowNode;
   const e = params.dragEvent;
@@ -43,7 +36,7 @@ const onRowDrag = (params) => {
   const jsonData = JSON.stringify(jsonObject);
   e.dataTransfer.setData("application/json", jsonData);
   e.dataTransfer.setData("text/plain", jsonData);
-};
+}
 
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);

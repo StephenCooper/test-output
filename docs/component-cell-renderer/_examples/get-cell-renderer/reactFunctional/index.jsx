@@ -21,6 +21,7 @@ import {
 import { AgGridReact } from "ag-grid-react";
 import MedalCellRenderer from "./medalCellRenderer";
 import "./styles.css";
+
 ModuleRegistry.registerModules([
   RenderApiModule,
   NumberEditorModule,
@@ -31,6 +32,7 @@ ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
+
 const GridExample = () => {
   const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
@@ -59,6 +61,7 @@ const GridExample = () => {
       filter: true,
     };
   }, []);
+
   const onGridReady = useCallback((params) => {
     fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
       .then((resp) => resp.json())
@@ -66,6 +69,7 @@ const GridExample = () => {
         setRowData(data);
       });
   }, []);
+
   const onCallGold = useCallback(() => {
     console.log("=========> calling all gold");
     // pass in list of columns, here it's gold only
@@ -75,6 +79,7 @@ const GridExample = () => {
       instance.medalUserFunction();
     });
   }, []);
+
   const onFirstRowGold = useCallback(() => {
     console.log("=========> calling gold row one");
     // pass in one column and one row to identify one cell
@@ -85,6 +90,7 @@ const GridExample = () => {
       instance.medalUserFunction();
     });
   }, []);
+
   const onCallAllCells = useCallback(() => {
     console.log("=========> calling everything");
     // no params, goes through all rows and columns where cell renderer exists
@@ -93,6 +99,7 @@ const GridExample = () => {
       instance.medalUserFunction();
     });
   }, []);
+
   return (
     <div style={containerStyle}>
       <div className="example-wrapper">
@@ -115,6 +122,7 @@ const GridExample = () => {
     </div>
   );
 };
+
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

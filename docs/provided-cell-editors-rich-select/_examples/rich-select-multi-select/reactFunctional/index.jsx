@@ -1,25 +1,18 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./style.css";
-import ColourCellRenderer from "./colourCellRenderer.jsx";
-import { colors } from "./colors.jsx";
 import {
   ClientSideRowModelModule,
   ModuleRegistry,
   TextEditorModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { RichSelectModule } from "ag-grid-enterprise";
+import { colors } from "./colors";
+import ColourCellRenderer from "./colourCellRenderer.jsx";
 ModuleRegistry.registerModules([
   TextEditorModule,
   ClientSideRowModelModule,
@@ -46,10 +39,10 @@ const valueParser = (params) => {
   return params.newValue.split(",");
 };
 
-const getRandomNumber = (min, max) => {
+function getRandomNumber(min, max) {
   // min and max included
   return Math.floor(Math.random() * (max - min + 1) + min);
-};
+}
 
 const data = Array.from(Array(20).keys()).map(() => {
   const numberOfOptions = getRandomNumber(1, 4);

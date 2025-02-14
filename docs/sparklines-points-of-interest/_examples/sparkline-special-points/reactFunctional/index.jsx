@@ -1,24 +1,16 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  useEffect,
-  StrictMode,
-} from "react";
+import React, { useMemo, useRef, useState, useEffect, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
-import { getData } from "./data.jsx";
 import { AgChartsCommunityModule } from "ag-charts-community";
 import {
   ClientSideRowModelModule,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { SparklinesModule } from "ag-grid-enterprise";
+import { getData } from "./data";
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   SparklinesModule.with(AgChartsCommunityModule),
@@ -32,15 +24,15 @@ const palette = {
   lightGreen: "rgba(75,168,142, 0.2)",
 };
 
-const barItemStyler = (params) => {
+function barItemStyler(params) {
   const { yValue, highlighted } = params;
   if (highlighted) {
     return;
   }
   return { fill: yValue <= 50 ? palette.lightBlue : palette.blue };
-};
+}
 
-const lineItemStyler = (params) => {
+function lineItemStyler(params) {
   const { first, last, highlighted } = params;
   const color = highlighted
     ? palette.blue
@@ -52,27 +44,27 @@ const lineItemStyler = (params) => {
     fill: color,
     stroke: color,
   };
-};
+}
 
-const columnItemStyler = (params) => {
+function columnItemStyler(params) {
   const { yValue, highlighted } = params;
   if (highlighted) {
     return;
   }
   return { fill: yValue < 0 ? palette.lightBlue : palette.blue };
-};
+}
 
-const areaItemStyler = (params) => {
+function areaItemStyler(params) {
   const { min, highlighted } = params;
   return {
     size: min || highlighted ? 5 : 0,
     fill: palette.green,
     stroke: palette.green,
   };
-};
+}
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [rowData, setRowData] = useState(getData());
@@ -186,6 +178,7 @@ const GridExample = () => {
     const isInitialModeDark =
       document.documentElement.dataset.agThemeMode?.includes("dark");
 
+    // update chart themes based on dark mode status
     const updateChartThemes = (isDark) => {
       const themes = [
         "ag-default",
@@ -228,6 +221,7 @@ const GridExample = () => {
     };
     trySetInitial(0);
 
+    // event handler for color scheme changes
     const handleColorSchemeChange = (event) => {
       const { darkMode } = event.detail;
       updateChartThemes(darkMode);

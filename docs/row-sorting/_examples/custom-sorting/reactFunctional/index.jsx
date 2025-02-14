@@ -1,12 +1,6 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useCallback, useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./style.css";
@@ -14,14 +8,13 @@ import {
   ClientSideRowModelModule,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
 
-const dateComparator = (date1, date2) => {
+function dateComparator(date1, date2) {
   const date1Number = monthToComparableNumber(date1);
   const date2Number = monthToComparableNumber(date2);
   if (date1Number === null && date2Number === null) {
@@ -34,10 +27,10 @@ const dateComparator = (date1, date2) => {
     return 1;
   }
   return date1Number - date2Number;
-};
+}
 
 // eg 29/08/2004 gets converted to 20040829
-const monthToComparableNumber = (date) => {
+function monthToComparableNumber(date) {
   if (date === undefined || date === null || date.length !== 10) {
     return null;
   }
@@ -45,7 +38,7 @@ const monthToComparableNumber = (date) => {
   const monthNumber = Number.parseInt(date.substring(3, 5));
   const dayNumber = Number.parseInt(date.substring(0, 2));
   return yearNumber * 10000 + monthNumber * 100 + dayNumber;
-};
+}
 
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);

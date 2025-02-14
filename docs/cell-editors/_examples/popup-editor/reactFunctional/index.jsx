@@ -11,10 +11,12 @@ import {
 } from "ag-grid-community";
 import { RichSelectModule } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react";
+
 import { getData } from "./data";
 import MoodEditor from "./moodEditor";
 import MoodRenderer from "./moodRenderer";
 import "./styles.css";
+
 ModuleRegistry.registerModules([
   NumberEditorModule,
   TextEditorModule,
@@ -23,6 +25,7 @@ ModuleRegistry.registerModules([
   RichSelectModule,
   ValidationModule /* Development Only */,
 ]);
+
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
@@ -57,6 +60,7 @@ const GridExample = () => {
       minWidth: 100,
     };
   }, []);
+
   return (
     <div style={containerStyle}>
       <div style={gridStyle}>
@@ -69,6 +73,7 @@ const GridExample = () => {
     </div>
   );
 };
+
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

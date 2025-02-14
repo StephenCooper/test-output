@@ -4,7 +4,9 @@ import React, { StrictMode, useEffect, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
+
 ModuleRegistry.registerModules([AllCommunityModule]);
+
 // Custom Cell Renderer (Display logos based on cell value)
 const CompanyLogoRenderer = (params) => (
   <span
@@ -40,6 +42,7 @@ const CompanyLogoRenderer = (params) => (
     </p>
   </span>
 );
+
 /* Custom Cell Renderer (Display tick / cross in 'Successful' column) */
 const MissionResultRenderer = (params) => (
   <span
@@ -59,6 +62,7 @@ const MissionResultRenderer = (params) => (
     }
   </span>
 );
+
 /* Format Date Cells */
 const dateFormatter = (params) => {
   return new Date(params.value).toLocaleDateString("en-us", {
@@ -68,14 +72,17 @@ const dateFormatter = (params) => {
     day: "numeric",
   });
 };
+
 const rowSelection = {
   mode: "multiRow",
   headerCheckbox: false,
 };
+
 // Create new GridExample component
 const GridExample = () => {
   // Row Data: The data to be displayed.
   const [rowData, setRowData] = useState([]);
+
   // Column Definitions: Defines & controls grid columns.
   const [colDefs] = useState([
     {
@@ -109,12 +116,14 @@ const GridExample = () => {
     },
     { field: "rocket" },
   ]);
+
   // Fetch data & update rowData state
   useEffect(() => {
     fetch("https://www.ag-grid.com/example-assets/space-mission-data.json")
       .then((result) => result.json())
       .then((rowData) => setRowData(rowData));
   }, []);
+
   // Apply settings across all columns
   const defaultColDef = useMemo(() => {
     return {
@@ -122,6 +131,7 @@ const GridExample = () => {
       editable: true,
     };
   }, []);
+
   // Container: Defines the grid's theme & dimensions.
   return (
     <div style={{ width: "100%", height: "100%" }}>
@@ -139,6 +149,7 @@ const GridExample = () => {
     </div>
   );
 };
+
 // Render GridExample
 const root = createRoot(document.getElementById("root"));
 root.render(

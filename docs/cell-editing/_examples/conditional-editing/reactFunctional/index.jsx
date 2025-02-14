@@ -18,7 +18,6 @@ import {
   RowApiModule,
   TextEditorModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   RowApiModule,
@@ -31,12 +30,12 @@ ModuleRegistry.registerModules([
 
 let editableYear = 2012;
 
-const isCellEditable = (params) => {
+function isCellEditable(params) {
   return params.data.year === editableYear;
-};
+}
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [rowData, setRowData] = useState();

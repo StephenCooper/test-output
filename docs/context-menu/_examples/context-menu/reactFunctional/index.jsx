@@ -1,12 +1,6 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useCallback, useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./style.css";
@@ -15,7 +9,6 @@ import {
   ClientSideRowModelModule,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   CellSelectionModule,
@@ -36,13 +29,13 @@ ModuleRegistry.registerModules([
   ValidationModule /* Development Only */,
 ]);
 
-const createFlagImg = (flag) => {
+function createFlagImg(flag) {
   return (
     '<img border="0" width="15" height="10" src="https://flags.fmcdn.net/data/flags/mini/' +
     flag +
     '.png"/>'
   );
-};
+}
 
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);

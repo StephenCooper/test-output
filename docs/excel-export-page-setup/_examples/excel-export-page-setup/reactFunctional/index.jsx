@@ -15,6 +15,7 @@ import {
 } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react";
 import "./styles.css";
+
 ModuleRegistry.registerModules([
   TextFilterModule,
   NumberFilterModule,
@@ -24,6 +25,7 @@ ModuleRegistry.registerModules([
   ExcelExportModule,
   ValidationModule /* Development Only */,
 ]);
+
 function getNumber(id) {
   const el = document.querySelector(id);
   if (!el || isNaN(el.value)) {
@@ -31,9 +33,11 @@ function getNumber(id) {
   }
   return parseFloat(el.value);
 }
+
 function getValue(id) {
   return document.querySelector(id).value;
 }
+
 function getSheetConfig() {
   return {
     pageSetup: {
@@ -50,6 +54,7 @@ function getSheetConfig() {
     },
   };
 }
+
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
@@ -71,6 +76,7 @@ const GridExample = () => {
       flex: 1,
     };
   }, []);
+
   const onFormSubmit = useCallback(
     (e) => {
       e.preventDefault();
@@ -79,6 +85,7 @@ const GridExample = () => {
     },
     [gridApi],
   );
+
   const popupParent = useMemo(() => {
     return document.body;
   }, []);
@@ -88,6 +95,7 @@ const GridExample = () => {
       .then((resp) => resp.json())
       .then((data) => setRowData(data.filter((rec) => rec.country != null)));
   }, []);
+
   return (
     <div style={containerStyle}>
       <div className="container">
@@ -221,6 +229,7 @@ const GridExample = () => {
     </div>
   );
 };
+
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

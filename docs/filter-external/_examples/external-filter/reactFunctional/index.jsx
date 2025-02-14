@@ -17,7 +17,6 @@ import {
   ModuleRegistry,
   NumberFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
@@ -55,17 +54,17 @@ const dateFilterParams = {
 
 let ageType = "everyone";
 
-const asDate = (dateAsString) => {
+function asDate(dateAsString) {
   const splitFields = dateAsString.split("/");
   return new Date(
     Number.parseInt(splitFields[2]),
     Number.parseInt(splitFields[1]) - 1,
     Number.parseInt(splitFields[0]),
   );
-};
+}
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [rowData, setRowData] = useState();

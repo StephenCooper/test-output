@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+
 const findRowForEl = (el) => {
     let rowEl = el;
     while (rowEl) {
@@ -7,19 +8,23 @@ const findRowForEl = (el) => {
             return rowEl;
         }
     }
+    
     return null;
 };
+
 const DetailCellRenderer = ({ data, eParentOfValue }) => {
     const firstRecord = data.callRecords[0];
     const [callId, setCallId] = useState(firstRecord.callId);
     const [number, setNumber] = useState(firstRecord.number);
     const [direction, setDirection] = useState(firstRecord.direction);
+    
     const onParentElFocus = useCallback((event) => {
         const currentEl = event.target;
         const previousEl = event.relatedTarget;
         const previousRowEl = findRowForEl(previousEl);
         const currentRow = currentEl && parseInt(currentEl.getAttribute('row-index'), 10);
         const previousRow = previousRowEl && parseInt(previousRowEl.getAttribute('row-index'), 10);
+        
         const inputs = Array.from(currentEl.querySelectorAll('input')).filter((el) => {
             if (el.checkVisibility) {
                 return el.checkVisibility({
@@ -29,6 +34,7 @@ const DetailCellRenderer = ({ data, eParentOfValue }) => {
             }
             return !!el.offsetParent && window.getComputedStyle(el).visibility === 'visible';
         });
+        
         // Navigating forward, or unknown previous row
         if (!previousRow || currentRow >= previousRow) {
             // Focus on the first input
@@ -40,12 +46,15 @@ const DetailCellRenderer = ({ data, eParentOfValue }) => {
             inputs[inputs.length - 1].focus();
         }
     }, []);
+    
     useEffect(() => {
         eParentOfValue.addEventListener('focus', onParentElFocus);
+        
         return () => {
             eParentOfValue.removeEventListener('focus', onParentElFocus);
         };
     }, []);
+    
     return (<div role="gridcell">
             <form>
                 <div>
@@ -74,4 +83,6 @@ const DetailCellRenderer = ({ data, eParentOfValue }) => {
             </form>
         </div>);
 };
+
 export default DetailCellRenderer;
+

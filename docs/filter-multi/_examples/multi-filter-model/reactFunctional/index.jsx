@@ -17,7 +17,6 @@ import {
   NumberFilterModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ClipboardModule,
@@ -61,19 +60,19 @@ const dateFilterParams = {
   ],
 };
 
-const getDate = (value) => {
+function getDate(value) {
   const dateParts = value.split("/");
   return new Date(
     Number(dateParts[2]),
     Number(dateParts[1]) - 1,
     Number(dateParts[0]),
   );
-};
+}
 
 let savedFilterState;
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [rowData, setRowData] = useState();

@@ -16,9 +16,11 @@ import {
   ValidationModule,
 } from "ag-grid-community";
 import { AgGridReact, getInstance } from "ag-grid-react";
+
 import { getData } from "./data.tsx";
 import PartialMatchFilter from "./partialMatchFilter";
 import "./styles.css";
+
 ModuleRegistry.registerModules([
   TextFilterModule,
   TextEditorModule,
@@ -26,6 +28,7 @@ ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
+
 const GridExample = () => {
   const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
@@ -46,6 +49,7 @@ const GridExample = () => {
       filter: true,
     };
   }, []);
+
   const onClicked = useCallback(() => {
     gridRef.current.api.getColumnFilterInstance("name").then((instance) => {
       getInstance(instance, (component) => {
@@ -55,6 +59,7 @@ const GridExample = () => {
       });
     });
   }, []);
+
   return (
     <div style={containerStyle}>
       <div className="example-wrapper">
@@ -78,6 +83,7 @@ const GridExample = () => {
     </div>
   );
 };
+
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

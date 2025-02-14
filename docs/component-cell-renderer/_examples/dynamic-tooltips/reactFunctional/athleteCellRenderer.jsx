@@ -1,6 +1,8 @@
 import React, { forwardRef, useEffect, useRef } from "react";
+
 export default forwardRef((props) => {
   const wrapper = useRef(null);
+
   useEffect(() => {
     if (!wrapper || !wrapper.current) {
       return;
@@ -10,6 +12,7 @@ export default forwardRef((props) => {
       () => wrapper.current?.scrollWidth > wrapper.current?.clientWidth,
     );
   }, [wrapper]);
+
   return (
     <div ref={wrapper} style={{ overflow: "hidden", textOverflow: "ellipsis" }}>
       {props.value}

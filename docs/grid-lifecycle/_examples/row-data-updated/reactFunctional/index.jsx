@@ -1,38 +1,47 @@
 'use client';
 import React, { StrictMode, useCallback, useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
+
 import {
   ClientSideRowModelModule,
   ModuleRegistry,
   ValidationModule,
 } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
+
 import { fetchDataAsync } from "./data";
 import "./styles.css";
+
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
+
 const updateRowCount = (id) => {
   const element = document.querySelector(`#${id} > .value`);
   element.textContent = `${new Date().toLocaleTimeString()}`;
 };
+
 const columnDefs = [
   { field: "name", headerName: "Athlete" },
   { field: "person.age", headerName: "Age" },
   { field: "medals.gold", headerName: "Gold Medals" },
 ];
+
 const GridExample = () => {
   const [loading, setLoading] = useState(true);
   const [rowData, setRowData] = useState();
+
   const onFirstDataRendered = useCallback((event) => {
     updateRowCount("firstDataRendered");
     console.log("First Data Rendered");
   }, []);
+
   const onRowDataUpdated = useCallback((event) => {
     updateRowCount("rowDataUpdated");
     console.log("Row Data Updated");
   }, []);
+
   const reloadData = useCallback(() => {
     console.log("Loading Data ...");
     setLoading(true);
@@ -48,7 +57,9 @@ const GridExample = () => {
         setLoading(false);
       });
   }, []);
+
   useEffect(reloadData, []);
+
   return (
     <div className="test-container">
       <div className="test-header">
@@ -77,6 +88,7 @@ const GridExample = () => {
     </div>
   );
 };
+
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

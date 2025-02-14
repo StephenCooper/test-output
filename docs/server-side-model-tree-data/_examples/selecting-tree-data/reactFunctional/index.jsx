@@ -1,12 +1,6 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useCallback, useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./styles.css";
@@ -14,7 +8,6 @@ import {
   ModuleRegistry,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
@@ -37,7 +30,7 @@ ModuleRegistry.registerModules([
 
 let fakeServer;
 
-const createFakeServer = (fakeServerData, api) => {
+function createFakeServer(fakeServerData, api) {
   const getDataAtRoute = (route) => {
     let mutableRoute = [...route];
     let target = { underlings: fakeServerData };
@@ -59,7 +52,7 @@ const createFakeServer = (fakeServerData, api) => {
   };
   fakeServer = {
     getData: (request) => {
-      function extractRowsFromData(groupKeys, data) {
+      const extractRowsFromData = (groupKeys, data) => {
         if (groupKeys.length === 0) {
           return data.map(sanitizeRowForGrid);
         }
@@ -72,7 +65,7 @@ const createFakeServer = (fakeServerData, api) => {
             );
           }
         }
-      }
+      };
       return extractRowsFromData(request.groupKeys, fakeServerData);
     },
     addChildRow: (route, newRow) => {
@@ -133,9 +126,9 @@ const createFakeServer = (fakeServerData, api) => {
     },
   };
   return fakeServer;
-};
+}
 
-const createServerSideDatasource = (fakeServer) => {
+function createServerSideDatasource(fakeServer) {
   const dataSource = {
     getRows: (params) => {
       console.log("ServerSideDatasource.getRows: params = ", params);
@@ -155,7 +148,7 @@ const createServerSideDatasource = (fakeServer) => {
     },
   };
   return dataSource;
-};
+}
 
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);

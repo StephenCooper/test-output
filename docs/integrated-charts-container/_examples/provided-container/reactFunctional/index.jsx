@@ -21,7 +21,9 @@ import {
   RowGroupingModule,
 } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react";
+
 import "./styles.css";
+
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   IntegratedChartsModule.with(AgChartsEnterpriseModule),
@@ -30,6 +32,7 @@ ModuleRegistry.registerModules([
   RowGroupingModule,
   ValidationModule /* Development Only */,
 ]);
+
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "300px", width: "100%" }), []);
@@ -47,8 +50,10 @@ const GridExample = () => {
   const popupParent = useMemo(() => {
     return document.body;
   }, []);
+
   const chartPlaceholderRef = useRef(null);
   const [chartRef, setChartRef] = useState();
+
   const onGridReady = useCallback((params) => {
     fetch("https://www.ag-grid.com/example-assets/wide-spread-of-sports.json")
       .then((resp) => resp.json())
@@ -97,6 +102,7 @@ const GridExample = () => {
         document.addEventListener('color-scheme-change', handleColorSchemeChange);
     /** DARK INTEGRATED END **/
   }, []);
+
   const updateChartParams = (chartRef) => {
     setChartRef((prev) => {
       if (prev != chartRef) {
@@ -106,12 +112,14 @@ const GridExample = () => {
       return chartRef;
     });
   };
+
   useEffect(() => {
     if (chartRef) {
       // Append the chart element to the placeholder div
       chartPlaceholderRef.current?.appendChild(chartRef.chartElement);
     }
   }, [chartRef]);
+
   return (
     <div style={containerStyle}>
       <div id="container">
@@ -149,6 +157,7 @@ const GridExample = () => {
     </div>
   );
 };
+
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

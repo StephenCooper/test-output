@@ -15,7 +15,6 @@ import {
   NumberFilterModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
@@ -25,7 +24,7 @@ ModuleRegistry.registerModules([
 ]);
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [rowData, setRowData] = useState();
@@ -89,7 +88,7 @@ const GridExample = () => {
   const onFilterChanged = useCallback((e) => {
     console.log("onFilterChanged", e);
     console.log(
-      "gridRef.current.api.getFilterModel() =>",
+      "gridRef.current!.api.getFilterModel() =>",
       e.api.getFilterModel(),
     );
   }, []);

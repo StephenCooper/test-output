@@ -1,6 +1,7 @@
 'use client';
 import React, { StrictMode, useState } from "react";
 import { createRoot } from "react-dom/client";
+
 import {
   ModuleRegistry,
   themeAlpine,
@@ -10,15 +11,19 @@ import {
 } from "ag-grid-community";
 import { AllEnterpriseModule } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react";
+
 ModuleRegistry.registerModules([AllEnterpriseModule]);
+
 const themes = [
   { id: "themeQuartz", theme: themeQuartz },
   { id: "themeBalham", theme: themeBalham },
   { id: "themeMaterial", theme: themeMaterial },
   { id: "themeAlpine", theme: themeAlpine },
 ];
+
 const GridExample = () => {
   const [theme, setBaseTheme] = useState(themes[0]);
+
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column" }}>
       <p style={{ flex: 0 }}>
@@ -37,6 +42,7 @@ const GridExample = () => {
     </div>
   );
 };
+
 const PartSelector = ({ options, value, setValue }) => (
   <select
     onChange={(e) =>
@@ -52,6 +58,7 @@ const PartSelector = ({ options, value, setValue }) => (
     ))}
   </select>
 );
+
 const rowData = (() => {
   const rowData = [];
   for (let i = 0; i < 10; i++) {
@@ -65,13 +72,16 @@ const rowData = (() => {
   }
   return rowData;
 })();
+
 const columnDefs = [{ field: "make" }, { field: "model" }, { field: "price" }];
+
 const defaultColDef = {
   editable: true,
   flex: 1,
   minWidth: 100,
   filter: true,
 };
+
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

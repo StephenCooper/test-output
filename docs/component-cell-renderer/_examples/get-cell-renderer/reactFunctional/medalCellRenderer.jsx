@@ -1,4 +1,5 @@
 import React, { forwardRef, useImperativeHandle } from "react";
+
 export default forwardRef((props, ref) => {
   useImperativeHandle(ref, () => {
     return {
@@ -9,5 +10,6 @@ export default forwardRef((props, ref) => {
       },
     };
   });
+
   return <span>{new Array(props.value).fill("#").join("")}</span>;
 });

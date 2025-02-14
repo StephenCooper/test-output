@@ -12,7 +12,9 @@ import {
   ValidationModule,
 } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
+
 import "./styles.css";
+
 ModuleRegistry.registerModules([
   TextFilterModule,
   NumberFilterModule,
@@ -22,6 +24,7 @@ ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
+
 const bottomData = [
   {
     athlete: "Total",
@@ -35,10 +38,12 @@ const bottomData = [
     bronze: 12,
   },
 ];
+
 const GridExample = () => {
   const [rowData, setRowData] = useState(null);
   const topGrid = useRef(null);
   const bottomGrid = useRef(null);
+
   const defaultColDef = useMemo(
     () => ({
       filter: true,
@@ -47,6 +52,7 @@ const GridExample = () => {
     }),
     [],
   );
+
   const columnDefs = useMemo(
     () => [
       { field: "athlete", width: 200 },
@@ -67,17 +73,20 @@ const GridExample = () => {
     ],
     [],
   );
+
   const autoSizeStrategy = useMemo(
     () => ({
       type: "fitCellContents",
     }),
     [],
   );
+
   const onGridReady = (params) => {
     fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
       .then((resp) => resp.json())
       .then((data) => setRowData(data));
   };
+
   return (
     <div
       style={{ display: "flex", flexDirection: "column", height: "100%" }}
@@ -112,6 +121,7 @@ const GridExample = () => {
     </div>
   );
 };
+
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

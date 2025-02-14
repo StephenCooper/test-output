@@ -10,14 +10,12 @@ import React, {
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./styles.css";
-import { getFakeServer, registerObserver } from "./fakeServer.jsx";
 import {
   ColumnApiModule,
   HighlightChangesModule,
   ModuleRegistry,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   RowGroupingModule,
@@ -25,6 +23,7 @@ import {
   ServerSideRowModelApiModule,
   ServerSideRowModelModule,
 } from "ag-grid-enterprise";
+import { getFakeServer, registerObserver } from "./fakeServer";
 ModuleRegistry.registerModules([
   TextFilterModule,
   HighlightChangesModule,
@@ -36,11 +35,11 @@ ModuleRegistry.registerModules([
   ValidationModule /* Development Only */,
 ]);
 
-const disable = (id, disabled) => {
+function disable(id, disabled) {
   document.querySelector(id).disabled = disabled;
-};
+}
 
-const getServerSideDatasource = (server) => {
+function getServerSideDatasource(server) {
   return {
     getRows: (params) => {
       console.log("[Datasource] - rows requested by grid: ", params.request);
@@ -60,10 +59,10 @@ const getServerSideDatasource = (server) => {
       }, 300);
     },
   };
-};
+}
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 

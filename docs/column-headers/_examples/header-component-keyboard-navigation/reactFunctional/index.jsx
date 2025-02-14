@@ -1,23 +1,16 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useCallback, useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./styles.css";
-import CustomHeader from "./customHeader.jsx";
 import {
   ClientSideRowModelModule,
   ModuleRegistry,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
+import CustomHeader from "./customHeader.jsx";
 ModuleRegistry.registerModules([
   TextFilterModule,
   ClientSideRowModelModule,
@@ -26,7 +19,7 @@ ModuleRegistry.registerModules([
 
 const GRID_CELL_CLASSNAME = "ag-header-cell";
 
-const getAllFocusableElementsOf = (el) => {
+function getAllFocusableElementsOf(el) {
   return Array.from(
     el.querySelectorAll(
       'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
@@ -34,7 +27,7 @@ const getAllFocusableElementsOf = (el) => {
   ).filter((focusableEl) => {
     return focusableEl.tabIndex !== -1;
   });
-};
+}
 
 const getEventPath = (event) => {
   const path = [];
@@ -50,7 +43,7 @@ const getEventPath = (event) => {
  * Capture whether the user is tabbing forwards or backwards and suppress keyboard event if tabbing
  * outside of the children
  */
-const suppressHeaderKeyboardEvent = ({ event }) => {
+function suppressHeaderKeyboardEvent({ event }) {
   const { key, shiftKey } = event;
   const path = getEventPath(event);
   const isTabForward = key === "Tab" && shiftKey === false;
@@ -97,7 +90,7 @@ const suppressHeaderKeyboardEvent = ({ event }) => {
     }
   }
   return suppressEvent;
-};
+}
 
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);

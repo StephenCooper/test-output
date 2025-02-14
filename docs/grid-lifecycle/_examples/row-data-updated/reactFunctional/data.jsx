@@ -87,6 +87,7 @@ export function fetchDataAsync() {
     }, 600);
   });
 }
+
 function getRandomMedals() {
   return {
     gold: Math.floor(Math.random() * 10),

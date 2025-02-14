@@ -15,7 +15,6 @@ import {
   ModuleRegistry,
   RowSelectionModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
@@ -34,10 +33,10 @@ ModuleRegistry.registerModules([
 ]);
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState();
+
   const [columnDefs, setColumnDefs] = useState([
     { field: "athlete", minWidth: 150 },
     { field: "age", maxWidth: 90 },
@@ -66,7 +65,7 @@ const GridExample = () => {
   const onGridReady = useCallback((params) => {
     fetch("https://www.ag-grid.com/example-assets/small-olympic-winners.json")
       .then((resp) => resp.json())
-      .then((data) => setRowData(data));
+      .then((data) => params.api.setGridOption("rowData", data));
   }, []);
 
   const onEnableClickSelection = useCallback(() => {
@@ -96,7 +95,6 @@ const GridExample = () => {
         <div style={gridStyle}>
           <AgGridReact
             ref={gridRef}
-            rowData={rowData}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
             rowSelection={rowSelection}

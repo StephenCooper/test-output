@@ -1,27 +1,20 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useCallback, useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./styles.css";
-import CompanyLogoRenderer from "./companyLogoRenderer.jsx";
-import CompanyRenderer from "./companyRenderer.jsx";
-import CustomButtonComponent from "./customButtonComponent.jsx";
-import MissionResultRenderer from "./missionResultRenderer.jsx";
-import PriceRenderer from "./priceRenderer.jsx";
 import {
   CellStyleModule,
   ClientSideRowModelModule,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
+import CompanyLogoRenderer from "./companyLogoRenderer.jsx";
+import CompanyRenderer from "./companyRenderer.jsx";
+import CustomButtonComponent from "./customButtonComponent.jsx";
+import MissionResultRenderer from "./missionResultRenderer.jsx";
+import PriceRenderer from "./priceRenderer.jsx";
 ModuleRegistry.registerModules([
   CellStyleModule,
   ClientSideRowModelModule,

@@ -1,11 +1,14 @@
 import React, { useMemo, useRef } from 'react';
+
 export default (props) => {
     const data = useMemo(() => props.api.getDisplayedRowAtIndex(props.rowIndex).data, []);
     const inputEl = useRef(null);
+    
     const onFormSubmit = (e) => {
         e.preventDefault();
         const { node } = props;
         const target = inputEl.current;
+        
         if (target.value && node) {
             node.setDataValue('athlete', target.value);
             if (props.hideTooltipCallback) {
@@ -13,6 +16,7 @@ export default (props) => {
             }
         }
     };
+    
     return (<div className="custom-tooltip">
             <div className={'panel panel-' + (props.type || 'primary')}>
                 <div className="panel-heading">
@@ -30,3 +34,4 @@ export default (props) => {
             </div>
         </div>);
 };
+

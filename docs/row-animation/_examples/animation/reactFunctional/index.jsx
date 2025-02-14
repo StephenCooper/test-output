@@ -1,12 +1,6 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useCallback, useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./styles.css";
@@ -16,7 +10,6 @@ import {
   ModuleRegistry,
   NumberFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { ColumnMenuModule, SetFilterModule } from "ag-grid-enterprise";
 ModuleRegistry.registerModules([
@@ -33,7 +26,7 @@ let countDownDirection = true;
 // the code below executes an action every 2,000 milliseconds.
 // it's an interval, and each time it runs, it takes the next action
 // from the 'actions' list below
-const startInterval = (api) => {
+function startInterval(api) {
   let actionIndex = 0;
   resetCountdown();
   executeAfterXSeconds();
@@ -50,16 +43,16 @@ const startInterval = (api) => {
     }, 3000);
   }
   setTitleFormatted(null);
-};
+}
 
-const resetCountdown = () => {
+function resetCountdown() {
   document.querySelector("#animationCountdown").style.width = countDownDirection
     ? "100%"
     : "0%";
   countDownDirection = !countDownDirection;
-};
+}
 
-const setTitleFormatted = (apiName, methodName, paramsName) => {
+function setTitleFormatted(apiName, methodName, paramsName) {
   let html;
   if (apiName === null) {
     html = '<span class="code-highlight-yellow">command:> </span>';
@@ -81,9 +74,9 @@ const setTitleFormatted = (apiName, methodName, paramsName) => {
       '<span class="code-highlight-blue">)</span>';
   }
   document.querySelector("#animationAction").innerHTML = html;
-};
+}
 
-const getActions = () => {
+function getActions() {
   return [
     function (api) {
       api.applyColumnState({
@@ -127,7 +120,7 @@ const getActions = () => {
       setTitleFormatted("api", "applyColumnState", "clear sort");
     },
   ];
-};
+}
 
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);

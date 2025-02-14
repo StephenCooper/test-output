@@ -1,12 +1,6 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useCallback, useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./style.css";
@@ -17,7 +11,6 @@ import {
   RowStyleModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   TextFilterModule,
@@ -29,14 +22,14 @@ ModuleRegistry.registerModules([
 
 let rowIdSequence = 100;
 
-const addCheckboxListener = (params) => {
+function addCheckboxListener(params) {
   const checkbox = document.querySelector("input[type=checkbox]");
   checkbox.addEventListener("change", () => {
     params.api.setGridOption("suppressMoveWhenRowDragging", checkbox.checked);
   });
-};
+}
 
-const createRowData = () => {
+function createRowData() {
   const data = [];
   [
     "Red",
@@ -58,9 +51,9 @@ const createRowData = () => {
     data.push(newDataItem);
   });
   return data;
-};
+}
 
-const createTile = (data) => {
+function createTile(data) {
   const el = document.createElement("div");
   el.classList.add("tile");
   el.classList.add(data.color.toLowerCase());
@@ -75,9 +68,9 @@ const createTile = (data) => {
     data.value2 +
     "</div>";
   return el;
-};
+}
 
-const addDropZones = (params) => {
+function addDropZones(params) {
   const tileContainer = document.querySelector(".tile-container");
   const dropZone = {
     getContainer: () => {
@@ -89,7 +82,7 @@ const addDropZones = (params) => {
     },
   };
   params.api.addRowDropZone(dropZone);
-};
+}
 
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);

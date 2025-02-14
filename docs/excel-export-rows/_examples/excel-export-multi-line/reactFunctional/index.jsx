@@ -10,22 +10,20 @@ import React, {
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./styles.css";
-import MultilineCellRenderer from "./multilineCellRenderer.jsx";
 import {
   CellStyleModule,
   ClientSideRowModelModule,
   CsvExportModule,
-  ICellRendererParams,
   ModuleRegistry,
   RowAutoHeightModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
   ContextMenuModule,
   ExcelExportModule,
 } from "ag-grid-enterprise";
+import MultilineCellRenderer from "./multilineCellRenderer.jsx";
 ModuleRegistry.registerModules([
   RowAutoHeightModule,
   CellStyleModule,
@@ -38,7 +36,7 @@ ModuleRegistry.registerModules([
 ]);
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [rowData, setRowData] = useState([

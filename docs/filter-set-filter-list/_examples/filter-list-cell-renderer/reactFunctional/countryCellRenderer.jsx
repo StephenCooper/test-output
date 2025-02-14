@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
+
 export default (props) => {
     const [value, setValue] = useState();
     const [flagUrl, setFlagUrl] = useState();
+    
     useEffect(() => {
         setFlagUrl(undefined);
+        
         if (!props.value) {
             setValue(props.isFilterRenderer ? '(Blanks)' : props.value);
         }
@@ -16,8 +19,10 @@ export default (props) => {
             setValue(props.value);
         }
     }, []);
+    
     return (<div>
             {flagUrl && <img className="flag" border="0" width="15" height="10" src={flagUrl}/>}
             {value}
         </div>);
 };
+

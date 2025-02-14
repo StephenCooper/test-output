@@ -1,27 +1,20 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useCallback, useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./styles.css";
-import { data, dataObservers, randomUpdates } from "./data.jsx";
-import { FakeServer } from "./fakeServer.jsx";
 import {
   HighlightChangesModule,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ServerSideRowModelApiModule,
   ServerSideRowModelModule,
 } from "ag-grid-enterprise";
+import { data, dataObservers, randomUpdates } from "./data";
+import { FakeServer } from "./fakeServer";
 ModuleRegistry.registerModules([
   HighlightChangesModule,
   ServerSideRowModelModule,
@@ -29,7 +22,7 @@ ModuleRegistry.registerModules([
   ValidationModule /* Development Only */,
 ]);
 
-const getServerSideDatasource = (server) => {
+function getServerSideDatasource(server) {
   return {
     getRows: (params) => {
       const response = server.getData(params.request);
@@ -48,13 +41,13 @@ const getServerSideDatasource = (server) => {
       }, 300);
     },
   };
-};
+}
 
 let interval;
 
-const disable = (id, disabled) => {
+function disable(id, disabled) {
   document.querySelector(id).disabled = disabled;
-};
+}
 
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);

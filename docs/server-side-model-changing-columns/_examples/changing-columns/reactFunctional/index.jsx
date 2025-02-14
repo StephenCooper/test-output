@@ -10,12 +10,10 @@ import React, {
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./styles.css";
-import { FakeServer } from "./fakeServer.jsx";
 import {
   ModuleRegistry,
   NumberFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
@@ -25,6 +23,7 @@ import {
   ServerSideRowModelModule,
   SetFilterModule,
 } from "ag-grid-enterprise";
+import { FakeServer } from "./fakeServer";
 ModuleRegistry.registerModules([
   NumberFilterModule,
   ColumnsToolPanelModule,
@@ -60,17 +59,17 @@ const colDefSilver = { field: "silver", aggFunc: "sum" };
 
 const colDefBronze = { field: "bronze", aggFunc: "sum" };
 
-const getAthletesAsync = (params) => {
+function getAthletesAsync(params) {
   const countries = fakeServer.getAthletes();
   // simulating real server call with a 500ms delay
   setTimeout(() => {
     params.success(countries);
   }, 500);
-};
+}
 
-const getBooleanValue = (cssSelector) => {
+function getBooleanValue(cssSelector) {
   return document.querySelector(cssSelector).checked === true;
-};
+}
 
 const getServerSideDatasource = (server) => {
   return {
@@ -97,7 +96,7 @@ const getServerSideDatasource = (server) => {
 var fakeServer = undefined;
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 

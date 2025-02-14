@@ -1,6 +1,7 @@
 'use client';
 import React, { StrictMode, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
+
 import {
   ModuleRegistry,
   colorSchemeDark,
@@ -21,12 +22,15 @@ import {
 } from "ag-grid-community";
 import { AllEnterpriseModule } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react";
+
 ModuleRegistry.registerModules([AllEnterpriseModule]);
+
 const baseThemes = [
   { id: "themeQuartz", value: themeQuartz },
   { id: "themeBalham", value: themeBalham },
   { id: "themeAlpine", value: themeAlpine },
 ];
+
 const colorSchemes = [
   { id: "(unchanged)", value: null },
   { id: "colorSchemeLight", value: colorSchemeLight },
@@ -37,6 +41,7 @@ const colorSchemes = [
   { id: "colorSchemeDarkBlue", value: colorSchemeDarkBlue },
   { id: "colorSchemeVariable", value: colorSchemeVariable },
 ];
+
 const iconSets = [
   { id: "(unchanged)", value: null },
   { id: "iconSetQuartzLight", value: iconSetQuartzLight },
@@ -45,10 +50,12 @@ const iconSets = [
   { id: "iconSetAlpine", value: iconSetAlpine },
   { id: "iconSetMaterial", value: iconSetMaterial },
 ];
+
 const GridExample = () => {
   const [baseTheme, setBaseTheme] = useState(baseThemes[0]);
   const [colorScheme, setColorScheme] = useState(colorSchemes[0]);
   const [iconSet, setIconSet] = useState(iconSets[0]);
+
   const theme = useMemo(() => {
     let theme = baseTheme.value;
     if (colorScheme.value) {
@@ -59,6 +66,7 @@ const GridExample = () => {
     }
     return theme;
   }, [baseTheme, colorScheme, iconSet]);
+
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column" }}>
       <p style={{ flex: 0 }}>
@@ -93,6 +101,7 @@ const GridExample = () => {
     </div>
   );
 };
+
 const PartSelector = ({ options, value, setValue }) => (
   <select
     onChange={(e) =>
@@ -106,6 +115,7 @@ const PartSelector = ({ options, value, setValue }) => (
     ))}
   </select>
 );
+
 const rowData = (() => {
   const rowData = [];
   for (let i = 0; i < 10; i++) {
@@ -119,13 +129,16 @@ const rowData = (() => {
   }
   return rowData;
 })();
+
 const columnDefs = [{ field: "make" }, { field: "model" }, { field: "price" }];
+
 const defaultColDef = {
   editable: true,
   flex: 1,
   minWidth: 100,
   filter: true,
 };
+
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

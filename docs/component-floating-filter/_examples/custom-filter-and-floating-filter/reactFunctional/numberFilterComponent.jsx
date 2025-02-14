@@ -1,18 +1,23 @@
 import React, { useCallback } from "react";
 import { useGridFilter } from "ag-grid-react";
+
 export default ({ model, onModelChange, getValue }) => {
   const doesFilterPass = useCallback(
     (params) => {
       const { node } = params;
+
       const value = getValue(node);
+
       if (value == null) return false;
       return Number(value) > Number(model);
     },
     [model],
   );
+
   useGridFilter({
     doesFilterPass,
   });
+
   return (
     <div style={{ padding: "4px" }}>
       <div style={{ fontWeight: "bold" }}>Greater than:</div>

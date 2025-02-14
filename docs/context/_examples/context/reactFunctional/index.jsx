@@ -15,7 +15,6 @@ import {
   ModuleRegistry,
   RenderApiModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   RenderApiModule,
@@ -54,7 +53,7 @@ const currencyCellRenderer = (params) => {
   return params.value.amount;
 };
 
-const reportingCurrencyValueGetter = (params) => {
+function reportingCurrencyValueGetter(params) {
   // Rates taken from google at time of writing
   const exchangeRates = {
     EUR: {
@@ -85,9 +84,9 @@ const reportingCurrencyValueGetter = (params) => {
     amount: priceInReportingCurrency,
   };
   return result;
-};
+}
 
-const getData = () => {
+function getData() {
   return [
     { product: "Product 1", price: { currency: "EUR", amount: 644 } },
     { product: "Product 2", price: { currency: "EUR", amount: 354 } },
@@ -96,10 +95,10 @@ const getData = () => {
     { product: "Product 5", price: { currency: "USD", amount: 345 } },
     { product: "Product 6", price: { currency: "USD", amount: 982 } },
   ];
-};
+}
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "90%", width: "100%" }), []);
   const [rowData, setRowData] = useState(getData());

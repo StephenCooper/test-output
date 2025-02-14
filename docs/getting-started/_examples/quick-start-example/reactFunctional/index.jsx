@@ -3,7 +3,9 @@ import React, { StrictMode, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
+
 ModuleRegistry.registerModules([AllCommunityModule]);
+
 // Create new GridExample component
 const GridExample = () => {
   // Row Data: The data to be displayed.
@@ -15,6 +17,7 @@ const GridExample = () => {
     { make: "Fiat", model: "500", price: 15774, electric: false },
     { make: "Nissan", model: "Juke", price: 20675, electric: false },
   ]);
+
   // Column Definitions: Defines & controls grid columns.
   const [colDefs, setColDefs] = useState([
     { field: "make" },
@@ -22,9 +25,11 @@ const GridExample = () => {
     { field: "price" },
     { field: "electric" },
   ]);
+
   const defaultColDef = {
     flex: 1,
   };
+
   // Container: Defines the grid's theme & dimensions.
   return (
     <div style={{ width: "100%", height: "100%" }}>
@@ -36,6 +41,7 @@ const GridExample = () => {
     </div>
   );
 };
+
 // Render GridExample
 const root = createRoot(document.getElementById("root"));
 root.render(

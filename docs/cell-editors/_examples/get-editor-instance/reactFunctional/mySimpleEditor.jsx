@@ -4,15 +4,19 @@ import React, {
   useImperativeHandle,
   useRef,
 } from "react";
+
 // backspace starts the editor on Windows
 const KEY_BACKSPACE = "Backspace";
+
 export default forwardRef(
   ({ value, onValueChange, eventKey, rowIndex, column }, ref) => {
     const updateValue = (val) => {
       onValueChange(val === "" ? null : val);
     };
+
     useEffect(() => {
       let startValue;
+
       if (eventKey === KEY_BACKSPACE) {
         startValue = "";
       } else if (eventKey && eventKey.length === 1) {
@@ -23,10 +27,14 @@ export default forwardRef(
       if (startValue == null) {
         startValue = "";
       }
+
       updateValue(startValue);
+
       refInput.current?.focus();
     }, []);
+
     const refInput = useRef(null);
+
     useImperativeHandle(ref, () => {
       return {
         myCustomFunction() {
@@ -37,6 +45,7 @@ export default forwardRef(
         },
       };
     });
+
     return (
       <input
         value={value || ""}

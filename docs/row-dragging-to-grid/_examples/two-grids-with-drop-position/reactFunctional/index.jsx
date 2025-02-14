@@ -18,7 +18,9 @@ import {
   ValidationModule,
 } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
+
 import "./styles.css";
+
 ModuleRegistry.registerModules([
   ClientSideRowModelApiModule,
   RowApiModule,
@@ -28,32 +30,39 @@ ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
+
 const columns = [
   { field: "id", rowDrag: true },
   { field: "color" },
   { field: "value1" },
   { field: "value2" },
 ];
+
 const rowClassRules = {
   "red-row": 'data.color == "Red"',
   "green-row": 'data.color == "Green"',
   "blue-row": 'data.color == "Blue"',
 };
+
 const defaultColDef = {
   flex: 1,
   minWidth: 100,
   filter: true,
 };
+
 const GridExample = () => {
   const [leftApi, setLeftApi] = useState(null);
   const [rightApi, setRightApi] = useState(null);
   const [leftRowData, setLeftRowData] = useState([]);
   const [rightRowData, setRightRowData] = useState([]);
+
   const eLeftGrid = useRef(null);
   const eRightGrid = useRef(null);
   const eBin = useRef(null);
   const eBinIcon = useRef(null);
+
   let rowIdSequence = 100;
+
   const createDataItem = useCallback(
     (color) => {
       const obj = {
@@ -62,10 +71,12 @@ const GridExample = () => {
         value1: Math.floor(Math.random() * 100),
         value2: Math.floor(Math.random() * 100),
       };
+
       return obj;
     },
     [rowIdSequence],
   );
+
   useEffect(() => {
     const createRowBlock = (blocks) =>
       Array.apply(null, Array(blocks || 1))
@@ -73,50 +84,64 @@ const GridExample = () => {
           ["Red", "Green", "Blue"].map((color) => createDataItem(color)),
         )
         .reduce((prev, curr) => prev.concat(curr), []);
+
     setLeftRowData(createRowBlock(2));
     setRightRowData(createRowBlock(2));
   }, [createDataItem]);
+
   const getRowId = (params) => String(params.data.id);
+
   const addRecordToGrid = (side, data) => {
     // if data missing or data has no it, do nothing
     if (!data || data.id == null) {
       return;
     }
+
     const api = side === "left" ? leftApi : rightApi;
     // do nothing if row is already in the grid, otherwise we would have duplicates
     const rowAlreadyInGrid = !!api.getRowNode(data.id);
     let transaction;
+
     if (rowAlreadyInGrid) {
       console.log("not adding row to avoid duplicates in the grid");
       return;
     }
+
     transaction = {
       add: [data],
     };
+
     api.applyTransaction(transaction);
   };
+
   const onFactoryButtonClick = (e) => {
     const button = e.currentTarget,
       buttonColor = button.getAttribute("data-color"),
       side = button.getAttribute("data-side"),
       data = createDataItem(buttonColor);
+
     addRecordToGrid(side, data);
   };
+
   const binDrop = (data) => {
     // if data missing or data has no id, do nothing
     if (!data || data.id == null) {
       return;
     }
+
     const transaction = {
       remove: [data],
     };
+
     [leftApi, rightApi].forEach((api) => {
       const rowsInGrid = !!api.getRowNode(data.id);
+
       if (rowsInGrid) {
         api.applyTransaction(transaction);
       }
     });
   };
+
   const addBinZone = (api) => {
     const dropZone = {
       getContainer: () => eBinIcon.current,
@@ -134,13 +159,17 @@ const GridExample = () => {
         eBinIcon.current.style.transform = "scale(1)";
       },
     };
+
     api.addRowDropZone(dropZone);
   };
+
   const addGridDropZone = (side, api) => {
     const dropApi = side === "Left" ? rightApi : leftApi;
     const dropZone = dropApi.getRowDropZoneParams();
+
     api.addRowDropZone(dropZone);
   };
+
   useEffect(() => {
     if (rightApi && leftApi) {
       addBinZone(rightApi);
@@ -149,6 +178,7 @@ const GridExample = () => {
       addGridDropZone("Left", leftApi);
     }
   });
+
   const onGridReady = (side, params) => {
     if (side === "Left") {
       setLeftApi(params.api);
@@ -156,6 +186,7 @@ const GridExample = () => {
       setRightApi(params.api);
     }
   };
+
   const getAddRecordButton = (side, color) => (
     <button
       key={`btn_${side}_${color}`}
@@ -168,6 +199,7 @@ const GridExample = () => {
       {`Add ${color}`}
     </button>
   );
+
   const getInnerGridCol = (side) => (
     <div className="inner-col">
       <div className="toolbar">
@@ -193,6 +225,7 @@ const GridExample = () => {
       </div>
     </div>
   );
+
   return (
     <div className="example-wrapper">
       {getInnerGridCol("Left")}
@@ -205,6 +238,7 @@ const GridExample = () => {
     </div>
   );
 };
+
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

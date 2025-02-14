@@ -19,6 +19,7 @@ import { getData } from "./data";
 import MoodEditor from "./moodEditor";
 import NumericCellEditor from "./numericCellEditor";
 import "./styles.css";
+
 ModuleRegistry.registerModules([
   NumberEditorModule,
   TextEditorModule,
@@ -29,6 +30,7 @@ ModuleRegistry.registerModules([
   RichSelectModule,
   ValidationModule /* Development Only */,
 ]);
+
 const cellEditorSelector = (params) => {
   if (params.data.type === "age") {
     return {
@@ -52,6 +54,7 @@ const cellEditorSelector = (params) => {
   }
   return undefined;
 };
+
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
@@ -70,18 +73,23 @@ const GridExample = () => {
       cellDataType: false,
     };
   }, []);
+
   const onRowEditingStarted = useCallback((event) => {
     console.log("never called - not doing row editing");
   }, []);
+
   const onRowEditingStopped = useCallback((event) => {
     console.log("never called - not doing row editing");
   }, []);
+
   const onCellEditingStarted = useCallback((event) => {
     console.log("cellEditingStarted");
   }, []);
+
   const onCellEditingStopped = useCallback((event) => {
     console.log("cellEditingStopped");
   }, []);
+
   return (
     <div style={containerStyle}>
       <div style={gridStyle}>
@@ -98,6 +106,7 @@ const GridExample = () => {
     </div>
   );
 };
+
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

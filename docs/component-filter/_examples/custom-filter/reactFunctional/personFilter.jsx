@@ -1,7 +1,9 @@
 import React, { useCallback, useRef } from "react";
 import { useGridFilter } from "ag-grid-react";
+
 export default ({ model, onModelChange, getValue }) => {
   const refInput = useRef(null);
+
   const doesFilterPass = useCallback(
     (params) => {
       const { node } = params;
@@ -15,6 +17,7 @@ export default ({ model, onModelChange, getValue }) => {
     },
     [model],
   );
+
   const afterGuiAttached = useCallback((params) => {
     if (!params || !params.suppressFocus) {
       // Focus the input element for keyboard navigation.
@@ -23,11 +26,13 @@ export default ({ model, onModelChange, getValue }) => {
       refInput.current?.focus();
     }
   }, []);
+
   // register filter handlers with the grid
   useGridFilter({
     doesFilterPass,
     afterGuiAttached,
   });
+
   return (
     <div className="person-filter">
       <div>Custom Athlete Filter</div>

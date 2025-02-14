@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import { AgGridReact } from 'ag-grid-react';
+
 const DetailCellRenderer = ({ data, node, api }) => {
     const rowId = node.id;
+    
     useEffect(() => {
         return () => {
             if (!api.isDestroyed()) {
@@ -10,6 +12,7 @@ const DetailCellRenderer = ({ data, node, api }) => {
             }
         };
     }, []);
+    
     const colDefs = [
         { field: 'callId' },
         { field: 'direction' },
@@ -17,18 +20,23 @@ const DetailCellRenderer = ({ data, node, api }) => {
         { field: 'duration', valueFormatter: "x.toLocaleString() + 's'" },
         { field: 'switchCode' },
     ];
+    
     const defaultColDef = {
         flex: 1,
         minWidth: 120,
     };
+    
     const onGridReady = (params) => {
         const gridInfo = {
             id: rowId,
             api: params.api,
         };
+        
         console.log('adding detail grid info with id: ', rowId);
+        
         api.addDetailGridInfo(rowId, gridInfo);
     };
+    
     return (<div role="gridcell" className="full-width-panel">
             <div className="full-width-details">
                 <div className="full-width-detail">
@@ -43,4 +51,6 @@ const DetailCellRenderer = ({ data, node, api }) => {
             <AgGridReact className="full-width-grid" columnDefs={colDefs} defaultColDef={defaultColDef} rowData={data.callRecords} onGridReady={onGridReady}/>
         </div>);
 };
+
 export default DetailCellRenderer;
+

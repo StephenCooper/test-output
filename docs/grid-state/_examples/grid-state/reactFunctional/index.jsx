@@ -25,6 +25,7 @@ import {
 } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react";
 import "./styles.css";
+
 ModuleRegistry.registerModules([
   NumberFilterModule,
   RowSelectionModule,
@@ -38,6 +39,7 @@ ModuleRegistry.registerModules([
   PivotModule,
   ValidationModule /* Development Only */,
 ]);
+
 const GridExample = () => {
   const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
@@ -74,11 +76,13 @@ const GridExample = () => {
   const [initialState, setInitialState] = useState();
   const [currentState, setCurrentState] = useState();
   const [gridVisible, setGridVisible] = useState(true);
+
   const onGridReady = useCallback((params) => {
     fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
       .then((resp) => resp.json())
       .then((data) => setRowData(data));
   }, []);
+
   const reloadGrid = useCallback(() => {
     setGridVisible(false);
     setTimeout(() => {
@@ -86,18 +90,22 @@ const GridExample = () => {
       setGridVisible(true);
     });
   }, []);
+
   const onGridPreDestroyed = useCallback((params) => {
     const { state } = params;
     console.log("Grid state on destroy (can be persisted)", state);
     setInitialState(state);
   }, []);
+
   const onStateUpdated = useCallback((params) => {
     console.log("State updated", params.state);
     setCurrentState(params.state);
   }, []);
+
   const printState = useCallback(() => {
     console.log("Grid state", currentState);
   }, [currentState]);
+
   return (
     <div style={containerStyle}>
       <div className="example-wrapper">
@@ -131,6 +139,7 @@ const GridExample = () => {
     </div>
   );
 };
+
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

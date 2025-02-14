@@ -11,14 +11,12 @@ import React, {
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./style.css";
-import { getData } from "./data.jsx";
 import { AgChartsEnterpriseModule } from "ag-charts-enterprise";
 import {
   ClientSideRowModelModule,
   ColumnApiModule,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
@@ -26,6 +24,7 @@ import {
   IntegratedChartsModule,
   RowGroupingModule,
 } from "ag-grid-enterprise";
+import { getData } from "./data";
 ModuleRegistry.registerModules([
   ColumnApiModule,
   ClientSideRowModelModule,
@@ -38,29 +37,29 @@ ModuleRegistry.registerModules([
 
 let currentChartRef;
 
-const getColumnDefs = () => {
+function getColumnDefs() {
   return [
     { field: "date", valueFormatter: dateFormatter },
     { field: "avgTemp" },
   ];
-};
+}
 
-const dateFormatter = (params) => {
+function dateFormatter(params) {
   return params.value
     ? params.value.toISOString().substring(0, 10)
     : params.value;
-};
+}
 
-const formatDate = (date) => {
+function formatDate(date) {
   return Intl.DateTimeFormat("en-GB", {
     day: "2-digit",
     month: "short",
     year: undefined,
   }).format(new Date(date));
-};
+}
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 
@@ -132,6 +131,7 @@ const GridExample = () => {
     const isInitialModeDark =
       document.documentElement.dataset.agThemeMode?.includes("dark");
 
+    // update chart themes based on dark mode status
     const updateChartThemes = (isDark) => {
       const themes = [
         "ag-default",
@@ -174,6 +174,7 @@ const GridExample = () => {
     };
     trySetInitial(0);
 
+    // event handler for color scheme changes
     const handleColorSchemeChange = (event) => {
       const { darkMode } = event.detail;
       updateChartThemes(darkMode);

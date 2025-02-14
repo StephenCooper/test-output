@@ -8,14 +8,17 @@ import {
 } from "ag-grid-community";
 import { TreeDataModule } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react";
+
 import CustomGroupCellRenderer from "./customGroupCellRenderer";
 import { getData } from "./data";
 import "./styles.css";
+
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   TreeDataModule,
   ValidationModule /* Development Only */,
 ]);
+
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
@@ -27,6 +30,7 @@ const GridExample = () => {
       aggFunc: "sum",
       valueFormatter: (params) => {
         const sizeInKb = params.value / 1024;
+
         if (sizeInKb > 1024) {
           return `${+(sizeInKb / 1024).toFixed(2)} MB`;
         } else {
@@ -55,12 +59,15 @@ const GridExample = () => {
       minWidth: 120,
     };
   }, []);
+
   const getDataPath = useCallback((data) => data.path, []);
+
   const onCellDoubleClicked = useCallback((params) => {
     if (params.colDef.showRowGroup) {
       params.node.setExpanded(!params.node.expanded);
     }
   }, []);
+
   const onCellKeyDown = useCallback((params) => {
     if (!("colDef" in params)) {
       return;
@@ -75,6 +82,7 @@ const GridExample = () => {
       params.node.setExpanded(!params.node.expanded);
     }
   }, []);
+
   return (
     <div style={containerStyle}>
       <div style={gridStyle}>
@@ -93,6 +101,7 @@ const GridExample = () => {
     </div>
   );
 };
+
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

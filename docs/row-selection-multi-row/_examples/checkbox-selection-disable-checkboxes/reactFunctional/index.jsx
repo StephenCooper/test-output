@@ -1,6 +1,7 @@
 'use client';
 import React, { StrictMode, useMemo, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
+
 import {
   ClientSideRowModelModule,
   ModuleRegistry,
@@ -8,12 +9,15 @@ import {
   ValidationModule,
 } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
+
 import "./styles.css";
+
 ModuleRegistry.registerModules([
   RowSelectionModule,
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
+
 const GridExample = () => {
   const grid = useRef(null);
   const defaultColDef = useMemo(
@@ -23,6 +27,7 @@ const GridExample = () => {
     }),
     [],
   );
+
   const columnDefs = useMemo(
     () => [
       { field: "athlete" },
@@ -31,6 +36,7 @@ const GridExample = () => {
     ],
     [],
   );
+
   const rowSelection = useMemo(
     () => ({
       mode: "multiRow",
@@ -40,11 +46,13 @@ const GridExample = () => {
     [],
   );
   const [rowData, setRowData] = useState();
+
   const onGridReady = () => {
     fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
       .then((resp) => resp.json())
       .then((data) => setRowData(data));
   };
+
   function toggleHideCheckbox() {
     grid.current?.api.setGridOption("rowSelection", {
       mode: "multiRow",
@@ -52,6 +60,7 @@ const GridExample = () => {
       hideDisabledCheckboxes: getCheckboxValue("#toggle-hide-checkbox"),
     });
   }
+
   return (
     <div className="example-wrapper">
       <div className="example-header">
@@ -78,12 +87,14 @@ const GridExample = () => {
     </div>
   );
 };
+
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>
     <GridExample />
   </StrictMode>,
 );
+
 function getCheckboxValue(id) {
   return document.querySelector(id)?.checked ?? false;
 }

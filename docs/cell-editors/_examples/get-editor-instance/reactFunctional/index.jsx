@@ -19,6 +19,7 @@ import {
 import { AgGridReact, getInstance } from "ag-grid-react";
 import MySimpleEditor from "./mySimpleEditor";
 import "./style.css";
+
 ModuleRegistry.registerModules([
   NumberEditorModule,
   TextEditorModule,
@@ -27,6 +28,7 @@ ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
+
 const createRowData = () => {
   const cloneObject = (obj) => JSON.parse(JSON.stringify(obj));
   const students = [
@@ -80,6 +82,7 @@ const createRowData = () => {
   });
   return students;
 };
+
 const GridExample = () => {
   const gridRef = useRef(null);
   const [rowData] = useState(createRowData());
@@ -125,6 +128,7 @@ const GridExample = () => {
     ],
     [],
   );
+
   const onGridReady = useCallback((params) => {
     if (gridRef.current) {
       const interval = window.setInterval(() => {
@@ -146,9 +150,11 @@ const GridExample = () => {
           console.log("found not editing cell.");
         }
       }, 1000);
+
       return () => clearInterval(interval);
     }
   }, []);
+
   const defaultColDef = useMemo(
     () => ({
       editable: true,
@@ -158,6 +164,7 @@ const GridExample = () => {
     }),
     [],
   );
+
   return (
     <div style={{ width: "100%", height: "100%" }}>
       <div
@@ -177,6 +184,7 @@ const GridExample = () => {
     </div>
   );
 };
+
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

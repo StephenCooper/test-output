@@ -10,7 +10,6 @@ import React, {
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./styles.css";
-import { createDataItem, getData } from "./data.jsx";
 import {
   ClientSideRowModelApiModule,
   ClientSideRowModelModule,
@@ -20,9 +19,9 @@ import {
   RowSelectionModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { RowGroupingModule } from "ag-grid-enterprise";
+import { createDataItem, getData } from "./data";
 ModuleRegistry.registerModules([
   ClientSideRowModelApiModule,
   TextFilterModule,
@@ -40,19 +39,19 @@ let compareCallCount = 0;
 
 let filterCallCount = 0;
 
-const myAggFunc = (params) => {
+function myAggFunc(params) {
   aggCallCount++;
   let total = 0;
   for (let i = 0; i < params.values.length; i++) {
     total += params.values[i];
   }
   return total;
-};
+}
 
-const myComparator = (a, b) => {
+function myComparator(a, b) {
   compareCallCount++;
   return a < b ? -1 : 1;
-};
+}
 
 const getMyFilter = () => {
   class MyFilter {
@@ -103,7 +102,7 @@ const getMyFilter = () => {
 
 const myFilter = getMyFilter();
 
-const timeOperation = (name, operation) => {
+function timeOperation(name, operation) {
   aggCallCount = 0;
   compareCallCount = 0;
   filterCallCount = 0;
@@ -121,10 +120,10 @@ const timeOperation = (name, operation) => {
       ", filterCallCount = " +
       filterCallCount,
   );
-};
+}
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 

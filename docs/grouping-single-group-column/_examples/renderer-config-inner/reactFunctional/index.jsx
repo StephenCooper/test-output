@@ -1,23 +1,16 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useCallback, useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./styles.css";
-import CustomMedalCellRenderer from "./customMedalCellRenderer.jsx";
 import {
   ClientSideRowModelModule,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { RowGroupingModule } from "ag-grid-enterprise";
+import CustomMedalCellRenderer from "./customMedalCellRenderer.jsx";
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   RowGroupingModule,

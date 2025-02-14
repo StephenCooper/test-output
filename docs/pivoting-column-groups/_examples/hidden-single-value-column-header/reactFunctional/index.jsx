@@ -20,16 +20,20 @@ import {
   PivotModule,
 } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react";
+
 import "./styles.css";
+
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ColumnsToolPanelModule,
+
   FiltersToolPanelModule,
   ColumnMenuModule,
   ContextMenuModule,
   PivotModule,
   ValidationModule /* Development Only */,
 ]);
+
 const GridExample = () => {
   const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
@@ -51,11 +55,13 @@ const GridExample = () => {
       minWidth: 200,
     };
   }, []);
+
   const onGridReady = useCallback((params) => {
     fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
       .then((resp) => resp.json())
       .then((data) => setRowData(data));
   }, []);
+
   const togglePivotHeader = useCallback(() => {
     const checkbox = document.querySelector(
       "#removePivotHeaderRowWhenSingleValueColumn",
@@ -65,6 +71,7 @@ const GridExample = () => {
       checkbox.checked,
     );
   }, []);
+
   return (
     <div style={containerStyle}>
       <div className="example-wrapper">
@@ -96,6 +103,7 @@ const GridExample = () => {
     </div>
   );
 };
+
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

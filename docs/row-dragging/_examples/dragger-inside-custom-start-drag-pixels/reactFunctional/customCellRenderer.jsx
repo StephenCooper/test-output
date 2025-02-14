@@ -1,9 +1,12 @@
 import React, { useEffect, useRef } from 'react';
+
 const CustomCellRenderer = (props) => {
     const myRef = useRef(null);
+    
     useEffect(() => {
         props.registerRowDragger(myRef.current, 0);
     });
+    
     return (<div className="my-custom-cell-renderer">
             <div className="athlete-info">
                 <span>{props.data.athlete}</span>
@@ -14,3 +17,4 @@ const CustomCellRenderer = (props) => {
         </div>);
 };
 export default CustomCellRenderer;
+

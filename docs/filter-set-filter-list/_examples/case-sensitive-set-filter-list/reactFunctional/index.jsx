@@ -20,19 +20,23 @@ import {
   SetFilterModule,
 } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react";
+
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   SetFilterModule,
+
   ColumnMenuModule,
   ContextMenuModule,
   ColumnsToolPanelModule,
   FiltersToolPanelModule,
   ValidationModule /* Development Only */,
 ]);
+
 const colourCellRenderer = (props) => {
   if (!props.value || props.value === "(Select All)") {
     return props.value;
   }
+
   const styles = {
     verticalAlign: "middle",
     border: "1px solid black",
@@ -49,6 +53,7 @@ const colourCellRenderer = (props) => {
     </React.Fragment>
   );
 };
+
 const GridExample = () => {
   const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
@@ -104,9 +109,11 @@ const GridExample = () => {
       floatingFilter: true,
     };
   }, []);
+
   const onFirstDataRendered = useCallback((params) => {
     gridRef.current.api.getToolPanelInstance("filters").expandFilters();
   }, []);
+
   return (
     <div style={containerStyle}>
       <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
@@ -124,6 +131,7 @@ const GridExample = () => {
     </div>
   );
 };
+
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

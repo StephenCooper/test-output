@@ -14,19 +14,23 @@ import {
   ValidationModule,
 } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
+
 import { getData } from "./data";
 import "./styles.css";
+
 ModuleRegistry.registerModules([
   ColumnApiModule,
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
+
 const GridExample = () => {
   const gridRef = useRef(null);
   const [gridKey, setGridKey] = useState(`grid-key-${Math.random()}`);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [rowData, setRowData] = useState(getData());
+
   const [columnDefs, setColumnDefs] = useState([
     { field: "name", headerName: "Athlete", width: 250 },
     { field: "person.country", headerName: "Country" },
@@ -35,6 +39,7 @@ const GridExample = () => {
     { field: "medals.silver", headerName: "Silver Medals" },
     { field: "medals.bronze", headerName: "Bronze Medals" },
   ]);
+
   const onGridReady = useCallback((params) => {
     const checkbox = document.querySelector("#pinFirstColumnOnLoad");
     const shouldPinFirstColumn = checkbox && checkbox.checked;
@@ -44,10 +49,12 @@ const GridExample = () => {
       });
     }
   }, []);
+
   const reloadGrid = useCallback(() => {
     // Trigger re-load by assigning a new key to the Grid React component
     setGridKey(`grid-key-${Math.random()}`);
   }, []);
+
   return (
     <div style={containerStyle}>
       <div className="test-container">
@@ -79,6 +86,7 @@ const GridExample = () => {
     </div>
   );
 };
+
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

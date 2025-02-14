@@ -1,12 +1,6 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./styles.css";
@@ -15,7 +9,6 @@ import {
   ClientSideRowModelModule,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   CellStyleModule,
@@ -23,19 +16,19 @@ ModuleRegistry.registerModules([
   ValidationModule /* Development Only */,
 ]);
 
-const bracketsFormatter = (params) => {
+function bracketsFormatter(params) {
   return "(" + params.value + ")";
-};
+}
 
-const currencyFormatter = (params) => {
+function currencyFormatter(params) {
   return "£" + formatNumber(params.value);
-};
+}
 
-const formatNumber = (number) => {
+function formatNumber(number) {
   return Math.floor(number).toLocaleString();
-};
+}
 
-const createRowData = () => {
+function createRowData() {
   const rowData = [];
   for (let i = 0; i < 100; i++) {
     rowData.push({
@@ -44,7 +37,7 @@ const createRowData = () => {
     });
   }
   return rowData;
-};
+}
 
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);

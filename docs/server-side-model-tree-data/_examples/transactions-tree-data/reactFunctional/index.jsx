@@ -14,7 +14,6 @@ import {
   ModuleRegistry,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
@@ -49,7 +48,7 @@ const getRouteToNode = (rowNode) => {
 
 let latestId = 100000;
 
-const createFakeServer = (fakeServerData, api) => {
+function createFakeServer(fakeServerData, api) {
   const getDataAtRoute = (route) => {
     let mutableRoute = [...route];
     let target = { underlings: fakeServerData };
@@ -71,7 +70,7 @@ const createFakeServer = (fakeServerData, api) => {
   };
   fakeServer = {
     getData: (request) => {
-      function extractRowsFromData(groupKeys, data) {
+      const extractRowsFromData = (groupKeys, data) => {
         if (groupKeys.length === 0) {
           return data.map(sanitizeRowForGrid);
         }
@@ -84,7 +83,7 @@ const createFakeServer = (fakeServerData, api) => {
             );
           }
         }
-      }
+      };
       return extractRowsFromData(request.groupKeys, fakeServerData);
     },
     addChildRow: (route, newRow) => {
@@ -145,9 +144,9 @@ const createFakeServer = (fakeServerData, api) => {
     },
   };
   return fakeServer;
-};
+}
 
-const createServerSideDatasource = (fakeServer) => {
+function createServerSideDatasource(fakeServer) {
   const dataSource = {
     getRows: (params) => {
       console.log("ServerSideDatasource.getRows: params = ", params);
@@ -167,10 +166,10 @@ const createServerSideDatasource = (fakeServer) => {
     },
   };
   return dataSource;
-};
+}
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 

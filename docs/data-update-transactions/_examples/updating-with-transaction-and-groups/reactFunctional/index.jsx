@@ -10,7 +10,6 @@ import React, {
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./styles.css";
-import { createNewRowData, getData } from "./data.jsx";
 import {
   ClientSideRowModelApiModule,
   ClientSideRowModelModule,
@@ -19,9 +18,9 @@ import {
   RowSelectionModule,
   RowStyleModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { RowGroupingModule } from "ag-grid-enterprise";
+import { createNewRowData, getData } from "./data";
 ModuleRegistry.registerModules([
   ClientSideRowModelApiModule,
   RowSelectionModule,
@@ -32,17 +31,17 @@ ModuleRegistry.registerModules([
   ValidationModule /* Development Only */,
 ]);
 
-const poundFormatter = (params) => {
+function poundFormatter(params) {
   return (
     "£" +
     Math.floor(params.value)
       .toString()
       .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
   );
-};
+}
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [rowData, setRowData] = useState(getData());

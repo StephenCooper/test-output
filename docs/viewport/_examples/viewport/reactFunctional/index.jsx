@@ -1,25 +1,18 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useCallback, useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
-import { createMockServer } from "./mock-server.jsx";
-import { createViewportDatasource } from "./viewport-datasource.jsx";
 import {
   CellStyleModule,
   HighlightChangesModule,
   ModuleRegistry,
   RowSelectionModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { ViewportRowModelModule } from "ag-grid-enterprise";
+import { createMockServer } from "./mock-server";
+import { createViewportDatasource } from "./viewport-datasource";
 ModuleRegistry.registerModules([
   RowSelectionModule,
   CellStyleModule,
@@ -28,13 +21,13 @@ ModuleRegistry.registerModules([
   ValidationModule /* Development Only */,
 ]);
 
-const numberFormatter = (params) => {
+function numberFormatter(params) {
   if (typeof params.value === "number") {
     return params.value.toFixed(2);
   } else {
     return params.value;
   }
-};
+}
 
 class RowIndexRenderer {
   eGui;

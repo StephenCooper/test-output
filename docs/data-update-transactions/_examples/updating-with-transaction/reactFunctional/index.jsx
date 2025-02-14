@@ -9,7 +9,6 @@ import React, {
 } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
-import { getData } from "./data.jsx";
 import {
   ClientSideRowModelApiModule,
   ClientSideRowModelModule,
@@ -17,8 +16,8 @@ import {
   RowApiModule,
   RowSelectionModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
+import { getData } from "./data";
 ModuleRegistry.registerModules([
   ClientSideRowModelApiModule,
   RowSelectionModule,
@@ -29,7 +28,7 @@ ModuleRegistry.registerModules([
 
 let newCount = 1;
 
-const createNewRowData = () => {
+function createNewRowData() {
   const newData = {
     make: "Toyota " + newCount,
     model: "Celica " + newCount,
@@ -40,9 +39,9 @@ const createNewRowData = () => {
   };
   newCount++;
   return newData;
-};
+}
 
-const printResult = (res) => {
+function printResult(res) {
   console.log("---------------------------------------");
   if (res.add) {
     res.add.forEach((rowNode) => {
@@ -59,10 +58,10 @@ const printResult = (res) => {
       console.log("Updated Row Node", rowNode);
     });
   }
-};
+}
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [rowData, setRowData] = useState(getData());
