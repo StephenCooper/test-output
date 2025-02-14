@@ -21,7 +21,6 @@ import {
   NumberFilterModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import CustomDragAndDropImage from "./customDragAndDropImage.tsx";
 import { IOlympicData } from "./interfaces";

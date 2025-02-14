@@ -24,7 +24,6 @@ import {
   ToolPanelSizeChangedEvent,
   ToolPanelVisibleChangedEvent,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnsToolPanelModule,

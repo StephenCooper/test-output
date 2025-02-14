@@ -20,7 +20,6 @@ import {
   RowAutoHeightModule,
   RowModelType,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   RowGroupingModule,

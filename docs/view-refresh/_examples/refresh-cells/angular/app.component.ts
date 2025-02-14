@@ -16,7 +16,6 @@ import {
   RenderApiModule,
   RowApiModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   RenderApiModule,

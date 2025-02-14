@@ -16,7 +16,6 @@ import {
   GridReadyEvent,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import NumberFilterComponent from "./numberFilterComponentVue";
 import { IOlympicData } from "./interfaces";

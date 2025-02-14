@@ -24,7 +24,6 @@ import {
   RowSelectionOptions,
   ValidationModule,
   ValueFormatterParams,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   RowSelectionModule,

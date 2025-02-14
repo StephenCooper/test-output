@@ -21,7 +21,6 @@ import {
   GridOptions,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { RowGroupingModule } from "ag-grid-enterprise";
 ModuleRegistry.registerModules([

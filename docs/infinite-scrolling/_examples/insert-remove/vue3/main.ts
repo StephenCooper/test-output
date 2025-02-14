@@ -27,7 +27,6 @@ import {
   ScrollApiModule,
   ValidationModule,
   ValueFormatterParams,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   RowApiModule,

@@ -22,7 +22,6 @@ import {
   ProcessDataFromClipboardParams,
   TextEditorModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   CellSelectionModule,

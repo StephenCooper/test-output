@@ -15,7 +15,6 @@ import {
   RowModelType,
   RowSelectionOptions,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   RowGroupingModule,

@@ -15,7 +15,6 @@ import {
   RowSelectionModule,
   RowSelectionOptions,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   PaginationModule,

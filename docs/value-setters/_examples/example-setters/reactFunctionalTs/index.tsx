@@ -22,7 +22,6 @@ import {
   ValidationModule,
   ValueGetterParams,
   ValueSetterParams,
-  createGrid,
 } from "ag-grid-community";
 import { getData } from "./data";
 ModuleRegistry.registerModules([

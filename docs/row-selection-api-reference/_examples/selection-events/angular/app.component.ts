@@ -14,7 +14,6 @@ import {
   RowSelectionOptions,
   SelectionChangedEvent,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   RowSelectionModule,

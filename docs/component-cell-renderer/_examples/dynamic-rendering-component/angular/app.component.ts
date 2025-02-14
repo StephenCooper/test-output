@@ -14,7 +14,6 @@ import {
   RowEditingStartedEvent,
   RowEditingStoppedEvent,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,

@@ -18,7 +18,6 @@ import {
   RowGroupingDisplayType,
   ValidationModule,
   ValueGetterParams,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,

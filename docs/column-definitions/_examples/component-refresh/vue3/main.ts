@@ -15,7 +15,6 @@ import {
   GridReadyEvent,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import MedalCellRenderer from "./medalCellRendererVue";
 import UpdateCellRenderer from "./updateCellRendererVue";

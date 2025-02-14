@@ -22,7 +22,6 @@ import {
   RowSelectionModule,
   RowSelectionOptions,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { IOlympicData } from "./interfaces";
 ModuleRegistry.registerModules([

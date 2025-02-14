@@ -15,7 +15,6 @@ import {
   ModuleRegistry,
   SideBarDef,
   Theme,
-  createGrid,
   inputStyleUnderlined,
   themeQuartz,
 } from "ag-grid-community";

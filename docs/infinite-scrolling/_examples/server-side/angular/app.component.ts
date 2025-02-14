@@ -20,7 +20,6 @@ import {
   RowSelectionOptions,
   SortModelItem,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,

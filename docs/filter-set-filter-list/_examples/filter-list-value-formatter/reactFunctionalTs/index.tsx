@@ -22,7 +22,6 @@ import {
   SideBarDef,
   ValidationModule,
   ValueFormatterParams,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,

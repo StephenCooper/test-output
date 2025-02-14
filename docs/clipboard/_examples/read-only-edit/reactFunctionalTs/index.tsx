@@ -24,7 +24,6 @@ import {
   NumberEditorModule,
   TextEditorModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { CellSelectionModule, ClipboardModule } from "ag-grid-enterprise";
 import { IOlympicDataWithId } from "./interfaces";

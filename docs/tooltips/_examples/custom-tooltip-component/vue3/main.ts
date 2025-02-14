@@ -18,7 +18,6 @@ import {
   ModuleRegistry,
   TooltipModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import CustomTooltip from "./customTooltipVue";
 import { IOlympicData } from "./interfaces";

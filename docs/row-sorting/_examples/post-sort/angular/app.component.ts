@@ -11,7 +11,6 @@ import {
   ModuleRegistry,
   PostSortRowsParams,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,

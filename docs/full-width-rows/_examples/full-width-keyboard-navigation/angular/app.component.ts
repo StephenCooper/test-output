@@ -13,7 +13,6 @@ import {
   SuppressKeyboardEventParams,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { getData } from "./data";
 ModuleRegistry.registerModules([

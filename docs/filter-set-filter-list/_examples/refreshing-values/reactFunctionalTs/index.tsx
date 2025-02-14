@@ -23,7 +23,6 @@ import {
   SetFilterValuesFuncParams,
   SideBarDef,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,

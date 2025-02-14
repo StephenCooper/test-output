@@ -18,7 +18,6 @@ import {
   ModuleRegistry,
   RowDataUpdatedEvent,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { TAthlete } from "./data";
 import { fetchDataAsync } from "./data";

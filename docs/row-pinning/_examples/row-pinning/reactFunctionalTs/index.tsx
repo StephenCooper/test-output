@@ -23,7 +23,6 @@ import {
   RowStyle,
   RowStyleModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import CustomPinnedRowRenderer from "./customPinnedRowRenderer.tsx";
 import { IOlympicData } from "./interfaces";

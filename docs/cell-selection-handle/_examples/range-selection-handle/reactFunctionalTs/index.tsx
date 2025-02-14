@@ -19,7 +19,6 @@ import {
   GridReadyEvent,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { CellSelectionModule } from "ag-grid-enterprise";
 import { IOlympicData } from "./interfaces";

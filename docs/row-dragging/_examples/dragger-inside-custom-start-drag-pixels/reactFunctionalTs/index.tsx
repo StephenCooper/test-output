@@ -26,7 +26,6 @@ import {
   RowDragModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import CustomCellRenderer from "./customCellRenderer.tsx";
 import { IOlympicData } from "./interfaces";

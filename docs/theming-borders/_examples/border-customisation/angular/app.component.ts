@@ -10,7 +10,6 @@ import {
   GridReadyEvent,
   ModuleRegistry,
   Theme,
-  createGrid,
   themeQuartz,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([AllCommunityModule]);

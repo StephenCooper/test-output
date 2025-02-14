@@ -17,7 +17,6 @@ import {
   GridReadyEvent,
   ModuleRegistry,
   Theme,
-  createGrid,
   themeQuartz,
 } from "ag-grid-community";
 import { AllEnterpriseModule } from "ag-grid-enterprise";

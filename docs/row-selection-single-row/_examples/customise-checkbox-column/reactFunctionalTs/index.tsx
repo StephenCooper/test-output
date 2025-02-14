@@ -22,7 +22,6 @@ import {
   SelectionColumnDef,
   TooltipModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,

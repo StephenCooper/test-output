@@ -27,7 +27,6 @@ import {
   ValidationModule,
   ValueFormatterParams,
   ValueGetterParams,
-  createGrid,
 } from "ag-grid-community";
 import { RowGroupingModule } from "ag-grid-enterprise";
 ModuleRegistry.registerModules([

@@ -27,7 +27,6 @@ import {
   ServerSideGroupLevelParams,
   UseGroupTotalRow,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   RowGroupingModule,

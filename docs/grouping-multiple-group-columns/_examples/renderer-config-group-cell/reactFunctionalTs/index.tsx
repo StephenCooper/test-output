@@ -22,7 +22,6 @@ import {
   RowSelectionModule,
   RowSelectionOptions,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { RowGroupingModule } from "ag-grid-enterprise";
 import CustomMedalCellRenderer from "./customMedalCellRenderer.tsx";

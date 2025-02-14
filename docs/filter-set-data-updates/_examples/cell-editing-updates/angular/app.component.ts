@@ -13,7 +13,6 @@ import {
   SideBarDef,
   TextEditorModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,

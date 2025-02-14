@@ -28,7 +28,6 @@ import {
   ServerSideTransaction,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   RowGroupingModule,

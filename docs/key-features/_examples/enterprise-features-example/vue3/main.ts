@@ -18,7 +18,6 @@ import {
   ModuleRegistry,
   RowGroupingDisplayType,
   SideBarDef,
-  createGrid,
 } from "ag-grid-community";
 import {
   AllEnterpriseModule,

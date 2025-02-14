@@ -33,7 +33,6 @@ import {
   RowSelectionOptions,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { RowGroupingModule } from "ag-grid-enterprise";
 import { createDataItem, getData } from "./data";

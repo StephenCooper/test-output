@@ -16,7 +16,6 @@ import {
   GridOptions,
   ModuleRegistry,
   Theme,
-  createGrid,
   themeQuartz,
 } from "ag-grid-community";
 import { IOlympicData } from "./interfaces";

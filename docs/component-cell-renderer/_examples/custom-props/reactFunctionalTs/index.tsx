@@ -20,7 +20,6 @@ import {
   ModuleRegistry,
   RowApiModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import CustomButtonComponent from "./customButtonComponent.tsx";
 import MissionResultRenderer from "./missionResultRenderer.tsx";

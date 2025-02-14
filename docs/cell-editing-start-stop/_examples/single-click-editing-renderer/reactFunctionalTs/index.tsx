@@ -22,7 +22,6 @@ import {
   NumberEditorModule,
   TextEditorModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import CellRenderer from "./cellRenderer.tsx";
 import { IOlympicData } from "./interfaces";

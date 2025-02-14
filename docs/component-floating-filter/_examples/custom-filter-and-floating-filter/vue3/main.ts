@@ -18,7 +18,6 @@ import {
   NumberFilterModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import NumberFilterComponent from "./numberFilterComponentVue";
 import NumberFloatingFilterComponent from "./numberFloatingFilterComponentVue";

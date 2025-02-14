@@ -21,7 +21,6 @@ import {
   RowGroupingDisplayType,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   GroupFilterModule,

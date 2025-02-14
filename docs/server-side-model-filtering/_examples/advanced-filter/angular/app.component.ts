@@ -13,7 +13,6 @@ import {
   RowModelType,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   AdvancedFilterModule,

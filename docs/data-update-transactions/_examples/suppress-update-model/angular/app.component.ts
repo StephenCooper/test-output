@@ -16,7 +16,6 @@ import {
   RowApiModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { RowGroupingModule, SetFilterModule } from "ag-grid-enterprise";
 import { createDataItem, getData } from "./data";

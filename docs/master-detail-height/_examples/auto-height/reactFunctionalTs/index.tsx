@@ -21,7 +21,6 @@ import {
   ModuleRegistry,
   RowApiModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { MasterDetailModule } from "ag-grid-enterprise";
 import { IAccount } from "./interfaces";

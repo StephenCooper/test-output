@@ -19,7 +19,6 @@ import {
   RowSelectionOptions,
   ServerSideGroupLevelParams,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   RowGroupingModule,

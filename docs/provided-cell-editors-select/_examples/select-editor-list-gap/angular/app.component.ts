@@ -11,7 +11,6 @@ import {
   ModuleRegistry,
   SelectEditorModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,

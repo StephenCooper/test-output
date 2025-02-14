@@ -22,7 +22,6 @@ import {
   TextFilterModule,
   ValidationModule,
   ValueFormatterParams,
-  createGrid,
 } from "ag-grid-community";
 import { RowGroupingModule } from "ag-grid-enterprise";
 import { IOlympicData } from "./interfaces";

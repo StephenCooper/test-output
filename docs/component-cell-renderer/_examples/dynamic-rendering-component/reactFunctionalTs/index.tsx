@@ -22,7 +22,6 @@ import {
   RowEditingStartedEvent,
   RowEditingStoppedEvent,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import GenderRenderer from "./genderRenderer.tsx";
 import MoodRenderer from "./moodRenderer.tsx";

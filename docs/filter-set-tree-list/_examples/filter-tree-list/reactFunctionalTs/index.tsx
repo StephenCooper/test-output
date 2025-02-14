@@ -22,7 +22,6 @@ import {
   NumberFilterModule,
   ValidationModule,
   ValueFormatterParams,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,

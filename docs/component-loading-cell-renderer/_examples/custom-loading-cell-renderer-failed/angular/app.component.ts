@@ -16,7 +16,6 @@ import {
   TextEditorModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { ServerSideRowModelModule } from "ag-grid-enterprise";
 ModuleRegistry.registerModules([

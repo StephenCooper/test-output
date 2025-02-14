@@ -23,7 +23,6 @@ import {
   NumberEditorModule,
   TextEditorModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { IOlympicDataWithId } from "./interfaces";
 ModuleRegistry.registerModules([

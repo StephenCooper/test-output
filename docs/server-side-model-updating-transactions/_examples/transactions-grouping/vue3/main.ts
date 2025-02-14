@@ -23,7 +23,6 @@ import {
   ServerSideTransaction,
   ServerSideTransactionResult,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   RowGroupingModule,

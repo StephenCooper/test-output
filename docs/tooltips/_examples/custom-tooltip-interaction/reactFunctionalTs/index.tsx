@@ -21,7 +21,6 @@ import {
   RowApiModule,
   TooltipModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import CustomTooltip from "./customTooltip.tsx";
 import { IOlympicData } from "./interfaces";

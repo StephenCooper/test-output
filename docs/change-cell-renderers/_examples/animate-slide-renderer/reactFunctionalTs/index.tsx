@@ -23,7 +23,6 @@ import {
   TextEditorModule,
   ValidationModule,
   ValueParserParams,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   TextEditorModule,

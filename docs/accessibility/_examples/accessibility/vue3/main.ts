@@ -18,7 +18,6 @@ import {
   NumberFilterModule,
   TextEditorModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,

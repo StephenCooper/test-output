@@ -21,7 +21,6 @@ import {
   RowHeightParams,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import FullWidthCellRenderer from "./fullWidthCellRendererVue";
 import { getData } from "./data";

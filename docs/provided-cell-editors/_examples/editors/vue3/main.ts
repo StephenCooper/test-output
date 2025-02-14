@@ -22,7 +22,6 @@ import {
   SelectEditorModule,
   TextEditorModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { RichSelectModule } from "ag-grid-enterprise";
 import ColourCellRenderer from "./colourCellRendererVue";

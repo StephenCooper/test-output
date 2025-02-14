@@ -12,7 +12,6 @@ import {
   ModuleRegistry,
   TooltipModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,

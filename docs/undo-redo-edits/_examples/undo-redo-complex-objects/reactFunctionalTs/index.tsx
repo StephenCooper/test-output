@@ -27,7 +27,6 @@ import {
   ValueGetterParams,
   ValueParserParams,
   ValueSetterParams,
-  createGrid,
 } from "ag-grid-community";
 import { CellSelectionModule, ClipboardModule } from "ag-grid-enterprise";
 ModuleRegistry.registerModules([

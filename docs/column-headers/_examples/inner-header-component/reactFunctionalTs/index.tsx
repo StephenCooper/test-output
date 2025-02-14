@@ -23,7 +23,6 @@ import {
   TextEditorModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import CustomInnerHeader from "./customInnerHeader.tsx";
 import { IOlympicData } from "./interfaces";

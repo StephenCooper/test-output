@@ -9,7 +9,6 @@ import {
   GridReadyEvent,
   ModuleRegistry,
   RowSelectionOptions,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([AllCommunityModule]);
 

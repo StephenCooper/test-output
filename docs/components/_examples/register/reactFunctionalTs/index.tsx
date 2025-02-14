@@ -19,7 +19,6 @@ import {
   GridReadyEvent,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import MedalRenderer from "./medalRenderer.tsx";
 import { IOlympicData } from "./interfaces";

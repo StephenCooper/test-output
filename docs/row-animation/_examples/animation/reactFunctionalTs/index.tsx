@@ -21,7 +21,6 @@ import {
   ModuleRegistry,
   NumberFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { ColumnMenuModule, SetFilterModule } from "ag-grid-enterprise";
 import { IOlympicData } from "./interfaces";

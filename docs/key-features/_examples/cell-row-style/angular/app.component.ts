@@ -12,7 +12,6 @@ import {
   ModuleRegistry,
   RowClassRules,
   RowSelectionOptions,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([AllCommunityModule]);
 

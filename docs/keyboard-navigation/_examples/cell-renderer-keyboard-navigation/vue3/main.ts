@@ -18,7 +18,6 @@ import {
   SuppressKeyboardEventParams,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import CustomElements from "./customElementsVue";
 ModuleRegistry.registerModules([

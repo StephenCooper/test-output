@@ -20,7 +20,6 @@ import {
   GridReadyEvent,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import CompanyLogoRenderer from "./companyLogoRenderer.tsx";
 import CompanyRenderer from "./companyRenderer.tsx";

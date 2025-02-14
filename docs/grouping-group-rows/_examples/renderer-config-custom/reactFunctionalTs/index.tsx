@@ -22,7 +22,6 @@ import {
   ModuleRegistry,
   RowGroupingDisplayType,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { RowGroupingModule } from "ag-grid-enterprise";
 import CustomGroupCellRenderer from "./customGroupCellRenderer.tsx";

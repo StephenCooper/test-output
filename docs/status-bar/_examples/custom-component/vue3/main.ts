@@ -24,7 +24,6 @@ import {
   TextEditorModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { CellSelectionModule, StatusBarModule } from "ag-grid-enterprise";
 import ClickableStatusBarComponent from "./clickableStatusBarComponentVue";

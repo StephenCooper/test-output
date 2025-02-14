@@ -22,7 +22,6 @@ import {
   RowStyle,
   RowStyleModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   RowApiModule,

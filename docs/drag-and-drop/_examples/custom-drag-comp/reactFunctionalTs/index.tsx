@@ -22,7 +22,6 @@ import {
   RowStyleModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { getData } from "./data";
 import DragSourceRenderer from "./dragSourceRenderer.tsx";

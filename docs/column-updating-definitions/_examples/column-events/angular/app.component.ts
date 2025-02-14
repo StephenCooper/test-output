@@ -20,7 +20,6 @@ import {
   ModuleRegistry,
   SortChangedEvent,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { PivotModule } from "ag-grid-enterprise";
 ModuleRegistry.registerModules([

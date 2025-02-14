@@ -19,7 +19,6 @@ import {
   IAggFunc,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,

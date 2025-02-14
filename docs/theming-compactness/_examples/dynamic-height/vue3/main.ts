@@ -14,7 +14,6 @@ import {
   GridReadyEvent,
   ModuleRegistry,
   SideBarDef,
-  createGrid,
 } from "ag-grid-community";
 import { AllEnterpriseModule } from "ag-grid-enterprise";
 import { IOlympicData } from "./interfaces";

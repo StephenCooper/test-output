@@ -21,7 +21,6 @@ import {
   SizeColumnsToFitGridStrategy,
   SizeColumnsToFitProvidedWidthStrategy,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { ColumnsToolPanelModule, RowGroupingModule } from "ag-grid-enterprise";
 import { IOlympicData } from "./interfaces";

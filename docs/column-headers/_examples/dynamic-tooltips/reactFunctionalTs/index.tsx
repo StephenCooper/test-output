@@ -24,7 +24,6 @@ import {
   TextFilterModule,
   TooltipModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import CustomHeader from "./customHeader.tsx";
 import { IOlympicData } from "./interfaces";

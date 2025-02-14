@@ -19,7 +19,6 @@ import {
   ModuleRegistry,
   SetFilterValuesFuncParams,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,

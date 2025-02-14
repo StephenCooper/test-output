@@ -20,7 +20,6 @@ import {
   ModuleRegistry,
   QuickFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   QuickFilterModule,

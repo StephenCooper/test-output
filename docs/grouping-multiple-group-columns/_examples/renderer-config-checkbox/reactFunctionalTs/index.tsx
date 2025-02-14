@@ -21,7 +21,6 @@ import {
   RowSelectionModule,
   RowSelectionOptions,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { RowGroupingModule } from "ag-grid-enterprise";
 import { IOlympicData } from "./interfaces";

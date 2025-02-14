@@ -21,7 +21,6 @@ import {
   ModuleRegistry,
   RowHeightParams,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import FullWidthCellRenderer from "./fullWidthCellRenderer.tsx";
 ModuleRegistry.registerModules([

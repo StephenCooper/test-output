@@ -20,7 +20,6 @@ import {
   ModuleRegistry,
   TooltipModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { IOlympicData } from "./interfaces";
 ModuleRegistry.registerModules([

@@ -12,7 +12,6 @@ import {
   ModuleRegistry,
   RowModelType,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { ServerSideRowModelModule } from "ag-grid-enterprise";
 import { FakeServer } from "./fakeServer";

@@ -25,7 +25,6 @@ import {
   ProcessRowGroupForExportParams,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,

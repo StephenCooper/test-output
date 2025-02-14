@@ -20,7 +20,6 @@ import {
   TextFilterModule,
   ValidationModule,
   ValueGetterParams,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   TextFilterModule,

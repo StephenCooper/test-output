@@ -22,7 +22,6 @@ import {
   TextEditorModule,
   Theme,
   ValidationModule,
-  createGrid,
   iconSetMaterial,
   themeQuartz,
 } from "ag-grid-community";

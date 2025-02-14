@@ -23,7 +23,6 @@ import {
   RowModelType,
   SetFilterValuesFuncParams,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
