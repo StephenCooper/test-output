@@ -1,7 +1,6 @@
 import { Component } from "@angular/core";
 import { AgGridAngular } from "ag-grid-angular";
 import {
-  AllCommunityModule,
   ColDef,
   ColGroupDef,
   GridApi,
@@ -17,7 +16,7 @@ import {
   createTheme,
 } from "ag-grid-community";
 import { AllEnterpriseModule } from "ag-grid-enterprise";
-ModuleRegistry.registerModules([AllCommunityModule, AllEnterpriseModule]);
+ModuleRegistry.registerModules([AllEnterpriseModule]);
 import { IOlympicData } from "./interfaces";
 
 @Component({

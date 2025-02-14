@@ -10,13 +10,9 @@ import React, {
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./style.css";
-import {
-  AllCommunityModule,
-  ModuleRegistry,
-  createGrid,
-} from "ag-grid-community";
+import { ModuleRegistry, createGrid } from "ag-grid-community";
 import { AllEnterpriseModule } from "ag-grid-enterprise";
-ModuleRegistry.registerModules([AllCommunityModule, AllEnterpriseModule]);
+ModuleRegistry.registerModules([AllEnterpriseModule]);
 
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);

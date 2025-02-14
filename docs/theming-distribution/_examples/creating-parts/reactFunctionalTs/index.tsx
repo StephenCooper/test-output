@@ -10,7 +10,6 @@ import React, {
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import {
-  AllCommunityModule,
   ColDef,
   ColGroupDef,
   GridOptions,
@@ -25,7 +24,7 @@ import {
 } from "ag-grid-community";
 import { AllEnterpriseModule } from "ag-grid-enterprise";
 import { IOlympicData } from "./interfaces";
-ModuleRegistry.registerModules([AllCommunityModule, AllEnterpriseModule]);
+ModuleRegistry.registerModules([AllEnterpriseModule]);
 
 const myCheckboxStyle = createPart({
   // By setting the feature, adding this part to a theme will remove the

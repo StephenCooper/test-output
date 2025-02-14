@@ -3,7 +3,6 @@ import React, { StrictMode, useState } from "react";
 import { createRoot } from "react-dom/client";
 
 import {
-  AllCommunityModule,
   ModuleRegistry,
   themeAlpine,
   themeBalham,
@@ -13,7 +12,7 @@ import {
 import { AllEnterpriseModule } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react";
 
-ModuleRegistry.registerModules([AllCommunityModule, AllEnterpriseModule]);
+ModuleRegistry.registerModules([AllEnterpriseModule]);
 
 const themes = [
   { id: "themeQuartz", theme: themeQuartz },

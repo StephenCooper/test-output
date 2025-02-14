@@ -8,7 +8,6 @@ import {
 import { AgGridVue } from "ag-grid-vue3";
 import "./style.css";
 import {
-  AllCommunityModule,
   ColDef,
   ColGroupDef,
   GridApi,
@@ -23,7 +22,7 @@ import {
 import { AllEnterpriseModule } from "ag-grid-enterprise";
 import {} from "./style.css";
 import { IOlympicData } from "./interfaces";
-ModuleRegistry.registerModules([AllCommunityModule, AllEnterpriseModule]);
+ModuleRegistry.registerModules([AllEnterpriseModule]);
 
 const myTheme = themeQuartz.withParams({
   // the grid will load these fonts for you if loadThemeGoogleFonts=true

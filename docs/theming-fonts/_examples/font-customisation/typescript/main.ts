@@ -1,6 +1,5 @@
 import "./style.css";
 import {
-  AllCommunityModule,
   ColDef,
   ColGroupDef,
   GridApi,
@@ -16,7 +15,7 @@ import { IOlympicData } from "./interfaces";
 
 import "./style.css";
 
-ModuleRegistry.registerModules([AllCommunityModule, AllEnterpriseModule]);
+ModuleRegistry.registerModules([AllEnterpriseModule]);
 
 const columnDefs: ColDef[] = [
   { field: "athlete", minWidth: 170 },
