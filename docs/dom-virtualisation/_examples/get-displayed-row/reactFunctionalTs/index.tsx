@@ -1,0 +1,150 @@
+"use client";
+
+import React, {
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+  StrictMode,
+} from "react";
+import { createRoot } from "react-dom/client";
+import { AgGridReact } from "ag-grid-react";
+import "./styles.css";
+import {
+  ClientSideRowModelModule,
+  ColDef,
+  ColGroupDef,
+  GridApi,
+  GridOptions,
+  GridReadyEvent,
+  ModuleRegistry,
+  NumberFilterModule,
+  PaginationModule,
+  RowApiModule,
+  TextFilterModule,
+  ValidationModule,
+  createGrid,
+} from "ag-grid-community";
+import { IOlympicData } from "./interfaces";
+ModuleRegistry.registerModules([
+  TextFilterModule,
+  NumberFilterModule,
+  PaginationModule,
+  RowApiModule,
+  ClientSideRowModelModule,
+  ValidationModule /* Development Only */,
+]);
+
+const GridExample = () => {
+  const gridRef = useRef<AgGridReact<IOlympicData>>(null);
+  const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
+  const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
+  const [rowData, setRowData] = useState<IOlympicData[]>();
+  const [columnDefs, setColumnDefs] = useState<ColDef[]>([
+    { field: "athlete", minWidth: 180 },
+    { field: "age" },
+    { field: "country", minWidth: 150 },
+    { headerName: "Group", valueGetter: "data.country.charAt(0)" },
+    { field: "year" },
+    { field: "date", minWidth: 150 },
+    { field: "sport", minWidth: 180 },
+    { field: "gold" },
+    { field: "silver" },
+    { field: "bronze" },
+    { field: "total" },
+  ]);
+  const defaultColDef = useMemo<ColDef>(() => {
+    return {
+      flex: 1,
+      minWidth: 100,
+      filter: true,
+    };
+  }, []);
+
+  const onGridReady = useCallback((params: GridReadyEvent) => {
+    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
+      .then((resp) => resp.json())
+      .then((data: IOlympicData[]) => {
+        setRowData(data.slice(0, 100));
+      });
+  }, []);
+
+  const getDisplayedRowAtIndex = useCallback(() => {
+    const rowNode = gridRef.current!.api.getDisplayedRowAtIndex(0)!;
+    console.log(
+      "getDisplayedRowAtIndex(0) => " +
+        rowNode.data!.athlete +
+        " " +
+        rowNode.data!.year,
+    );
+  }, []);
+
+  const getDisplayedRowCount = useCallback(() => {
+    const count = gridRef.current!.api.getDisplayedRowCount();
+    console.log("getDisplayedRowCount() => " + count);
+  }, []);
+
+  const printAllDisplayedRows = useCallback(() => {
+    const count = gridRef.current!.api.getDisplayedRowCount();
+    console.log("## printAllDisplayedRows");
+    for (let i = 0; i < count; i++) {
+      const rowNode = gridRef.current!.api.getDisplayedRowAtIndex(i)!;
+      console.log("row " + i + " is " + rowNode.data!.athlete);
+    }
+  }, []);
+
+  const printPageDisplayedRows = useCallback(() => {
+    const rowCount = gridRef.current!.api.getDisplayedRowCount();
+    const lastGridIndex = rowCount - 1;
+    const currentPage = gridRef.current!.api.paginationGetCurrentPage();
+    const pageSize = gridRef.current!.api.paginationGetPageSize();
+    const startPageIndex = currentPage * pageSize;
+    let endPageIndex = (currentPage + 1) * pageSize - 1;
+    if (endPageIndex > lastGridIndex) {
+      endPageIndex = lastGridIndex;
+    }
+    console.log("## printPageDisplayedRows");
+    for (let i = startPageIndex; i <= endPageIndex; i++) {
+      const rowNode = gridRef.current!.api.getDisplayedRowAtIndex(i)!;
+      console.log("row " + i + " is " + rowNode.data!.athlete);
+    }
+  }, []);
+
+  return (
+    <div style={containerStyle}>
+      <div className="example-wrapper">
+        <div style={{ marginBottom: "5px" }}>
+          <button onClick={getDisplayedRowAtIndex}>Get Displayed Row 0</button>
+          <button onClick={getDisplayedRowCount}>
+            Get Displayed Row Count
+          </button>
+          <button onClick={printAllDisplayedRows}>
+            Print All Displayed Rows
+          </button>
+          <button onClick={printPageDisplayedRows}>
+            Print Page Displayed Rows
+          </button>
+        </div>
+
+        <div style={gridStyle}>
+          <AgGridReact<IOlympicData>
+            ref={gridRef}
+            rowData={rowData}
+            columnDefs={columnDefs}
+            defaultColDef={defaultColDef}
+            pagination={true}
+            paginationAutoPageSize={true}
+            onGridReady={onGridReady}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const root = createRoot(document.getElementById("root")!);
+root.render(
+  <StrictMode>
+    <GridExample />
+  </StrictMode>,
+);

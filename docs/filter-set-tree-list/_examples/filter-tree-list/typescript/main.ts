@@ -1,0 +1,96 @@
+import {
+  ClientSideRowModelModule,
+  ColDef,
+  ColGroupDef,
+  GridApi,
+  GridOptions,
+  ISetFilterParams,
+  KeyCreatorParams,
+  ModuleRegistry,
+  NumberFilterModule,
+  ValidationModule,
+  ValueFormatterParams,
+  createGrid,
+} from "ag-grid-community";
+import {
+  ColumnMenuModule,
+  ColumnsToolPanelModule,
+  ContextMenuModule,
+  FiltersToolPanelModule,
+  RowGroupingModule,
+  SetFilterModule,
+} from "ag-grid-enterprise";
+
+ModuleRegistry.registerModules([
+  NumberFilterModule,
+  ClientSideRowModelModule,
+  ColumnsToolPanelModule,
+  FiltersToolPanelModule,
+  ColumnMenuModule,
+  ContextMenuModule,
+  SetFilterModule,
+  RowGroupingModule,
+  ValidationModule /* Development Only */,
+]);
+
+let gridApi: GridApi;
+
+const gridOptions: GridOptions = {
+  columnDefs: [
+    { field: "country", rowGroup: true, hide: true },
+    { field: "sport", rowGroup: true, hide: true },
+    { field: "athlete", hide: true },
+    {
+      field: "date",
+      filter: "agSetColumnFilter",
+      filterParams: {
+        treeList: true,
+      } as ISetFilterParams<any, Date>,
+    },
+    {
+      field: "gold",
+      filter: "agSetColumnFilter",
+      filterParams: {
+        treeList: true,
+        treeListPathGetter: (gold: number) =>
+          gold != null ? [gold > 2 ? ">2" : "<=2", String(gold)] : [null],
+      } as ISetFilterParams<any, number>,
+    },
+  ],
+  defaultColDef: {
+    flex: 1,
+    minWidth: 200,
+    floatingFilter: true,
+    cellDataType: false,
+  },
+  autoGroupColumnDef: {
+    field: "athlete",
+    filter: "agSetColumnFilter",
+    filterParams: {
+      treeList: true,
+      keyCreator: (params: KeyCreatorParams) =>
+        params.value ? params.value.join("#") : null,
+    } as ISetFilterParams,
+  },
+};
+
+// setup the grid after the page has finished loading
+const gridDiv = document.querySelector<HTMLElement>("#myGrid")!;
+gridApi = createGrid(gridDiv, gridOptions);
+
+fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
+  .then((response) => response.json())
+  .then((data: any[]) =>
+    gridApi!.setGridOption(
+      "rowData",
+      data.map((row) => {
+        const dateParts = row.date.split("/");
+        const newDate = new Date(
+          parseInt(dateParts[2]),
+          dateParts[1] - 1,
+          dateParts[0],
+        );
+        return { ...row, date: newDate };
+      }),
+    ),
+  );

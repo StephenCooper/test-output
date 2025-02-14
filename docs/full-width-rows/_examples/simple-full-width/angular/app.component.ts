@@ -1,0 +1,92 @@
+import { Component } from "@angular/core";
+import { AgGridAngular } from "ag-grid-angular";
+import "./style.css";
+import {
+  ClientSideRowModelModule,
+  ColDef,
+  ColGroupDef,
+  GridApi,
+  GridOptions,
+  GridReadyEvent,
+  ICellRendererComp,
+  ICellRendererParams,
+  IsFullWidthRowParams,
+  ModuleRegistry,
+  RowHeightParams,
+  TextFilterModule,
+  ValidationModule,
+  createGrid,
+} from "ag-grid-community";
+import { getData } from "./data";
+ModuleRegistry.registerModules([
+  TextFilterModule,
+  ClientSideRowModelModule,
+  ValidationModule /* Development Only */,
+]);
+import { FullWidthCellRenderer } from "./full-width-cell-renderer.component";
+
+@Component({
+  selector: "my-app",
+  standalone: true,
+  imports: [AgGridAngular, FullWidthCellRenderer],
+  template: `<ag-grid-angular
+    style="width: 100%; height: 100%;"
+    [columnDefs]="columnDefs"
+    [defaultColDef]="defaultColDef"
+    [rowData]="rowData"
+    [getRowHeight]="getRowHeight"
+    [isFullWidthRow]="isFullWidthRow"
+    [fullWidthCellRenderer]="fullWidthCellRenderer"
+  /> `,
+})
+export class AppComponent {
+  columnDefs: ColDef[] = [
+    { field: "name", cellRenderer: CountryCellRenderer },
+    { field: "continent" },
+    { field: "language" },
+  ];
+  defaultColDef: ColDef = {
+    flex: 1,
+    filter: true,
+  };
+  rowData: any[] | null = getData();
+  getRowHeight: (params: RowHeightParams) => number | undefined | null = (
+    params: RowHeightParams,
+  ) => {
+    // return 100px height for full width rows
+    if (isFullWidth(params.data)) {
+      return 100;
+    }
+  };
+  isFullWidthRow: (params: IsFullWidthRowParams) => boolean = (
+    params: IsFullWidthRowParams,
+  ) => {
+    return isFullWidth(params.rowNode.data);
+  };
+  fullWidthCellRenderer: any = FullWidthCellRenderer;
+}
+
+class CountryCellRenderer implements ICellRendererComp {
+  eGui!: HTMLElement;
+
+  init(params: ICellRendererParams) {
+    const flag = `<img border="0" width="15" height="10" src="https://www.ag-grid.com/example-assets/flags/${params.data.code}.png">`;
+
+    const eTemp = document.createElement("div");
+    eTemp.innerHTML = `<span style="cursor: default;">${flag} ${params.value}</span>`;
+    this.eGui = eTemp.firstElementChild as HTMLElement;
+  }
+
+  getGui() {
+    return this.eGui;
+  }
+
+  refresh(params: ICellRendererParams): boolean {
+    return false;
+  }
+}
+
+function isFullWidth(data: any) {
+  // return true when country is Peru, France or Italy
+  return ["Peru", "France", "Italy"].indexOf(data.name) >= 0;
+}

@@ -1,0 +1,85 @@
+import {
+  CellSelectionOptions,
+  ClientSideRowModelModule,
+  ColDef,
+  ColGroupDef,
+  GridApi,
+  GridOptions,
+  ModuleRegistry,
+  NumberEditorModule,
+  TextEditorModule,
+  ValidationModule,
+  createGrid,
+} from "ag-grid-community";
+import { CellSelectionModule } from "ag-grid-enterprise";
+import { IOlympicData } from "./interfaces";
+
+ModuleRegistry.registerModules([
+  NumberEditorModule,
+  TextEditorModule,
+  ClientSideRowModelModule,
+  CellSelectionModule,
+  ValidationModule /* Development Only */,
+]);
+
+let gridApi: GridApi<IOlympicData>;
+
+const gridOptions: GridOptions<IOlympicData> = {
+  columnDefs: [
+    { field: "athlete", minWidth: 150 },
+    { field: "age", maxWidth: 90 },
+    { field: "country", minWidth: 150 },
+    { field: "year", maxWidth: 90 },
+    { field: "date", minWidth: 150 },
+    { field: "sport", minWidth: 150 },
+    { field: "gold" },
+    { field: "silver" },
+    { field: "bronze" },
+    { field: "total" },
+  ],
+  defaultColDef: {
+    flex: 1,
+    minWidth: 100,
+    editable: true,
+    cellDataType: false,
+  },
+  cellSelection: {
+    handle: {
+      mode: "fill",
+      direction: "x",
+    },
+  },
+};
+
+function fillHandleAxis(direction: "x" | "y" | "xy") {
+  const buttons = Array.prototype.slice.call(
+    document.querySelectorAll(".ag-fill-direction"),
+  );
+  const button = document.querySelector(".ag-fill-direction." + direction)!;
+
+  buttons.forEach((btn) => {
+    btn.classList.remove("selected");
+  });
+
+  button.classList.add("selected");
+
+  gridApi.setGridOption("cellSelection", {
+    handle: {
+      mode: "fill",
+      direction,
+    },
+  });
+}
+
+// setup the grid after the page has finished loading
+const gridDiv = document.querySelector<HTMLElement>("#myGrid")!;
+gridApi = createGrid(gridDiv, gridOptions);
+
+fetch("https://www.ag-grid.com/example-assets/small-olympic-winners.json")
+  .then((response) => response.json())
+  .then((data: IOlympicData[]) => gridApi!.setGridOption("rowData", data));
+
+if (typeof window !== "undefined") {
+  // Attach external event handlers to window so they can be called from index.html
+  (<any>window).fillHandleAxis = fillHandleAxis;
+}

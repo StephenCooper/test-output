@@ -1,0 +1,87 @@
+function contains(target, lookingFor) {
+  return target && target.indexOf(lookingFor) >= 0;
+}
+
+const athleteFilterParams = {
+  filterOptions: ["contains", "notContains"],
+  textFormatter: (r) => {
+    if (r == null) return null;
+
+    return r
+      .toLowerCase()
+      .replace(/[àáâãäå]/g, "a")
+      .replace(/æ/g, "ae")
+      .replace(/ç/g, "c")
+      .replace(/[èéêë]/g, "e")
+      .replace(/[ìíîï]/g, "i")
+      .replace(/ñ/g, "n")
+      .replace(/[òóôõö]/g, "o")
+      .replace(/œ/g, "oe")
+      .replace(/[ùúûü]/g, "u")
+      .replace(/[ýÿ]/g, "y");
+  },
+  debounceMs: 200,
+  maxNumConditions: 1,
+};
+
+const countryFilterParams = {
+  filterOptions: ["contains"],
+  textMatcher: ({ value, filterText }) => {
+    const aliases = {
+      usa: "united states",
+      holland: "netherlands",
+      niall: "ireland",
+      sean: "south africa",
+      alberto: "mexico",
+      john: "australia",
+      xi: "china",
+    };
+
+    const literalMatch = contains(value, filterText || "");
+
+    return !!literalMatch || !!contains(value, aliases[filterText || ""]);
+  },
+  trimInput: true,
+  debounceMs: 1000,
+};
+
+const columnDefs = [
+  {
+    field: "athlete",
+    filterParams: athleteFilterParams,
+  },
+  {
+    field: "country",
+    filter: "agTextColumnFilter",
+    filterParams: countryFilterParams,
+  },
+  {
+    field: "sport",
+    filter: "agTextColumnFilter",
+    filterParams: {
+      caseSensitive: true,
+      defaultOption: "startsWith",
+    },
+  },
+];
+
+let gridApi;
+
+const gridOptions = {
+  defaultColDef: {
+    flex: 1,
+    filter: true,
+  },
+  columnDefs: columnDefs,
+  rowData: null,
+};
+
+// setup the grid after the page has finished loading
+document.addEventListener("DOMContentLoaded", function () {
+  const gridDiv = document.querySelector("#myGrid");
+  gridApi = agGrid.createGrid(gridDiv, gridOptions);
+
+  fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
+    .then((response) => response.json())
+    .then((data) => gridApi.setGridOption("rowData", data));
+});

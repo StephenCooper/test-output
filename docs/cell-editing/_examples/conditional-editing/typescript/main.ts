@@ -1,0 +1,77 @@
+import {
+  CellClassParams,
+  CellStyleModule,
+  ClientSideRowModelModule,
+  ColDef,
+  ColGroupDef,
+  ColTypeDef,
+  EditableCallbackParams,
+  GridApi,
+  GridOptions,
+  ModuleRegistry,
+  NumberEditorModule,
+  RowApiModule,
+  TextEditorModule,
+  ValidationModule,
+  createGrid,
+} from "ag-grid-community";
+import { IOlympicData } from "./interfaces";
+
+ModuleRegistry.registerModules([
+  RowApiModule,
+  NumberEditorModule,
+  TextEditorModule,
+  CellStyleModule,
+  ClientSideRowModelModule,
+  ValidationModule /* Development Only */,
+]);
+
+let editableYear = 2012;
+
+function isCellEditable(params: EditableCallbackParams | CellClassParams) {
+  return params.data.year === editableYear;
+}
+
+let gridApi: GridApi<IOlympicData>;
+
+const gridOptions: GridOptions<IOlympicData> = {
+  columnDefs: [
+    { field: "athlete", type: "editableColumn" },
+    { field: "age", type: "editableColumn" },
+    { field: "year" },
+    { field: "country" },
+    { field: "sport" },
+    { field: "total" },
+  ],
+  columnTypes: {
+    editableColumn: {
+      editable: (params: EditableCallbackParams<IOlympicData>) => {
+        return isCellEditable(params);
+      },
+      cellStyle: (params: CellClassParams<IOlympicData>) => {
+        if (isCellEditable(params)) {
+          return { backgroundColor: "#2244CC44" };
+        }
+      },
+    },
+  },
+};
+
+function setEditableYear(year: number) {
+  editableYear = year;
+  // Redraw to re-apply the new cell style
+  gridApi!.redrawRows();
+}
+
+// setup the grid after the page has finished loading
+const gridDiv = document.querySelector<HTMLElement>("#myGrid")!;
+gridApi = createGrid(gridDiv, gridOptions);
+
+fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
+  .then((response) => response.json())
+  .then((data: IOlympicData[]) => gridApi!.setGridOption("rowData", data));
+
+if (typeof window !== "undefined") {
+  // Attach external event handlers to window so they can be called from index.html
+  (<any>window).setEditableYear = setEditableYear;
+}

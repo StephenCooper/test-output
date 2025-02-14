@@ -1,0 +1,106 @@
+import {
+  ClientSideRowModelModule,
+  ColDef,
+  ColGroupDef,
+  GridApi,
+  GridOptions,
+  ModuleRegistry,
+  NumberEditorModule,
+  NumberFilterModule,
+  RenderApiModule,
+  RowApiModule,
+  TextEditorModule,
+  TextFilterModule,
+  ValidationModule,
+  ValueGetterParams,
+  createGrid,
+} from "ag-grid-community";
+import { MedalCellRenderer } from "./medalCellRenderer";
+import { IOlympicData } from "./interfaces";
+
+ModuleRegistry.registerModules([
+  RenderApiModule,
+  NumberEditorModule,
+  TextEditorModule,
+  TextFilterModule,
+  NumberFilterModule,
+  RowApiModule,
+  ClientSideRowModelModule,
+  ValidationModule /* Development Only */,
+]);
+
+const columnDefs: ColDef[] = [
+  { field: "athlete", width: 150 },
+  { field: "country", width: 150 },
+  { field: "year", width: 100 },
+  { field: "gold", width: 100, cellRenderer: MedalCellRenderer },
+  { field: "silver", width: 100, cellRenderer: MedalCellRenderer },
+  { field: "bronze", width: 100, cellRenderer: MedalCellRenderer },
+  {
+    field: "total",
+    editable: false,
+    valueGetter: (params: ValueGetterParams) =>
+      params.data.gold + params.data.silver + params.data.bronze,
+    width: 100,
+  },
+];
+
+let gridApi: GridApi<IOlympicData>;
+
+const gridOptions: GridOptions<IOlympicData> = {
+  columnDefs: columnDefs,
+  defaultColDef: {
+    editable: true,
+    flex: 1,
+    minWidth: 100,
+    filter: true,
+  },
+};
+
+function onCallGold() {
+  console.log("=========> calling all gold");
+  // pass in list of columns, here it's gold only
+  const params = { columns: ["gold"] };
+  const instances = gridApi!.getCellRendererInstances(params) as any[];
+  instances.forEach((instance) => {
+    instance.medalUserFunction();
+  });
+}
+
+function onFirstRowGold() {
+  console.log("=========> calling gold row one");
+  // pass in one column and one row to identify one cell
+  const firstRowNode = gridApi!.getDisplayedRowAtIndex(0)!;
+  const params = { columns: ["gold"], rowNodes: [firstRowNode] };
+
+  const instances = gridApi!.getCellRendererInstances(params) as any[];
+  instances.forEach((instance) => {
+    instance.medalUserFunction();
+  });
+}
+
+function onCallAllCells() {
+  console.log("=========> calling everything");
+  // no params, goes through all rows and columns where cell renderer exists
+  const instances = gridApi!.getCellRendererInstances() as any[];
+  instances.forEach((instance) => {
+    instance.medalUserFunction();
+  });
+}
+
+// setup the grid after the page has finished loading
+const gridDiv = document.querySelector<HTMLElement>("#myGrid")!;
+gridApi = createGrid(gridDiv, gridOptions);
+
+fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
+  .then((response) => response.json())
+  .then((data) => {
+    gridApi!.setGridOption("rowData", data);
+  });
+
+if (typeof window !== "undefined") {
+  // Attach external event handlers to window so they can be called from index.html
+  (<any>window).onCallGold = onCallGold;
+  (<any>window).onFirstRowGold = onFirstRowGold;
+  (<any>window).onCallAllCells = onCallAllCells;
+}
