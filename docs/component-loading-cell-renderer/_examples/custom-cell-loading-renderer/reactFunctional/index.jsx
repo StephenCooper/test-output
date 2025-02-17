@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useMemo, useState, StrictMode } from "react";
+import React, { useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import { ModuleRegistry, ValidationModule } from "ag-grid-community";
@@ -14,6 +14,7 @@ ModuleRegistry.registerModules([
   RowGroupingModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 const getServerSideDatasource = (server) => {
   return {
@@ -55,6 +56,9 @@ const getFakeServer = (allData) => {
 };
 
 const GridExample = () => {
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 
@@ -77,25 +81,12 @@ const GridExample = () => {
     };
   }, []);
 
-  const onGridReady = useCallback((params) => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data) => {
-        // add id to data
-        let idSequence = 0;
-        data.forEach((item) => {
-          item.id = idSequence++;
-        });
-        const server = getFakeServer(data);
-        const datasource = getServerSideDatasource(server);
-        params.api.setGridOption("serverSideDatasource", datasource);
-      });
-  }, []);
-
   return (
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact
+          rowData={data}
+          loading={loading}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           rowModelType={"serverSide"}
@@ -105,7 +96,6 @@ const GridExample = () => {
           maxConcurrentDatasourceRequests={1}
           blockLoadDebounceMillis={200}
           suppressServerSideFullWidthLoadingRow={true}
-          onGridReady={onGridReady}
         />
       </div>
     </div>

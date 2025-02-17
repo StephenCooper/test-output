@@ -33,6 +33,7 @@ ModuleRegistry.registerModules([
   ContextMenuModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 function getBoolean(id) {
   return !!document.querySelector("#" + id).checked;
@@ -47,9 +48,12 @@ function getParams() {
 
 const GridExample = () => {
   const gridRef = useRef(null);
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/small-olympic-winners.json",
+  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState();
+
   const [columnDefs, setColumnDefs] = useState([
     {
       headerName: "Top Level Column Group",
@@ -87,10 +91,6 @@ const GridExample = () => {
   }, []);
 
   const onGridReady = useCallback((params) => {
-    fetch("https://www.ag-grid.com/example-assets/small-olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data) => setRowData(data.filter((rec) => rec.country != null)));
-
     document.getElementById("columnGroups").checked = true;
   }, []);
 
@@ -124,7 +124,8 @@ const GridExample = () => {
           <div style={gridStyle}>
             <AgGridReact
               ref={gridRef}
-              rowData={rowData}
+              rowData={data}
+              loading={loading}
               columnDefs={columnDefs}
               defaultColDef={defaultColDef}
               popupParent={popupParent}

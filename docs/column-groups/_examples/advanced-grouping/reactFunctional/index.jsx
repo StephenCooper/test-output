@@ -23,6 +23,7 @@ ModuleRegistry.registerModules([
   NumberFilterModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 function headerClassFunc(params) {
   let foundC = false;
@@ -51,9 +52,12 @@ function headerClassFunc(params) {
 
 const GridExample = () => {
   const gridRef = useRef(null);
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState();
+
   const [columnDefs, setColumnDefs] = useState([
     {
       headerName: "Group A",
@@ -195,12 +199,6 @@ const GridExample = () => {
     };
   }, []);
 
-  const onGridReady = useCallback((params) => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data) => setRowData(data));
-  }, []);
-
   const expandAll = useCallback((expand) => {
     const groupNames = [
       "GroupA",
@@ -227,12 +225,12 @@ const GridExample = () => {
         <div style={gridStyle}>
           <AgGridReact
             ref={gridRef}
-            rowData={rowData}
+            rowData={data}
+            loading={loading}
             columnDefs={columnDefs}
             defaultColGroupDef={defaultColGroupDef}
             defaultColDef={defaultColDef}
             icons={icons}
-            onGridReady={onGridReady}
           />
         </div>
       </div>

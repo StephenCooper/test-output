@@ -19,6 +19,7 @@ ModuleRegistry.registerModules([
   ServerSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 function createFakeServer(fakeServerData) {
   const fakeServer = {
@@ -75,6 +76,9 @@ function createServerSideDatasource(fakeServer) {
 }
 
 const GridExample = () => {
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/small-tree-data.json",
+  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 
@@ -115,20 +119,12 @@ const GridExample = () => {
     return dataItem.employeeId;
   }, []);
 
-  const onGridReady = useCallback((params) => {
-    fetch("https://www.ag-grid.com/example-assets/small-tree-data.json")
-      .then((resp) => resp.json())
-      .then((data) => {
-        const fakeServer = createFakeServer(data);
-        const datasource = createServerSideDatasource(fakeServer);
-        params.api.setGridOption("serverSideDatasource", datasource);
-      });
-  }, []);
-
   return (
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact
+          rowData={data}
+          loading={loading}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           autoGroupColumnDef={autoGroupColumnDef}
@@ -137,7 +133,6 @@ const GridExample = () => {
           isServerSideGroupOpenByDefault={isServerSideGroupOpenByDefault}
           isServerSideGroup={isServerSideGroup}
           getServerSideGroupKey={getServerSideGroupKey}
-          onGridReady={onGridReady}
         />
       </div>
     </div>

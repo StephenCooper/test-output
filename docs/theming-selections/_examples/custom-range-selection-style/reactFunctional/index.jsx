@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useCallback, useMemo, useState, StrictMode } from "react";
+import React, { useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import { ModuleRegistry, themeQuartz } from "ag-grid-community";
 import { AllEnterpriseModule } from "ag-grid-enterprise";
 ModuleRegistry.registerModules([AllEnterpriseModule]);
+import { useFetchJson } from "./useFetchJson";
 
 const myTheme = themeQuartz.withParams({
   // color and style of border around selection
@@ -19,9 +20,12 @@ const myTheme = themeQuartz.withParams({
 });
 
 const GridExample = () => {
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState();
+
   const theme = useMemo(() => {
     return myTheme;
   }, []);
@@ -44,29 +48,16 @@ const GridExample = () => {
     };
   }, []);
 
-  const onGridReady = useCallback((params) => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data) => {
-        setRowData(data);
-        params.api.addCellRange({
-          rowStartIndex: 1,
-          rowEndIndex: 5,
-          columns: ["age", "country", "year", "date"],
-        });
-      });
-  }, []);
-
   return (
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact
-          rowData={rowData}
+          rowData={data}
+          loading={loading}
           theme={theme}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           cellSelection={true}
-          onGridReady={onGridReady}
         />
       </div>
     </div>

@@ -12,8 +12,6 @@ import {
   ValidationModule,
 } from "ag-grid-community";
 import { ViewportRowModelModule } from "ag-grid-enterprise";
-import { createMockServer } from "./mock-server";
-import { createViewportDatasource } from "./viewport-datasource";
 ModuleRegistry.registerModules([
   RowSelectionModule,
   PaginationModule,
@@ -22,6 +20,7 @@ ModuleRegistry.registerModules([
   HighlightChangesModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 function numberFormatter(params) {
   if (typeof params.value === "number") {
@@ -46,6 +45,9 @@ class RowIndexRenderer {
 }
 
 const GridExample = () => {
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/stocks.json",
+  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 
@@ -100,23 +102,12 @@ const GridExample = () => {
     };
   }, []);
 
-  const onGridReady = useCallback((params) => {
-    fetch("https://www.ag-grid.com/example-assets/stocks.json")
-      .then((resp) => resp.json())
-      .then((data) => {
-        // set up a mock server - real code will not do this, it will contact your
-        // real server to get what it needs
-        const mockServer = createMockServer();
-        mockServer.init(data);
-        const viewportDatasource = createViewportDatasource(mockServer);
-        params.api.setGridOption("viewportDatasource", viewportDatasource);
-      });
-  }, []);
-
   return (
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact
+          rowData={data}
+          loading={loading}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           rowModelType={"viewport"}
@@ -126,7 +117,6 @@ const GridExample = () => {
           viewportRowModelBufferSize={0}
           getRowId={getRowId}
           rowSelection={rowSelection}
-          onGridReady={onGridReady}
         />
       </div>
     </div>

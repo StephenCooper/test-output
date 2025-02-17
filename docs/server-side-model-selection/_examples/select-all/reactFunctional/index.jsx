@@ -22,7 +22,6 @@ import {
   RowGroupingPanelModule,
   ServerSideRowModelModule,
 } from "ag-grid-enterprise";
-import { FakeServer } from "./fakeServer";
 ModuleRegistry.registerModules([
   PaginationModule,
   RowGroupingModule,
@@ -32,6 +31,7 @@ ModuleRegistry.registerModules([
   NumberFilterModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 const getServerSideDatasource = (server) => {
   return {
@@ -57,6 +57,9 @@ const getServerSideDatasource = (server) => {
 
 const GridExample = () => {
   const gridRef = useRef(null);
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 
@@ -104,23 +107,6 @@ const GridExample = () => {
     };
   }, []);
 
-  const onGridReady = useCallback((params) => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data) => {
-        // assign a unique ID to each data item
-        data.forEach(function (item, index) {
-          item.id = index;
-        });
-        // setup the fake server with entire dataset
-        const fakeServer = new FakeServer(data);
-        // create datasource with a reference to the fake server
-        const datasource = getServerSideDatasource(fakeServer);
-        // register the datasource with the grid
-        params.api.setGridOption("serverSideDatasource", datasource);
-      });
-  }, []);
-
   const onSelectAllChanged = useCallback(() => {
     gridRef.current.api.setGridOption("rowSelection", {
       mode: "multiRow",
@@ -145,6 +131,8 @@ const GridExample = () => {
         <div style={gridStyle}>
           <AgGridReact
             ref={gridRef}
+            rowData={data}
+            loading={loading}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
             getRowId={getRowId}
@@ -155,7 +143,6 @@ const GridExample = () => {
             suppressAggFuncInHeader={true}
             pagination={true}
             paginationPageSize={20}
-            onGridReady={onGridReady}
           />
         </div>
       </div>

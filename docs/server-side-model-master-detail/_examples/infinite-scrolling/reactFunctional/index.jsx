@@ -26,6 +26,7 @@ ModuleRegistry.registerModules([
   ServerSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 const getServerSideDatasource = (server) => {
   return {
@@ -68,6 +69,9 @@ function getFakeServer(allData) {
 }
 
 const GridExample = () => {
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/call-data.json",
+  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 
@@ -107,14 +111,6 @@ const GridExample = () => {
   }, []);
 
   const onGridReady = useCallback((params) => {
-    fetch("https://www.ag-grid.com/example-assets/call-data.json")
-      .then((resp) => resp.json())
-      .then((data) => {
-        const server = getFakeServer(data);
-        const datasource = getServerSideDatasource(server);
-        params.api.setGridOption("serverSideDatasource", datasource);
-      });
-
     setTimeout(() => {
       // expand some master row
       const someRow = params.api.getRowNode("1");
@@ -129,6 +125,8 @@ const GridExample = () => {
       <div style={{ height: "100%", boxSizing: "border-box" }}>
         <div style={gridStyle}>
           <AgGridReact
+            rowData={data}
+            loading={loading}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
             rowModelType={"serverSide"}

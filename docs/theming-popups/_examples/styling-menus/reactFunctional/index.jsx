@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useCallback, useMemo, useState, StrictMode } from "react";
+import React, { useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./styles.css";
 import { ModuleRegistry, themeQuartz } from "ag-grid-community";
 import { AllEnterpriseModule } from "ag-grid-enterprise";
 ModuleRegistry.registerModules([AllEnterpriseModule]);
+import { useFetchJson } from "./useFetchJson";
 
 // Set a blue background and red shadows for all menus
 const myTheme = themeQuartz.withParams({
@@ -15,9 +16,12 @@ const myTheme = themeQuartz.withParams({
 });
 
 const GridExample = () => {
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState();
+
   const [columnDefs, setColumnDefs] = useState([
     { field: "athlete", minWidth: 170 },
     { field: "age", filter: "agNumberColumnFilter" },
@@ -39,21 +43,15 @@ const GridExample = () => {
     };
   }, []);
 
-  const onGridReady = useCallback((params) => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data) => setRowData(data));
-  }, []);
-
   return (
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact
-          rowData={rowData}
+          rowData={data}
+          loading={loading}
           columnDefs={columnDefs}
           theme={theme}
           defaultColDef={defaultColDef}
-          onGridReady={onGridReady}
         />
       </div>
     </div>

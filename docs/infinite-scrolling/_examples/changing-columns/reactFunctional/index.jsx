@@ -21,6 +21,7 @@ ModuleRegistry.registerModules([
   InfiniteRowModelModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 function sortAndFilter(allOfTheData, sortModel, filterModel) {
   return sortData(sortModel, filterData(filterModel, allOfTheData));
@@ -91,6 +92,9 @@ function filterData(filterModel, data) {
 
 const GridExample = () => {
   const gridRef = useRef(null);
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 
@@ -106,47 +110,6 @@ const GridExample = () => {
       flex: 1,
       filter: true,
     };
-  }, []);
-
-  const onGridReady = useCallback((params) => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data) => {
-        // give each row an id
-        data.forEach(function (d, index) {
-          d.id = "R" + (index + 1);
-        });
-        const dataSource = {
-          rowCount: undefined,
-          getRows: (params) => {
-            console.log(
-              "asking for " + params.startRow + " to " + params.endRow,
-            );
-            // At this point in your code, you would call the server.
-            // To make the demo look real, wait for 500ms before returning
-            setTimeout(() => {
-              // take a slice of the total rows
-              const dataAfterSortingAndFiltering = sortAndFilter(
-                data,
-                params.sortModel,
-                params.filterModel,
-              );
-              const rowsThisPage = dataAfterSortingAndFiltering.slice(
-                params.startRow,
-                params.endRow,
-              );
-              // if on or after the last page, work out the last row.
-              let lastRow = -1;
-              if (dataAfterSortingAndFiltering.length <= params.endRow) {
-                lastRow = dataAfterSortingAndFiltering.length;
-              }
-              // call the success callback
-              params.successCallback(rowsThisPage, lastRow);
-            }, 500);
-          },
-        };
-        params.api.setGridOption("datasource", dataSource);
-      });
   }, []);
 
   const onBtShowYearColumn = useCallback(() => {
@@ -179,10 +142,11 @@ const GridExample = () => {
         <div style={gridStyle} className="test-grid">
           <AgGridReact
             ref={gridRef}
+            rowData={data}
+            loading={loading}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
             rowModelType={"infinite"}
-            onGridReady={onGridReady}
           />
         </div>
       </div>

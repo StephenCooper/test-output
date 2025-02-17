@@ -21,7 +21,6 @@ import {
   ServerSideRowModelModule,
   SetFilterModule,
 } from "ag-grid-enterprise";
-import { FakeServer } from "./fakeServer";
 ModuleRegistry.registerModules([
   ColumnMenuModule,
   ContextMenuModule,
@@ -31,6 +30,7 @@ ModuleRegistry.registerModules([
   TextFilterModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 const countryCodeKeyCreator = (params) => {
   return params.value.code;
@@ -113,6 +113,9 @@ const getServerSideDatasource = (server) => {
 
 const GridExample = () => {
   const gridRef = useRef(null);
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 
@@ -160,39 +163,6 @@ const GridExample = () => {
     };
   }, []);
 
-  const onGridReady = useCallback((params) => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data) => {
-        // we don't have unique codes in our dataset, so generate unique ones
-        const namesToCodes = new Map();
-        const codesToNames = new Map();
-        data.forEach((row) => {
-          row.countryName = row.country;
-          if (namesToCodes.has(row.countryName)) {
-            row.countryCode = namesToCodes.get(row.countryName);
-          } else {
-            row.countryCode = row.country.substring(0, 2).toUpperCase();
-            if (codesToNames.has(row.countryCode)) {
-              let num = 0;
-              do {
-                row.countryCode = `${row.countryCode[0]}${num++}`;
-              } while (codesToNames.has(row.countryCode));
-            }
-            codesToNames.set(row.countryCode, row.countryName);
-            namesToCodes.set(row.countryName, row.countryCode);
-          }
-          delete row.country;
-        });
-        // setup the fake server with entire dataset
-        fakeServer = new FakeServer(data);
-        // create datasource with a reference to the fake server
-        const datasource = getServerSideDatasource(fakeServer);
-        // register the datasource with the grid
-        params.api.setGridOption("serverSideDatasource", datasource);
-      });
-  }, []);
-
   const onFilterChanged = useCallback(() => {
     const countryFilterModel = gridRef.current.api.getFilterModel()["country"];
     const sportFilterModel = gridRef.current.api.getFilterModel()["sport"];
@@ -221,12 +191,13 @@ const GridExample = () => {
       <div style={gridStyle}>
         <AgGridReact
           ref={gridRef}
+          rowData={data}
+          loading={loading}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           rowModelType={"serverSide"}
           cacheBlockSize={100}
           maxBlocksInCache={10}
-          onGridReady={onGridReady}
           onFilterChanged={onFilterChanged}
         />
       </div>
