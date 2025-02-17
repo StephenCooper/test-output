@@ -3,7 +3,6 @@ import {
   CellClassRules,
   ColDef,
   ColGroupDef,
-  GridApi,
   GridOptions,
   ModuleRegistry,
   RowClassRules,
@@ -12,8 +11,6 @@ import {
 } from "ag-grid-community";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
-
-let gridApi: GridApi;
 
 const ragCellClassRules: CellClassRules = {
   // apply green to electric cars
@@ -61,8 +58,9 @@ const gridOptions: GridOptions = {
   },
 };
 
+// setup the grid after the page has finished loading
 const gridDiv = document.querySelector<HTMLElement>("#myGrid")!;
-gridApi = createGrid(gridDiv, gridOptions);
+const gridApi = createGrid(gridDiv, gridOptions);
 /** DARK INTEGRATED START **/
 const isInitialModeDark =
   document.documentElement.dataset.agThemeMode?.includes("dark");

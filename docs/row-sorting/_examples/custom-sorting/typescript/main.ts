@@ -69,5 +69,5 @@ gridApi = createGrid(gridDiv, gridOptions);
 fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
   .then((response) => response.json())
   .then((data: IOlympicData[]) =>
-    gridApi!.setGridOption("rowData", data.slice(5, 10)),
+    gridApi!.setGridOption("rowData", data.slice(0, 10)),
   );

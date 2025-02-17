@@ -10,7 +10,6 @@ import {
 } from "ag-grid-community";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
-let gridApi: GridApi;
 
 const gridOptions: GridOptions = {
   rowData: [
@@ -325,8 +324,9 @@ const gridOptions: GridOptions = {
   paginationPageSizeSelector: [10, 25, 50],
 };
 
+// setup the grid after the page has finished loading
 const gridDiv = document.querySelector<HTMLElement>("#myGrid")!;
-gridApi = createGrid(gridDiv, gridOptions);
+const gridApi = createGrid(gridDiv, gridOptions);
 /** DARK INTEGRATED START **/
 const isInitialModeDark =
   document.documentElement.dataset.agThemeMode?.includes("dark");

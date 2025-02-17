@@ -22,8 +22,6 @@ ModuleRegistry.registerModules([
   IntegratedChartsModule.with(AgChartsEnterpriseModule),
 ]);
 
-let gridApi: GridApi;
-
 const gridOptions: GridOptions = {
   rowData: [
     {
@@ -321,8 +319,9 @@ const gridOptions: GridOptions = {
   },
 };
 
+// setup the grid after the page has finished loading
 const gridDiv = document.querySelector<HTMLElement>("#myGrid")!;
-gridApi = createGrid(gridDiv, gridOptions);
+const gridApi = createGrid(gridDiv, gridOptions);
 /** DARK INTEGRATED START **/
 const isInitialModeDark =
   document.documentElement.dataset.agThemeMode?.includes("dark");
