@@ -20,7 +20,7 @@ const processJsonFile = (jsonFilePath) => {
 
         // Check if files property exists
         if (!files) {
-            console.warn(`No files property found in ${jsonFilePath}`);
+            // console.warn(`No files property found in ${jsonFilePath}`);
             return;
         }
 
@@ -77,7 +77,7 @@ const deleteContentsJsonFiles = (dir) => {
                     if (err) {
                         console.error(`Error deleting file ${filePath}:`, err);
                     } else {
-                        console.log(`File ${filePath} deleted successfully.`);
+                        // console.log(`File ${filePath} deleted successfully.`);
                     }
                 });
             }
