@@ -31,7 +31,6 @@ ModuleRegistry.registerModules([
   RowGroupingModule,
   ValidationModule /* Development Only */,
 ]);
-import { useFetchJson } from "./useFetchJson";
 
 function updateTitle(api, chartId) {
   const cellRange = api.getCellRanges()[1];
@@ -52,12 +51,9 @@ function updateTitle(api, chartId) {
 
 const GridExample = () => {
   const gridRef = useRef(null);
-  const { data, loading } = useFetchJson(
-    "https://www.ag-grid.com/example-assets/weather-se-england.json",
-  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-
+  const [rowData, setRowData] = useState();
   const [columnDefs, setColumnDefs] = useState([
     { field: "Month", width: 150, chartDataType: "category" },
     { field: "Sunshine (hours)", chartDataType: "series" },
@@ -79,6 +75,13 @@ const GridExample = () => {
     };
   }, []);
 
+  const onGridReady = useCallback((params) => {
+    fetch("https://www.ag-grid.com/example-assets/weather-se-england.json")
+      .then((resp) => resp.json())
+      .then((data) => {
+        setRowData(data);
+      });
+  }, []);
   /** DARK INTEGRATED START **/ const [tick, setTick] = useState(0);
   useEffect(() => {
     setTick(1);
@@ -171,14 +174,14 @@ const GridExample = () => {
         <div style={gridStyle} className="my-grid">
           <AgGridReact
             ref={gridRef}
-            rowData={data}
-            loading={loading}
+            rowData={rowData}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
             cellSelection={true}
             popupParent={popupParent}
             enableCharts={true}
             chartThemeOverrides={chartThemeOverrides}
+            onGridReady={onGridReady}
             onFirstDataRendered={onFirstDataRendered}
             onChartCreated={onChartCreated}
             onChartRangeSelectionChanged={onChartRangeSelectionChanged}

@@ -15,12 +15,12 @@ import {
   RowGroupingModule,
   ServerSideRowModelModule,
 } from "ag-grid-enterprise";
+import { FakeServer } from "./fakeServer";
 ModuleRegistry.registerModules([
   RowGroupingModule,
   ServerSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
-import { useFetchJson } from "./useFetchJson";
 
 const getServerSideDatasource = (server) => {
   return {
@@ -46,9 +46,6 @@ const getServerSideDatasource = (server) => {
 
 const GridExample = () => {
   const gridRef = useRef(null);
-  const { data, loading } = useFetchJson(
-    "https://www.ag-grid.com/example-assets/olympic-winners.json",
-  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 
@@ -74,6 +71,19 @@ const GridExample = () => {
   }, []);
   const rowSelection = useMemo(() => {
     return { mode: "multiRow" };
+  }, []);
+
+  const onGridReady = useCallback((params) => {
+    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
+      .then((resp) => resp.json())
+      .then((data) => {
+        // setup the fake server with entire dataset
+        const fakeServer = new FakeServer(data);
+        // create datasource with a reference to the fake server
+        const datasource = getServerSideDatasource(fakeServer);
+        // register the datasource with the grid
+        params.api.setGridOption("serverSideDatasource", datasource);
+      });
   }, []);
 
   const onBtRouteOfSelected = useCallback(() => {
@@ -113,8 +123,6 @@ const GridExample = () => {
         <div style={gridStyle}>
           <AgGridReact
             ref={gridRef}
-            rowData={data}
-            loading={loading}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
             autoGroupColumnDef={autoGroupColumnDef}
@@ -122,6 +130,7 @@ const GridExample = () => {
             rowSelection={rowSelection}
             getRowId={getRowId}
             isServerSideGroupOpenByDefault={isServerSideGroupOpenByDefault}
+            onGridReady={onGridReady}
           />
         </div>
       </div>

@@ -31,7 +31,6 @@ ModuleRegistry.registerModules([
   SetFilterModule,
   ValidationModule /* Development Only */,
 ]);
-import { useFetchJson } from "./useFetchJson";
 
 function countryCodeKeyCreator(params) {
   const countryObject = params.value;
@@ -44,12 +43,9 @@ function countryValueFormatter(params) {
 
 const GridExample = () => {
   const gridRef = useRef(null);
-  const { data, loading } = useFetchJson(
-    "https://www.ag-grid.com/example-assets/olympic-winners.json",
-  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-
+  const [rowData, setRowData] = useState();
   const [columnDefs, setColumnDefs] = useState([
     {
       headerName: "Country",
@@ -68,6 +64,31 @@ const GridExample = () => {
       floatingFilter: true,
       cellDataType: false,
     };
+  }, []);
+
+  const onGridReady = useCallback((params) => {
+    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
+      .then((resp) => resp.json())
+      .then((data) => {
+        // hack the data, replace each country with an object of country name and code.
+        // also make country codes unique
+        const uniqueCountryCodes = new Map();
+        const newData = [];
+        data.forEach(function (row) {
+          const countryName = row.country;
+          const countryCode = countryName.substring(0, 2).toUpperCase();
+          const uniqueCountryName = uniqueCountryCodes.get(countryCode);
+          if (!uniqueCountryName || uniqueCountryName === countryName) {
+            uniqueCountryCodes.set(countryCode, countryName);
+            row.country = {
+              name: countryName,
+              code: countryCode,
+            };
+            newData.push(row);
+          }
+        });
+        setRowData(newData);
+      });
   }, []);
 
   const onFirstDataRendered = useCallback((params) => {
@@ -89,11 +110,11 @@ const GridExample = () => {
         <div style={gridStyle}>
           <AgGridReact
             ref={gridRef}
-            rowData={data}
-            loading={loading}
+            rowData={rowData}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
             sideBar={"filters"}
+            onGridReady={onGridReady}
             onFirstDataRendered={onFirstDataRendered}
           />
         </div>

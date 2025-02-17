@@ -16,6 +16,7 @@ import {
   SetFilterModule,
   TreeDataModule,
 } from "ag-grid-enterprise";
+import { FakeServer } from "./fakeServer";
 ModuleRegistry.registerModules([
   ColumnsToolPanelModule,
   ColumnMenuModule,
@@ -26,7 +27,6 @@ ModuleRegistry.registerModules([
   TextFilterModule,
   ValidationModule /* Development Only */,
 ]);
-import { useFetchJson } from "./useFetchJson";
 
 function valueGetter(params) {
   // server is returning a string, so need to convert to `Date`.
@@ -109,9 +109,6 @@ function getEmployeesAsync(params) {
 }
 
 const GridExample = () => {
-  const { data, loading } = useFetchJson(
-    "https://www.ag-grid.com/example-assets/tree-data.json",
-  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 
@@ -167,12 +164,23 @@ const GridExample = () => {
     return dataItem.employeeName;
   }, []);
 
+  const onGridReady = useCallback((params) => {
+    fetch("https://www.ag-grid.com/example-assets/tree-data.json")
+      .then((resp) => resp.json())
+      .then((data) => {
+        // setup the fake server with entire dataset
+        fakeServer = new FakeServer(data);
+        // create datasource with a reference to the fake server
+        const datasource = getServerSideDatasource(fakeServer);
+        // register the datasource with the grid
+        params.api.setGridOption("serverSideDatasource", datasource);
+      });
+  }, []);
+
   return (
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact
-          rowData={data}
-          loading={loading}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           autoGroupColumnDef={autoGroupColumnDef}
@@ -181,6 +189,7 @@ const GridExample = () => {
           isServerSideGroupOpenByDefault={isServerSideGroupOpenByDefault}
           isServerSideGroup={isServerSideGroup}
           getServerSideGroupKey={getServerSideGroupKey}
+          onGridReady={onGridReady}
         />
       </div>
     </div>

@@ -18,7 +18,6 @@ ModuleRegistry.registerModules([
   CellSelectionModule,
   ValidationModule /* Development Only */,
 ]);
-import { useFetchJson } from "./useFetchJson";
 
 const daysList = [
   "Sunday",
@@ -49,12 +48,9 @@ var getRandom = function (start, finish) {
 };
 
 const GridExample = () => {
-  const { data, loading } = useFetchJson(
-    "https://www.ag-grid.com/example-assets/small-olympic-winners.json",
-  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-
+  const [rowData, setRowData] = useState();
   const [columnDefs, setColumnDefs] = useState([
     { field: "athlete", minWidth: 150 },
     { headerName: "Day of the Week", field: "dayOfTheWeek", minWidth: 180 },
@@ -96,6 +92,14 @@ const GridExample = () => {
     };
   }, []);
 
+  const onGridReady = useCallback((params) => {
+    fetch("https://www.ag-grid.com/example-assets/small-olympic-winners.json")
+      .then((resp) => resp.json())
+      .then((data) => {
+        setRowData(createRowData(data));
+      });
+  }, []);
+
   const onFillStart = useCallback((event) => {
     console.log("Fill Start", event);
   }, []);
@@ -108,11 +112,11 @@ const GridExample = () => {
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact
-          rowData={data}
-          loading={loading}
+          rowData={rowData}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           cellSelection={cellSelection}
+          onGridReady={onGridReady}
           onFillStart={onFillStart}
           onFillEnd={onFillEnd}
         />

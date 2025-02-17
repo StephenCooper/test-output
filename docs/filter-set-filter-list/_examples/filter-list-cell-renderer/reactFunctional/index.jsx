@@ -32,7 +32,6 @@ ModuleRegistry.registerModules([
   SetFilterModule,
   ValidationModule /* Development Only */,
 ]);
-import { useFetchJson } from "./useFetchJson";
 
 const COUNTRY_CODES = {
   Ireland: "ie",
@@ -58,12 +57,9 @@ const COUNTRY_CODES = {
 
 const GridExample = () => {
   const gridRef = useRef(null);
-  const { data, loading } = useFetchJson(
-    "https://www.ag-grid.com/example-assets/olympic-winners.json",
-  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-
+  const [rowData, setRowData] = useState();
   const [columnDefs, setColumnDefs] = useState([
     {
       headerName: "No Cell Renderer",
@@ -98,6 +94,20 @@ const GridExample = () => {
     };
   }, []);
 
+  const onGridReady = useCallback((params) => {
+    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
+      .then((resp) => resp.json())
+      .then((data) => {
+        // only return data that has corresponding country codes
+        const dataWithFlags = data.filter(function (d) {
+          return COUNTRY_CODES[d.country];
+        });
+        // Empty data used to demonstrate custom (Blanks) handling in filter cell renderer
+        dataWithFlags[0].country = "";
+        setRowData(dataWithFlags);
+      });
+  }, []);
+
   const onFirstDataRendered = useCallback((params) => {
     params.api.getToolPanelInstance("filters").expandFilters();
   }, []);
@@ -117,12 +127,12 @@ const GridExample = () => {
         <div style={gridStyle}>
           <AgGridReact
             ref={gridRef}
-            rowData={data}
-            loading={loading}
+            rowData={rowData}
             columnDefs={columnDefs}
             context={context}
             defaultColDef={defaultColDef}
             sideBar={"filters"}
+            onGridReady={onGridReady}
             onFirstDataRendered={onFirstDataRendered}
           />
         </div>

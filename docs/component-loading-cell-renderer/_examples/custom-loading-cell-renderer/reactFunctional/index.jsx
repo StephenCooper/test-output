@@ -21,7 +21,6 @@ ModuleRegistry.registerModules([
   ServerSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
-import { useFetchJson } from "./useFetchJson";
 
 const getServerSideDatasource = (server) => {
   return {
@@ -65,9 +64,6 @@ const getFakeServer = (allData) => {
 };
 
 const GridExample = () => {
-  const { data, loading } = useFetchJson(
-    "https://www.ag-grid.com/example-assets/olympic-winners.json",
-  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 
@@ -97,6 +93,21 @@ const GridExample = () => {
     };
   }, []);
 
+  const onGridReady = useCallback((params) => {
+    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
+      .then((resp) => resp.json())
+      .then((data) => {
+        // add id to data
+        let idSequence = 0;
+        data.forEach((item) => {
+          item.id = idSequence++;
+        });
+        const server = getFakeServer(data);
+        const datasource = getServerSideDatasource(server);
+        params.api.setGridOption("serverSideDatasource", datasource);
+      });
+  }, []);
+
   return (
     <div style={containerStyle}>
       <div
@@ -104,8 +115,6 @@ const GridExample = () => {
       >
         <div style={gridStyle}>
           <AgGridReact
-            rowData={data}
-            loading={loading}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
             loadingCellRenderer={loadingCellRenderer}
@@ -113,6 +122,7 @@ const GridExample = () => {
             rowModelType={"serverSide"}
             cacheBlockSize={20}
             maxBlocksInCache={10}
+            onGridReady={onGridReady}
           />
         </div>
       </div>

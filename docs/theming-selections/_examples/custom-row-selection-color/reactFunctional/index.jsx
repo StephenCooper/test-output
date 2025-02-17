@@ -9,7 +9,6 @@ import {
   themeQuartz,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([AllCommunityModule]);
-import { useFetchJson } from "./useFetchJson";
 
 const myTheme = themeQuartz.withParams({
   /* bright green, 10% opacity */
@@ -17,9 +16,6 @@ const myTheme = themeQuartz.withParams({
 });
 
 const GridExample = () => {
-  const { data, loading } = useFetchJson(
-    "https://www.ag-grid.com/example-assets/olympic-winners.json",
-  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 
@@ -48,6 +44,14 @@ const GridExample = () => {
     };
   }, []);
 
+  const onGridReady = useCallback((params) => {
+    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
+      .then((resp) => resp.json())
+      .then((data) => {
+        params.api.setGridOption("rowData", data);
+      });
+  }, []);
+
   const onFirstDataRendered = useCallback((params) => {
     params.api.forEachNode((node) => {
       if (node.rowIndex === 2 || node.rowIndex === 3 || node.rowIndex === 4) {
@@ -60,12 +64,11 @@ const GridExample = () => {
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact
-          rowData={data}
-          loading={loading}
           columnDefs={columnDefs}
           theme={theme}
           rowSelection={rowSelection}
           defaultColDef={defaultColDef}
+          onGridReady={onGridReady}
           onFirstDataRendered={onFirstDataRendered}
         />
       </div>

@@ -21,12 +21,8 @@ ModuleRegistry.registerModules([
   ServerSideRowModelApiModule,
   ValidationModule /* Development Only */,
 ]);
-import { useFetchJson } from "./useFetchJson";
 
 const GridExample = () => {
-  const { data, loading } = useFetchJson(
-    "https://www.ag-grid.com/example-assets/tree-data.json",
-  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 
@@ -67,12 +63,63 @@ const GridExample = () => {
     return dataItem.employeeId;
   }, []);
 
+  const onGridReady = useCallback((params) => {
+    fetch("https://www.ag-grid.com/example-assets/tree-data.json")
+      .then((resp) => resp.json())
+      .then((data) => {
+        const datasource = createServerSideDatasource(data);
+        params.api.setGridOption("serverSideDatasource", datasource);
+        function createServerSideDatasource(data) {
+          const dataSource = {
+            getRows: (params) => {
+              console.log("ServerSideDatasource.getRows: params = ", params);
+              const request = params.request;
+              if (request.groupKeys.length) {
+                // this example doesn't need to support lower levels.
+                params.fail();
+                return;
+              }
+              const result = {
+                rowData: data.slice(request.startRow, request.endRow),
+              };
+              console.log("getRows: result = ", result);
+              setTimeout(() => {
+                params.success(result);
+                const recursivelyPopulateHierarchy = (route, node) => {
+                  if (node.underlings) {
+                    params.api.applyServerSideRowData({
+                      route,
+                      successParams: {
+                        rowData: node.underlings,
+                        rowCount: node.underlings.length,
+                      },
+                    });
+                    node.underlings.forEach((child) => {
+                      recursivelyPopulateHierarchy(
+                        [...route, child.employeeId],
+                        child,
+                      );
+                    });
+                  }
+                };
+                result.rowData.forEach((topLevelNode) => {
+                  recursivelyPopulateHierarchy(
+                    [topLevelNode.employeeId],
+                    topLevelNode,
+                  );
+                });
+              }, 200);
+            },
+          };
+          return dataSource;
+        }
+      });
+  }, []);
+
   return (
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact
-          rowData={data}
-          loading={loading}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           autoGroupColumnDef={autoGroupColumnDef}
@@ -81,6 +128,7 @@ const GridExample = () => {
           isServerSideGroupOpenByDefault={isServerSideGroupOpenByDefault}
           isServerSideGroup={isServerSideGroup}
           getServerSideGroupKey={getServerSideGroupKey}
+          onGridReady={onGridReady}
         />
       </div>
     </div>

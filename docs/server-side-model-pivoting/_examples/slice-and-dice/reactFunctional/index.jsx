@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState, StrictMode } from "react";
+import React, { useCallback, useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import {
@@ -21,6 +21,7 @@ import {
 } from "ag-grid-enterprise";
 import { getCountries } from "./countries";
 import { CustomAgeFilter } from "./customAgeFilter";
+import { createFakeServer, createServerSideDatasource } from "./server";
 ModuleRegistry.registerModules([
   NumberFilterModule,
   ColumnsToolPanelModule,
@@ -34,14 +35,10 @@ ModuleRegistry.registerModules([
   RowGroupingPanelModule,
   ValidationModule /* Development Only */,
 ]);
-import { useFetchJson } from "./useFetchJson";
 
 const countries = getCountries();
 
 const GridExample = () => {
-  const { data, loading } = useFetchJson(
-    "https://www.ag-grid.com/example-assets/olympic-winners.json",
-  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 
@@ -95,12 +92,20 @@ const GridExample = () => {
     };
   }, []);
 
+  const onGridReady = useCallback((params) => {
+    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
+      .then((resp) => resp.json())
+      .then((data) => {
+        const fakeServer = createFakeServer(data);
+        const datasource = createServerSideDatasource(fakeServer);
+        params.api.setGridOption("serverSideDatasource", datasource);
+      });
+  }, []);
+
   return (
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact
-          rowData={data}
-          loading={loading}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           autoGroupColumnDef={autoGroupColumnDef}
@@ -111,6 +116,7 @@ const GridExample = () => {
           maxConcurrentDatasourceRequests={1}
           maxBlocksInCache={2}
           purgeClosedRowNodes={true}
+          onGridReady={onGridReady}
         />
       </div>
     </div>

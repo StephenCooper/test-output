@@ -18,6 +18,7 @@ import {
   RowGroupingModule,
   ServerSideRowModelModule,
 } from "ag-grid-enterprise";
+import { FakeServer } from "./fakeServer";
 ModuleRegistry.registerModules([
   ColumnsToolPanelModule,
   ColumnMenuModule,
@@ -26,7 +27,6 @@ ModuleRegistry.registerModules([
   ServerSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
-import { useFetchJson } from "./useFetchJson";
 
 const getServerSideDatasource = (server) => {
   return {
@@ -53,9 +53,6 @@ const getServerSideDatasource = (server) => {
 
 const GridExample = () => {
   const gridRef = useRef(null);
-  const { data, loading } = useFetchJson(
-    "https://www.ag-grid.com/example-assets/olympic-winners.json",
-  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 
@@ -88,6 +85,19 @@ const GridExample = () => {
     }
   }, []);
 
+  const onGridReady = useCallback((params) => {
+    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
+      .then((resp) => resp.json())
+      .then((data) => {
+        // setup the fake server with entire dataset
+        const fakeServer = new FakeServer(data);
+        // create datasource with a reference to the fake server
+        const datasource = getServerSideDatasource(fakeServer);
+        // register the datasource with the grid
+        params.api.setGridOption("serverSideDatasource", datasource);
+      });
+  }, []);
+
   const expand = useCallback((key, open = false) => {
     if (key) {
       gridRef.current.api.setColumnGroupState([{ groupId: key, open: open }]);
@@ -114,14 +124,13 @@ const GridExample = () => {
         <div style={gridStyle}>
           <AgGridReact
             ref={gridRef}
-            rowData={data}
-            loading={loading}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
             autoGroupColumnDef={autoGroupColumnDef}
             rowModelType={"serverSide"}
             pivotMode={true}
             processPivotResultColDef={processPivotResultColDef}
+            onGridReady={onGridReady}
           />
         </div>
       </div>
