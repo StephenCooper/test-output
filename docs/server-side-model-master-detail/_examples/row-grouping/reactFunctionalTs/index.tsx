@@ -111,6 +111,14 @@ const GridExample = () => {
   }, []);
 
   const onGridReady = useCallback((params: GridReadyEvent) => {
+    setTimeout(() => {
+      // expand some master row
+      const someRow = params.api.getRowNode("1");
+      if (someRow) {
+        someRow.setExpanded(true);
+      }
+    }, 1000);
+
     fetch("https://www.ag-grid.com/example-assets/call-data.json")
       .then((resp) => resp.json())
       .then((data: any[]) => {
@@ -121,14 +129,6 @@ const GridExample = () => {
         // register the datasource with the grid
         params.api!.setGridOption("serverSideDatasource", datasource);
       });
-
-    setTimeout(() => {
-      // expand some master row
-      const someRow = params.api.getRowNode("1");
-      if (someRow) {
-        someRow.setExpanded(true);
-      }
-    }, 1000);
   }, []);
 
   return (

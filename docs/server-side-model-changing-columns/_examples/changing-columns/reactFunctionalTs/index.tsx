@@ -137,6 +137,15 @@ const GridExample = () => {
   }, []);
 
   const onGridReady = useCallback((params: GridReadyEvent) => {
+    (document.getElementById("athlete") as HTMLInputElement).checked = true;
+    (document.getElementById("age") as HTMLInputElement).checked = true;
+    (document.getElementById("country") as HTMLInputElement).checked = true;
+    (document.getElementById("year") as HTMLInputElement).checked = true;
+    (document.getElementById("sport") as HTMLInputElement).checked = true;
+    (document.getElementById("gold") as HTMLInputElement).checked = true;
+    (document.getElementById("silver") as HTMLInputElement).checked = true;
+    (document.getElementById("bronze") as HTMLInputElement).checked = true;
+
     fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
       .then((resp) => resp.json())
       .then((data: IOlympicData[]) => {
@@ -148,15 +157,6 @@ const GridExample = () => {
         // register the datasource with the grid
         params.api!.setGridOption("serverSideDatasource", datasource);
       });
-
-    (document.getElementById("athlete") as HTMLInputElement).checked = true;
-    (document.getElementById("age") as HTMLInputElement).checked = true;
-    (document.getElementById("country") as HTMLInputElement).checked = true;
-    (document.getElementById("year") as HTMLInputElement).checked = true;
-    (document.getElementById("sport") as HTMLInputElement).checked = true;
-    (document.getElementById("gold") as HTMLInputElement).checked = true;
-    (document.getElementById("silver") as HTMLInputElement).checked = true;
-    (document.getElementById("bronze") as HTMLInputElement).checked = true;
   }, []);
 
   const onBtApply = useCallback(() => {

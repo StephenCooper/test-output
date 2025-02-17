@@ -16,7 +16,6 @@ import {
   CellClassRules,
   ColDef,
   ColGroupDef,
-  GridApi,
   GridOptions,
   ModuleRegistry,
   RowClassRules,
@@ -28,8 +27,6 @@ const ragCellClassRules: CellClassRules = {
   // apply green to electric cars
   "rag-green": (params) => params.value === true,
 };
-
-const gridDiv = document.querySelector<HTMLElement>("#myGrid")!;
 
 const GridExample = () => {
   const gridRef = useRef<AgGridReact>(null);

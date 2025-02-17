@@ -73,7 +73,7 @@ const GridExample = () => {
   const onGridReady = useCallback((params: GridReadyEvent) => {
     fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
       .then((resp) => resp.json())
-      .then((data: IOlympicData[]) => setRowData(data.slice(5, 10)));
+      .then((data: IOlympicData[]) => setRowData(data.slice(0, 10)));
   }, []);
 
   return (
