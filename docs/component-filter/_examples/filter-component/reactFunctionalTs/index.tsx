@@ -19,7 +19,7 @@ import {
 } from "ag-grid-community";
 import { AgGridReact, getInstance } from "ag-grid-react";
 
-import { getData } from "./data.tsx";
+import { getData } from "./data";
 import PartialMatchFilter from "./partialMatchFilter";
 import "./styles.css";
 

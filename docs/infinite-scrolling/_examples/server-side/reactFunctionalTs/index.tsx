@@ -25,7 +25,7 @@ import {
 import type { CustomCellRendererProps } from "ag-grid-react";
 import { AgGridReact } from "ag-grid-react";
 
-import { getCountries } from "./countries.tsx";
+import { getCountries } from "./countries";
 
 ModuleRegistry.registerModules([
   NumberFilterModule,
