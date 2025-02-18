@@ -23,9 +23,6 @@ const myTheme = themeQuartz.withParams({
 });
 
 const GridExample = () => {
-  const { data, loading } = useFetchJson(
-    "https://www.ag-grid.com/example-assets/olympic-winners.json",
-  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 
@@ -53,6 +50,10 @@ const GridExample = () => {
       enableValue: true,
     };
   }, []);
+
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
 
   return (
     <div style={containerStyle}>

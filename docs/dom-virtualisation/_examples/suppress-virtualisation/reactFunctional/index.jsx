@@ -17,10 +17,6 @@ import { useFetchJson } from "./useFetchJson";
 let times = 1;
 
 const GridExample = () => {
-  const { data, loading } = useFetchJson(
-    "https://www.ag-grid.com/example-assets/olympic-winners.json",
-    100,
-  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 
@@ -45,6 +41,11 @@ const GridExample = () => {
       cellDataType: false,
     };
   }, []);
+
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+    100,
+  );
 
   return (
     <div style={containerStyle}>

@@ -52,9 +52,6 @@ function updateTitle(api, chartId) {
 
 const GridExample = () => {
   const gridRef = useRef(null);
-  const { data, loading } = useFetchJson(
-    "https://www.ag-grid.com/example-assets/weather-se-england.json",
-  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 
@@ -79,6 +76,9 @@ const GridExample = () => {
     };
   }, []);
 
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/weather-se-england.json",
+  );
   /** DARK INTEGRATED START **/ const [tick, setTick] = useState(0);
   useEffect(() => {
     setTick(1);

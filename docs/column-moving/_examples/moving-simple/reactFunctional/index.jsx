@@ -25,9 +25,6 @@ import { useFetchJson } from "./useFetchJson";
 
 const GridExample = () => {
   const gridRef = useRef(null);
-  const { data, loading } = useFetchJson(
-    "https://www.ag-grid.com/example-assets/olympic-winners.json",
-  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 
@@ -48,6 +45,10 @@ const GridExample = () => {
       width: 150,
     };
   }, []);
+
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
 
   const onMedalsFirst = useCallback(() => {
     gridRef.current.api.moveColumns(["gold", "silver", "bronze", "total"], 0);

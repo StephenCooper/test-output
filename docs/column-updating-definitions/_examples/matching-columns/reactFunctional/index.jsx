@@ -80,9 +80,6 @@ const getColDefsMedalsExcluded = () => {
 
 const GridExample = () => {
   const gridRef = useRef(null);
-  const { data, loading } = useFetchJson(
-    "https://www.ag-grid.com/example-assets/olympic-winners.json",
-  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 
@@ -92,6 +89,10 @@ const GridExample = () => {
     };
   }, []);
   const [columnDefs, setColumnDefs] = useState(getColDefsMedalsIncluded());
+
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
 
   const onBtExcludeMedalColumns = useCallback(() => {
     gridRef.current.api.setGridOption("columnDefs", getColDefsMedalsExcluded());

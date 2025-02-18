@@ -39,9 +39,6 @@ const getColumnDefs = () => {
 
 const GridExample = () => {
   const gridRef = useRef(null);
-  const { data, loading } = useFetchJson(
-    "https://www.ag-grid.com/example-assets/olympic-winners.json",
-  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 
@@ -54,6 +51,10 @@ const GridExample = () => {
     };
   }, []);
   const [columnDefs, setColumnDefs] = useState(getColumnDefs());
+
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
 
   const onSortChanged = useCallback((e) => {
     console.log("Event Sort Changed", e);

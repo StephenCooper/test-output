@@ -186,9 +186,6 @@ const notEqualsFilterParams = {
 
 const GridExample = () => {
   const gridRef = useRef(null);
-  const { data, loading } = useFetchJson(
-    "https://www.ag-grid.com/example-assets/small-olympic-winners.json",
-  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 
@@ -230,6 +227,10 @@ const GridExample = () => {
     }
     return params.defaultValue;
   }, []);
+
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/small-olympic-winners.json",
+  );
 
   const printState = useCallback(() => {
     const filterState = gridRef.current.api.getFilterModel();

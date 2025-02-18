@@ -40,9 +40,6 @@ const COL_DEFS = [
 
 const GridExample = () => {
   const gridRef = useRef(null);
-  const { data, loading } = useFetchJson(
-    "https://www.ag-grid.com/example-assets/olympic-winners.json",
-  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 
@@ -53,6 +50,10 @@ const GridExample = () => {
     };
   }, []);
   const [columnDefs, setColumnDefs] = useState(COL_DEFS);
+
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
 
   const setHeaderNames = useCallback(() => {
     COL_DEFS.forEach((colDef, index) => {

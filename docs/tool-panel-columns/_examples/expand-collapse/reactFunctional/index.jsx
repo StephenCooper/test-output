@@ -39,9 +39,6 @@ import { useFetchJson } from "./useFetchJson";
 
 const GridExample = () => {
   const gridRef = useRef(null);
-  const { data, loading } = useFetchJson(
-    "https://www.ag-grid.com/example-assets/olympic-winners.json",
-  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 
@@ -97,6 +94,9 @@ const GridExample = () => {
     const columnToolPanel = params.api.getToolPanelInstance("columns");
     columnToolPanel.collapseColumnGroups();
   }, []);
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
 
   const expandAllGroups = useCallback(() => {
     const columnToolPanel = gridRef.current.api.getToolPanelInstance("columns");

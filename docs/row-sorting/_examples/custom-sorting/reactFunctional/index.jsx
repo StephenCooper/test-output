@@ -42,10 +42,6 @@ function monthToComparableNumber(date) {
 }
 
 const GridExample = () => {
-  const { data, loading } = useFetchJson(
-    "https://www.ag-grid.com/example-assets/olympic-winners.json",
-    10,
-  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 
@@ -62,6 +58,11 @@ const GridExample = () => {
       width: 170,
     };
   }, []);
+
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+    10,
+  );
 
   return (
     <div style={containerStyle}>

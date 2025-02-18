@@ -21,9 +21,6 @@ ModuleRegistry.registerModules([
 import { useFetchJson } from "./useFetchJson";
 
 const GridExample = () => {
-  const { data, loading } = useFetchJson(
-    "https://www.ag-grid.com/example-assets/master-detail-data.json",
-  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 
@@ -42,6 +39,10 @@ const GridExample = () => {
   const defaultColDef = useMemo(() => {
     return {};
   }, []);
+
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/master-detail-data.json",
+  );
 
   const onFirstDataRendered = useCallback((params) => {
     setTimeout(() => {
