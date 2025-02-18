@@ -61,7 +61,7 @@ const GridExample = () => {
       },
     },
     {
-      field: "actions",
+      colId: "actions",
       headerName: "Actions",
       cellRenderer: CustomButtonComponent,
       cellRendererParams: {

@@ -26,9 +26,9 @@ import { PriceRenderer } from "./priceRenderer.component";
 
 interface IRow {
   company: string;
-  location: string;
-  price: number;
-  successful: boolean;
+  website: string;
+  revenue: number;
+  hardware: boolean;
 }
 
 @Component({
@@ -54,7 +54,7 @@ export class AppComponent {
   defaultColDef: ColDef = {
     flex: 10,
   };
-  rowData: any[] | null = [] as IRow[];
+  rowData: IRow[] | null = [];
   columnDefs: ColDef[] = [
     {
       field: "company",
@@ -77,22 +77,21 @@ export class AppComponent {
     },
     {
       field: "hardware",
-      headerName: "Hardware",
       cellRenderer: MissionResultRenderer,
     },
     {
-      field: "actions",
+      colId: "actions",
       headerName: "Actions",
       cellRenderer: CustomButtonComponent,
     },
-  ] as ColDef[];
+  ];
 
   constructor(private http: HttpClient) {}
 
-  onGridReady(params: GridReadyEvent) {
+  onGridReady(params: GridReadyEvent<IRow>) {
     this.http
       .get<
-        any[]
+        IRow[]
       >("https://www.ag-grid.com/example-assets/small-company-data.json")
       .subscribe((data) => {
         this.rowData = data;

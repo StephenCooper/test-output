@@ -46,9 +46,9 @@ interface IRow {
   </div> `,
 })
 export class AppComponent {
-  private gridApi!: GridApi;
+  private gridApi!: GridApi<IRow>;
 
-  rowData: any[] | null = [] as IRow[];
+  rowData: IRow[] | null = [];
   columnDefs: ColDef[] = [
     {
       field: "company",
@@ -67,14 +67,14 @@ export class AppComponent {
       },
     },
     {
-      field: "actions",
+      colId: "actions",
       headerName: "Actions",
       cellRenderer: CustomButtonComponent,
       cellRendererParams: {
         onClick: onClick,
       },
     },
-  ] as ColDef[];
+  ];
   defaultColDef: ColDef = {
     flex: 1,
   };
@@ -87,12 +87,12 @@ export class AppComponent {
     });
   }
 
-  onGridReady(params: GridReadyEvent) {
+  onGridReady(params: GridReadyEvent<IRow>) {
     this.gridApi = params.api;
 
     this.http
       .get<
-        any[]
+        IRow[]
       >("https://www.ag-grid.com/example-assets/small-space-mission-data.json")
       .subscribe((data) => {
         this.rowData = data;

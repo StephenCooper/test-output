@@ -56,11 +56,10 @@ const GridExample = () => {
     },
     {
       field: "hardware",
-      headerName: "Hardware",
       cellRenderer: MissionResultRenderer,
     },
     {
-      field: "actions",
+      colId: "actions",
       headerName: "Actions",
       cellRenderer: CustomButtonComponent,
     },
