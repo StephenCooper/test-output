@@ -31,9 +31,9 @@ ModuleRegistry.registerModules([
 
 interface IRow {
   company: string;
-  location: string;
-  price: number;
-  successful: boolean;
+  website: string;
+  revenue: number;
+  hardware: boolean;
 }
 
 const VueExample = defineComponent({
@@ -56,11 +56,11 @@ const VueExample = defineComponent({
     PriceRenderer,
   },
   setup(props) {
-    const gridApi = shallowRef<GridApi | null>(null);
+    const gridApi = shallowRef<GridApi<IRow> | null>(null);
     const defaultColDef = ref<ColDef>({
       flex: 10,
     });
-    const rowData = ref<any[] | null>([] as IRow[]);
+    const rowData = ref<IRow[] | null>([]);
     const columnDefs = ref<ColDef[]>([
       {
         field: "company",
@@ -83,15 +83,14 @@ const VueExample = defineComponent({
       },
       {
         field: "hardware",
-        headerName: "Hardware",
         cellRenderer: "MissionResultRenderer",
       },
       {
-        field: "actions",
+        colId: "actions",
         headerName: "Actions",
         cellRenderer: "CustomButtonComponent",
       },
-    ] as ColDef[]);
+    ]);
 
     const onGridReady = (params: GridReadyEvent) => {
       gridApi.value = params.api;

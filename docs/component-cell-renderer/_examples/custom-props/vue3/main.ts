@@ -65,8 +65,8 @@ const VueExample = defineComponent({
     MissionResultRenderer,
   },
   setup(props) {
-    const gridApi = shallowRef<GridApi | null>(null);
-    const rowData = ref<any[] | null>([] as IRow[]);
+    const gridApi = shallowRef<GridApi<IRow> | null>(null);
+    const rowData = ref<IRow[] | null>([]);
     const columnDefs = ref<ColDef[]>([
       {
         field: "company",
@@ -85,14 +85,14 @@ const VueExample = defineComponent({
         },
       },
       {
-        field: "actions",
+        colId: "actions",
         headerName: "Actions",
         cellRenderer: "CustomButtonComponent",
         cellRendererParams: {
           onClick: onClick,
         },
       },
-    ] as ColDef[]);
+    ]);
     const defaultColDef = ref<ColDef>({
       flex: 1,
     });

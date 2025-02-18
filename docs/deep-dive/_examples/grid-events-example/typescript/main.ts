@@ -68,9 +68,9 @@ interface IRow {
   successful: boolean;
 }
 
-const gridOptions: GridOptions = {
+const gridOptions: GridOptions<IRow> = {
   // Data to be displayed
-  rowData: [] as IRow[],
+  rowData: [],
   // Columns to be displayed (Should match rowData properties)
   columnDefs: [
     {
@@ -93,12 +93,12 @@ const gridOptions: GridOptions = {
     },
     { field: "successful" },
     { field: "rocket" },
-  ] as ColDef[],
+  ],
   // Configurations applied to all columns
   defaultColDef: {
     editable: true,
     filter: true,
-  } as ColDef,
+  },
   // Grid Options & Callbacks
   pagination: true,
   onCellValueChanged: (event: CellValueChangedEvent) => {
