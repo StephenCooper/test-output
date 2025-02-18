@@ -19,12 +19,10 @@ import {
   GetRowIdParams,
   GridApi,
   GridOptions,
-  GridReadyEvent,
   ModuleRegistry,
   NumberEditorModule,
   TextEditorModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { IOlympicDataWithId } from "./interfaces";
 ModuleRegistry.registerModules([
@@ -34,11 +32,15 @@ ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 const GridExample = () => {
+  const { data, loading } = useFetchJson<IOlympicDataWithId>(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState<IOlympicDataWithId[]>();
+
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
     { field: "athlete", minWidth: 160 },
     { field: "age" },
@@ -60,15 +62,6 @@ const GridExample = () => {
   }, []);
   const getRowId = useCallback((params: GetRowIdParams) => params.data.id, []);
 
-  const onGridReady = useCallback((params: GridReadyEvent) => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data: IOlympicDataWithId[]) => {
-        data.forEach((item, index) => (item.id = String(index)));
-        setRowData(data);
-      });
-  }, []);
-
   const onCellEditRequest = useCallback((event: CellEditRequestEvent) => {
     const oldData = event.data;
     const field = event.colDef.field;
@@ -86,12 +79,12 @@ const GridExample = () => {
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact<IOlympicDataWithId>
-          rowData={rowData}
+          rowData={data}
+          loading={loading}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           getRowId={getRowId}
           readOnlyEdit={true}
-          onGridReady={onGridReady}
           onCellEditRequest={onCellEditRequest}
         />
       </div>
@@ -105,3 +98,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

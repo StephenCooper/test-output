@@ -10,7 +10,6 @@ import React, {
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./style.css";
-import { getData } from "./data.jsx";
 import {
   CellStyleModule,
   ClientSideRowModelApiModule,
@@ -19,9 +18,9 @@ import {
   RenderApiModule,
   RowDragModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { TreeDataModule } from "ag-grid-enterprise";
+import { getData } from "./data";
 ModuleRegistry.registerModules([
   RowDragModule,
   ClientSideRowModelApiModule,
@@ -44,7 +43,7 @@ const cellClassRules = {
 
 var potentialParent = null;
 
-const moveToPath = (newParentPath, node, allUpdatedNodes) => {
+function moveToPath(newParentPath, node, allUpdatedNodes) {
   // last part of the file path is the file name
   const oldPath = node.data.filePath;
   const fileName = oldPath[oldPath.length - 1];
@@ -57,18 +56,18 @@ const moveToPath = (newParentPath, node, allUpdatedNodes) => {
       moveToPath(newChildPath, childNode, allUpdatedNodes);
     });
   }
-};
+}
 
-const isSelectionParentOfTarget = (selectedNode, targetNode) => {
+function isSelectionParentOfTarget(selectedNode, targetNode) {
   const children = selectedNode.childrenAfterGroup || [];
   for (let i = 0; i < children.length; i++) {
     if (targetNode && children[i].key === targetNode.key) return true;
     isSelectionParentOfTarget(children[i], targetNode);
   }
   return false;
-};
+}
 
-const arePathsEqual = (path1, path2) => {
+function arePathsEqual(path1, path2) {
   if (path1.length !== path2.length) {
     return false;
   }
@@ -79,9 +78,9 @@ const arePathsEqual = (path1, path2) => {
     }
   });
   return equal;
-};
+}
 
-const setPotentialParentForNode = (api, overNode) => {
+function setPotentialParentForNode(api, overNode) {
   let newPotentialParent;
   if (overNode) {
     newPotentialParent =
@@ -108,9 +107,9 @@ const setPotentialParentForNode = (api, overNode) => {
   }
   potentialParent = newPotentialParent;
   refreshRows(api, rowsToRefresh);
-};
+}
 
-const refreshRows = (api, rowsToRefresh) => {
+function refreshRows(api, rowsToRefresh) {
   const params = {
     // refresh these rows only.
     rowNodes: rowsToRefresh,
@@ -121,7 +120,7 @@ const refreshRows = (api, rowsToRefresh) => {
     force: true,
   };
   api.refreshCells(params);
-};
+}
 
 class FileCellRenderer {
   eGui;
@@ -158,7 +157,7 @@ class FileCellRenderer {
 }
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [rowData, setRowData] = useState(getData());

@@ -16,7 +16,6 @@ import {
   RowApiModule,
   RowStyleModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   RowApiModule,
@@ -29,7 +28,7 @@ let colorIndex = 0;
 
 const colors = ["#99999944", "#CC333344", "#33CC3344", "#2244CC44"];
 
-const createData = (count) => {
+function createData(count) {
   const result = [];
   for (let i = 1; i <= count; i++) {
     result.push({
@@ -42,17 +41,17 @@ const createData = (count) => {
     });
   }
   return result;
-};
+}
 
-const progressColor = () => {
+function progressColor() {
   colorIndex++;
   if (colorIndex === colors.length) {
     colorIndex = 0;
   }
-};
+}
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [rowData, setRowData] = useState(createData(12));

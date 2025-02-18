@@ -1,16 +1,11 @@
-import "ag-grid-enterprise";
 import { Component } from "@angular/core";
 
 import { AgGridAngular } from "ag-grid-angular";
 import type { ColDef } from "ag-grid-community";
-import {
-  AllCommunityModule,
-  ModuleRegistry,
-  themeQuartz,
-} from "ag-grid-community";
+import { ModuleRegistry, themeQuartz } from "ag-grid-community";
 import { AllEnterpriseModule } from "ag-grid-enterprise";
 
-ModuleRegistry.registerModules([AllCommunityModule, AllEnterpriseModule]);
+ModuleRegistry.registerModules([AllEnterpriseModule]);
 
 @Component({
   standalone: true,

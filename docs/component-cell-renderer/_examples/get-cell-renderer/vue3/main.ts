@@ -23,7 +23,6 @@ import {
   TextFilterModule,
   ValidationModule,
   ValueGetterParams,
-  createGrid,
 } from "ag-grid-community";
 import MedalCellRenderer from "./medalCellRendererVue";
 import { IOlympicData } from "./interfaces";

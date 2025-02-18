@@ -23,7 +23,6 @@ import {
   ModuleRegistry,
   ValidationModule,
   ValueGetterParams,
-  createGrid,
 } from "ag-grid-community";
 import { PivotModule } from "ag-grid-enterprise";
 ModuleRegistry.registerModules([

@@ -1,20 +1,12 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useCallback, useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import {
   ClientSideRowModelModule,
   ModuleRegistry,
   ValidationModule,
-  ValueFormatterParams,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
@@ -57,7 +49,7 @@ const reverseOrderComparator = (a, b) => {
   return a < b ? 1 : a > b ? -1 : 0;
 };
 
-const processData = (data) => {
+function processData(data) {
   const flattenedData = [];
   const flattenRowRecursive = (row, parentPath) => {
     const dateParts = row.startDate.split("/");
@@ -76,7 +68,7 @@ const processData = (data) => {
   };
   data.forEach((row) => flattenRowRecursive(row, []));
   return flattenedData;
-};
+}
 
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);

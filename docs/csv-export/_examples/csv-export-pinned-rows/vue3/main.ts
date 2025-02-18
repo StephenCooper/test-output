@@ -19,7 +19,6 @@ import {
   PinnedRowModule,
   TextEditorModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { ColumnMenuModule, ContextMenuModule } from "ag-grid-enterprise";
 ModuleRegistry.registerModules([

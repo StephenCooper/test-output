@@ -20,7 +20,6 @@ import {
   ModuleRegistry,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { TreeDataModule } from "ag-grid-enterprise";
 import { getData } from "./data";
@@ -103,3 +102,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

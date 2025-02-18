@@ -2,7 +2,6 @@ import { Component } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { AgGridAngular } from "ag-grid-angular";
 import {
-  AllCommunityModule,
   ColDef,
   ColGroupDef,
   GridApi,
@@ -11,11 +10,10 @@ import {
   ModuleRegistry,
   SideBarDef,
   Theme,
-  createGrid,
   themeQuartz,
 } from "ag-grid-community";
 import { AllEnterpriseModule } from "ag-grid-enterprise";
-ModuleRegistry.registerModules([AllCommunityModule, AllEnterpriseModule]);
+ModuleRegistry.registerModules([AllEnterpriseModule]);
 import { IOlympicData } from "./interfaces";
 
 @Component({

@@ -18,7 +18,6 @@ import {
   ModuleRegistry,
   RowGroupingDisplayType,
   SideBarDef,
-  createGrid,
 } from "ag-grid-community";
 import {
   AllEnterpriseModule,
@@ -29,8 +28,6 @@ ModuleRegistry.registerModules([
   AllEnterpriseModule,
   IntegratedChartsModule.with(AgChartsEnterpriseModule),
 ]);
-
-const gridDiv = document.querySelector<HTMLElement>("#myGrid")!;
 
 const VueExample = defineComponent({
   template: `

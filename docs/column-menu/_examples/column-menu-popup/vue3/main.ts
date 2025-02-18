@@ -16,7 +16,6 @@ import {
   ModuleRegistry,
   PostProcessPopupParams,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,

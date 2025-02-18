@@ -15,7 +15,6 @@ import {
   RowModelType,
   ServerSideTransaction,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ServerSideRowModelApiModule,

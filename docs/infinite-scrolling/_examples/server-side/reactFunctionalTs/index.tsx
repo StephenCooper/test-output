@@ -1,5 +1,4 @@
 'use client';
-import "ag-grid-enterprise";
 import React, { StrictMode, useCallback, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
 
@@ -26,7 +25,7 @@ import {
 import type { CustomCellRendererProps } from "ag-grid-react";
 import { AgGridReact } from "ag-grid-react";
 
-import { getCountries } from "./countries.tsx";
+import { getCountries } from "./countries";
 
 ModuleRegistry.registerModules([
   NumberFilterModule,

@@ -20,7 +20,6 @@ import {
   ModuleRegistry,
   RowModelType,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { ServerSideRowModelModule } from "ag-grid-enterprise";
 import { IOlympicDataWithId } from "./interfaces";
@@ -139,3 +138,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

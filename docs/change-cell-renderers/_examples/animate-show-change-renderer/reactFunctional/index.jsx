@@ -18,7 +18,6 @@ import {
   RowApiModule,
   TextEditorModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   TextEditorModule,
@@ -29,15 +28,15 @@ ModuleRegistry.registerModules([
   ValidationModule /* Development Only */,
 ]);
 
-const numberValueParser = (params) => {
+function numberValueParser(params) {
   return Number(params.newValue);
-};
+}
 
-const formatNumber = (number) => {
+function formatNumber(number) {
   return Math.floor(number).toLocaleString();
-};
+}
 
-const createRowData = () => {
+function createRowData() {
   const rowData = [];
   for (let i = 0; i < 20; i++) {
     rowData.push({
@@ -48,10 +47,10 @@ const createRowData = () => {
     });
   }
   return rowData;
-};
+}
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [rowData, setRowData] = useState(createRowData());

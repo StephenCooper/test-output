@@ -1,12 +1,6 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useCallback, useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./style.css";
@@ -15,7 +9,6 @@ import {
   ClientSideRowModelModule,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   CellSelectionModule,
@@ -35,19 +28,23 @@ ModuleRegistry.registerModules([
   IntegratedChartsModule.with(AgChartsEnterpriseModule),
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
-const createFlagImg = (flag) => {
+function createFlagImg(flag) {
   return (
     '<img border="0" width="15" height="10" src="https://flags.fmcdn.net/data/flags/mini/' +
     flag +
     '.png"/>'
   );
-};
+}
 
 const GridExample = () => {
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState();
+
   const [columnDefs, setColumnDefs] = useState([
     { field: "athlete", minWidth: 200 },
     { field: "age" },
@@ -65,12 +62,6 @@ const GridExample = () => {
       flex: 1,
       minWidth: 100,
     };
-  }, []);
-
-  const onGridReady = useCallback((params) => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data) => setRowData(data));
   }, []);
 
   const getContextMenuItems = useCallback(
@@ -221,13 +212,13 @@ const GridExample = () => {
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact
-          rowData={rowData}
+          rowData={data}
+          loading={loading}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           cellSelection={true}
           allowContextMenuWithControlKey={true}
           getContextMenuItems={getContextMenuItems}
-          onGridReady={onGridReady}
         />
       </div>
     </div>

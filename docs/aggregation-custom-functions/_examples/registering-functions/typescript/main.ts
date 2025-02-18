@@ -99,7 +99,6 @@ function ratioFormatter(params: ValueFormatterParams) {
   return "" + Math.round(params.value * 100) / 100;
 }
 
-// setup the grid after the page has finished loading
 const gridDiv = document.querySelector<HTMLElement>("#myGrid")!;
 gridApi = createGrid(gridDiv, gridOptions);
 

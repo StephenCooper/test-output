@@ -1,22 +1,15 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useCallback, useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
-import GenderRenderer from "./genderRenderer.jsx";
-import MoodRenderer from "./moodRenderer.jsx";
 import {
   ClientSideRowModelModule,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
+import GenderRenderer from "./genderRenderer.jsx";
+import MoodRenderer from "./moodRenderer.jsx";
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,

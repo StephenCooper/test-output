@@ -22,7 +22,6 @@ import {
   SideBarDef,
   ValidationModule,
   ValueFormatterParams,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
@@ -152,3 +151,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

@@ -1,7 +1,6 @@
 'use client';
 import React, { StrictMode, useCallback, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   InfiniteRowModelModule,
   ModuleRegistry,

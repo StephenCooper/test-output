@@ -24,7 +24,6 @@ import {
   GridReadyEvent,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
@@ -46,7 +45,7 @@ const GridExample = () => {
   const gridRef = useRef<AgGridReact>(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-
+  const [rowData, setRowData] = useState<any[]>();
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
     { field: "country", width: 150, chartDataType: "category" },
     { field: "gold", chartDataType: "series" },
@@ -105,7 +104,7 @@ const GridExample = () => {
   }, []);
 
   const onGridReady = useCallback((params: GridReadyEvent) => {
-    getData().then((rowData) => params.api.setGridOption("rowData", rowData));
+    getData().then((rowData) => setRowData(rowData));
   }, []);
   /** DARK INTEGRATED START **/ const [tick, setTick] = useState(0);
   useEffect(() => {
@@ -191,6 +190,7 @@ const GridExample = () => {
       <div style={gridStyle}>
         <AgGridReact
           ref={gridRef}
+          rowData={rowData}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           popupParent={popupParent}
@@ -211,3 +211,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

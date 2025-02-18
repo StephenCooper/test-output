@@ -10,20 +10,18 @@ import React, {
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./styles.css";
-import CountryCellRenderer from "./countryCellRenderer.jsx";
-import { createBase64FlagsFromResponse } from "./imageUtils.jsx";
-import { FlagContext } from "./interfaces.jsx";
 import {
   ClientSideRowModelModule,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
   ContextMenuModule,
   ExcelExportModule,
 } from "ag-grid-enterprise";
+import { createBase64FlagsFromResponse } from "./imageUtils";
+import CountryCellRenderer from "./countryCellRenderer.jsx";
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ExcelExportModule,
@@ -37,10 +35,10 @@ const countryCodes = {};
 const base64flags = {};
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-
+  const [rowData, setRowData] = useState();
   const [columnDefs, setColumnDefs] = useState([
     {
       field: "country",
@@ -104,7 +102,7 @@ const GridExample = () => {
       .then((data) =>
         createBase64FlagsFromResponse(data, countryCodes, base64flags),
       )
-      .then((data) => params.api.setGridOption("rowData", data));
+      .then((data) => setRowData(data));
   }, []);
 
   const onBtExport = useCallback(() => {
@@ -123,6 +121,7 @@ const GridExample = () => {
           <div style={gridStyle}>
             <AgGridReact
               ref={gridRef}
+              rowData={rowData}
               columnDefs={columnDefs}
               defaultColDef={defaultColDef}
               defaultExcelExportParams={defaultExcelExportParams}

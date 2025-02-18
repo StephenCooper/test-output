@@ -24,7 +24,6 @@ import {
   NumberFilterModule,
   TextEditorModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { RowGroupingModule, SetFilterModule } from "ag-grid-enterprise";
 ModuleRegistry.registerModules([
@@ -132,3 +131,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

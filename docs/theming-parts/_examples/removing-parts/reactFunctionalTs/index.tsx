@@ -12,7 +12,6 @@ import { AgGridReact } from "ag-grid-react";
 import "./style.css";
 import "./style.css";
 import {
-  AllCommunityModule,
   ColDef,
   ColGroupDef,
   GridOptions,
@@ -20,12 +19,11 @@ import {
   ModuleRegistry,
   RowSelectionOptions,
   Theme,
-  createGrid,
   themeQuartz,
 } from "ag-grid-community";
 import { AllEnterpriseModule } from "ag-grid-enterprise";
 import { IOlympicData } from "./interfaces";
-ModuleRegistry.registerModules([AllCommunityModule, AllEnterpriseModule]);
+ModuleRegistry.registerModules([AllEnterpriseModule]);
 
 const myCustomTheme = themeQuartz.withoutPart("checkboxStyle");
 
@@ -104,3 +102,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

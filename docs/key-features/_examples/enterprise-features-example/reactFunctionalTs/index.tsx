@@ -21,7 +21,6 @@ import {
   ModuleRegistry,
   RowGroupingDisplayType,
   SideBarDef,
-  createGrid,
 } from "ag-grid-community";
 import {
   AllEnterpriseModule,
@@ -32,8 +31,6 @@ ModuleRegistry.registerModules([
   AllEnterpriseModule,
   IntegratedChartsModule.with(AgChartsEnterpriseModule),
 ]);
-
-const gridDiv = document.querySelector<HTMLElement>("#myGrid")!;
 
 const GridExample = () => {
   const gridRef = useRef<AgGridReact>(null);
@@ -431,3 +428,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

@@ -1,19 +1,12 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useCallback, useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import {
   ClientSideRowModelModule,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
@@ -41,13 +34,13 @@ const filterParams = {
   },
 };
 
-const getRowData = () => {
+function getRowData() {
   const rows = [];
   for (let i = 1; i < 117; i++) {
     rows.push({ age: i });
   }
   return rows;
-};
+}
 
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);

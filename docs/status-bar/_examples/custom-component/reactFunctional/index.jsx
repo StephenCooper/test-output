@@ -1,8 +1,6 @@
 'use client';
-import "ag-grid-enterprise";
 import React, { StrictMode, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   ClientSideRowModelModule,
   EventApiModule,
@@ -16,8 +14,8 @@ import {
 import { CellSelectionModule, StatusBarModule } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react";
 
-import ClickableStatusBarComponent from "./clickableStatusBarComponent.jsx";
-import CountStatusBarComponent from "./countStatusBarComponent.jsx";
+import ClickableStatusBarComponent from "./clickableStatusBarComponent";
+import CountStatusBarComponent from "./countStatusBarComponent";
 import "./styles.css";
 
 ModuleRegistry.registerModules([

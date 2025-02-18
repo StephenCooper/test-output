@@ -20,7 +20,6 @@ import {
   SideBarDef,
   TextEditorModule,
   ValidationModule,
-  createGrid,
   iconOverrides,
   themeQuartz,
 } from "ag-grid-community";

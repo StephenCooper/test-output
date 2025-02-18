@@ -23,7 +23,6 @@ import {
   TextEditorModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { RowGroupingModule } from "ag-grid-enterprise";
 ModuleRegistry.registerModules([
@@ -122,3 +121,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

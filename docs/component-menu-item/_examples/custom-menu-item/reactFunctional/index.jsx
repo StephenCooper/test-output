@@ -1,8 +1,7 @@
 'use client';
-import "ag-grid-enterprise";
+import { useFetchJson } from './useFetchJson';
 import React, { StrictMode, useCallback, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   ClientSideRowModelModule,
   ModuleRegistry,
@@ -16,8 +15,7 @@ import {
   ExcelExportModule,
 } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react";
-
-import MenuItem from "./menuItem.jsx";
+import MenuItem from "./menuItem";
 
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
@@ -33,7 +31,7 @@ ModuleRegistry.registerModules([
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState();
+
   const [columnDefs, setColumnDefs] = useState([
     { field: "athlete" },
     { field: "country" },
@@ -50,13 +48,9 @@ const GridExample = () => {
     };
   }, []);
 
-  const onGridReady = useCallback((params) => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data) => {
-        setRowData(data);
-      });
-  }, []);
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
 
   const getMainMenuItems = useCallback((params) => {
     return [
@@ -106,12 +100,12 @@ const GridExample = () => {
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact
-          rowData={rowData}
+          rowData={data}
+          loading={loading}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           getMainMenuItems={getMainMenuItems}
           getContextMenuItems={getContextMenuItems}
-          onGridReady={onGridReady}
         />
       </div>
     </div>

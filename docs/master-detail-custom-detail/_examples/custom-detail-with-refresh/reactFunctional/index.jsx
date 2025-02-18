@@ -1,8 +1,6 @@
 'use client';
-import "ag-grid-enterprise";
 import React, { StrictMode, useCallback, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   ClientSideRowModelApiModule,
   ClientSideRowModelModule,
@@ -18,7 +16,7 @@ import {
 } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react";
 
-import DetailCellRenderer from "./detailCellRenderer.jsx";
+import DetailCellRenderer from "./detailCellRenderer";
 import "./styles.css";
 
 ModuleRegistry.registerModules([

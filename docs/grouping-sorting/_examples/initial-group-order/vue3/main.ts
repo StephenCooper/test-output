@@ -17,7 +17,6 @@ import {
   ModuleRegistry,
   RowGroupingDisplayType,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,

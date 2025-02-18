@@ -15,11 +15,9 @@ import {
   ColGroupDef,
   GridApi,
   GridOptions,
-  GridReadyEvent,
   ModuleRegistry,
   SideBarDef,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnsToolPanelModule,
@@ -36,11 +34,15 @@ ModuleRegistry.registerModules([
   PivotModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 const GridExample = () => {
+  const { data, loading } = useFetchJson<IOlympicData>(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState<IOlympicData[]>();
+
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
     { field: "country", rowGroup: true, enableRowGroup: true },
     { field: "athlete", enablePivot: true },
@@ -62,12 +64,6 @@ const GridExample = () => {
     };
   }, []);
 
-  const onGridReady = useCallback((params: GridReadyEvent) => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data: IOlympicData[]) => setRowData(data));
-  }, []);
-
   const onPivotMaxColumnsExceeded = useCallback(() => {
     console.error(
       "The limit of 1000 generated columns has been exceeded. Either remove pivot or aggregations from some columns or increase the limit.",
@@ -78,14 +74,14 @@ const GridExample = () => {
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact<IOlympicData>
-          rowData={rowData}
+          rowData={data}
+          loading={loading}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           autoGroupColumnDef={autoGroupColumnDef}
           pivotMode={true}
           sideBar={"columns"}
           pivotMaxGeneratedColumns={1000}
-          onGridReady={onGridReady}
           onPivotMaxColumnsExceeded={onPivotMaxColumnsExceeded}
         />
       </div>
@@ -99,3 +95,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

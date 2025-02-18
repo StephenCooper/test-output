@@ -1,10 +1,8 @@
 'use client';
-import "ag-grid-enterprise";
 import React, { StrictMode, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
 
 import {
-  AllCommunityModule,
   ModuleRegistry,
   colorSchemeDark,
   colorSchemeDarkBlue,
@@ -25,7 +23,7 @@ import {
 import { AllEnterpriseModule } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react";
 
-ModuleRegistry.registerModules([AllCommunityModule, AllEnterpriseModule]);
+ModuleRegistry.registerModules([AllEnterpriseModule]);
 
 const baseThemes = [
   { id: "themeQuartz", value: themeQuartz },

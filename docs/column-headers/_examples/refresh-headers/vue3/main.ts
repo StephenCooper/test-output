@@ -18,7 +18,6 @@ import {
   NumberFilterModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import CustomHeader from "./customHeaderVue";
 import { IOlympicData } from "./interfaces";

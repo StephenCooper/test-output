@@ -1,8 +1,9 @@
 import React, { Fragment } from "react";
 
 export default ({ model, onModelChange }) => {
-  const onInput = ({ target: { value } }) =>
+  const onInput = ({ target: { value } }) => {
     onModelChange(value === "" ? null : Number(value));
+  };
 
   return (
     <Fragment>

@@ -17,7 +17,6 @@ import {
   NumberFilterModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import NumberFloatingFilterComponent from "./numberFloatingFilterComponentVue";
 import { IOlympicData } from "./interfaces";

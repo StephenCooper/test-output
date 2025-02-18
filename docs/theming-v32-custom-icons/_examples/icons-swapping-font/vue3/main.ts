@@ -23,7 +23,6 @@ import {
   TextEditorModule,
   Theme,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,

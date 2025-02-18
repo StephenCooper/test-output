@@ -1,19 +1,12 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useCallback, useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import {
   ClientSideRowModelModule,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
@@ -56,7 +49,7 @@ const daysValuesProvidedFilterParams = {
   suppressSorting: true, // use provided order
 };
 
-const getRowData = () => {
+function getRowData() {
   const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
   const rows = [];
   for (let i = 0; i < 200; i++) {
@@ -64,7 +57,7 @@ const getRowData = () => {
     rows.push({ days: weekdays[index] });
   }
   return rows;
-};
+}
 
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);

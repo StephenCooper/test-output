@@ -9,7 +9,6 @@ import {
   GridReadyEvent,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { RowGroupingModule } from "ag-grid-enterprise";
 import { getData } from "./data";

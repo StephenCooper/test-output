@@ -20,7 +20,6 @@ import {
   NumberEditorModule,
   TextEditorModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { ColumnMenuModule, ContextMenuModule } from "ag-grid-enterprise";
 ModuleRegistry.registerModules([
@@ -148,3 +147,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

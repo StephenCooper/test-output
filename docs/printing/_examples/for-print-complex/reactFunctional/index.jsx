@@ -10,15 +10,14 @@ import React, {
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./style.css";
-import { getData } from "./data.jsx";
 import {
   ClientSideRowModelApiModule,
   ClientSideRowModelModule,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { RowGroupingModule } from "ag-grid-enterprise";
+import { getData } from "./data";
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ClientSideRowModelApiModule,
@@ -26,22 +25,22 @@ ModuleRegistry.registerModules([
   ValidationModule /* Development Only */,
 ]);
 
-const setPrinterFriendly = (api) => {
+function setPrinterFriendly(api) {
   const eGridDiv = document.querySelector("#myGrid");
   eGridDiv.style.width = "";
   eGridDiv.style.height = "";
   api.setGridOption("domLayout", "print");
-};
+}
 
-const setNormal = (api) => {
+function setNormal(api) {
   const eGridDiv = document.querySelector("#myGrid");
   eGridDiv.style.width = "700px";
   eGridDiv.style.height = "200px";
   api.setGridOption("domLayout", undefined);
-};
+}
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "200px", width: "700px" }), []);
   const [rowData, setRowData] = useState(getData());

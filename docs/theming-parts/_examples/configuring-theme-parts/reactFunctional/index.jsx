@@ -1,17 +1,9 @@
 'use client';
-import "ag-grid-enterprise";
 import React, { StrictMode, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
 
 import {
-  AllCommunityModule,
-  ClientSideRowModelModule,
   ModuleRegistry,
-  NumberEditorModule,
-  NumberFilterModule,
-  TextEditorModule,
-  TextFilterModule,
-  ValidationModule,
   colorSchemeDark,
   colorSchemeDarkBlue,
   colorSchemeDarkWarm,
@@ -28,19 +20,10 @@ import {
   themeBalham,
   themeQuartz,
 } from "ag-grid-community";
-import {
-  AllEnterpriseModule,
-  ColumnMenuModule,
-  ColumnsToolPanelModule,
-  ContextMenuModule,
-  ExcelExportModule,
-  FiltersToolPanelModule,
-  PivotModule,
-  SideBarModule,
-} from "ag-grid-enterprise";
+import { AllEnterpriseModule } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react";
 
-ModuleRegistry.registerModules([AllCommunityModule, AllEnterpriseModule]);
+ModuleRegistry.registerModules([AllEnterpriseModule]);
 
 const baseThemes = [
   { id: "themeQuartz", value: themeQuartz },

@@ -23,7 +23,6 @@ import {
   ICellRendererParams,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
@@ -51,7 +50,7 @@ const GridExample = () => {
   const gridRef = useRef<AgGridReact<IOlympicData>>(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-
+  const [rowData, setRowData] = useState<IOlympicData[]>();
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
     { field: "athlete", width: 200 },
     {
@@ -120,7 +119,7 @@ const GridExample = () => {
       .then((data) =>
         createBase64FlagsFromResponse(data, countryCodes, base64flags),
       )
-      .then((data) => params.api.setGridOption("rowData", data));
+      .then((data) => setRowData(data));
   }, []);
 
   const onBtExport = useCallback(() => {
@@ -139,6 +138,7 @@ const GridExample = () => {
           <div style={gridStyle}>
             <AgGridReact<IOlympicData>
               ref={gridRef}
+              rowData={rowData}
               columnDefs={columnDefs}
               defaultColDef={defaultColDef}
               excelStyles={excelStyles}
@@ -159,3 +159,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

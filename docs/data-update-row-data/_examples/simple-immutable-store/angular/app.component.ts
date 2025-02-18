@@ -17,7 +17,6 @@ import {
   StatusPanelDef,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   CellSelectionModule,

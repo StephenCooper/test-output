@@ -4,7 +4,6 @@ import React, {
   useImperativeHandle,
   useRef,
 } from "react";
-
 import { useGridFilter } from "ag-grid-react";
 
 export default forwardRef(({ model, onModelChange, getValue }, ref) => {
@@ -22,9 +21,9 @@ export default forwardRef(({ model, onModelChange, getValue }, ref) => {
     [model],
   );
 
-  const afterGuiAttached = useCallback((params) => {
+  const afterGuiAttached = useCallback(() => {
     window.setTimeout(() => {
-      refInput.current.focus();
+      refInput.current?.focus();
     });
   }, []);
 

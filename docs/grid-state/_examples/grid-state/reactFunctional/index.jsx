@@ -1,5 +1,4 @@
 'use client';
-import "ag-grid-enterprise";
 import React, {
   StrictMode,
   useCallback,
@@ -8,7 +7,6 @@ import React, {
   useState,
 } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   ClientSideRowModelModule,
   GridStateModule,
@@ -26,7 +24,6 @@ import {
   SetFilterModule,
 } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react";
-
 import "./styles.css";
 
 ModuleRegistry.registerModules([
@@ -86,6 +83,14 @@ const GridExample = () => {
       .then((data) => setRowData(data));
   }, []);
 
+  const reloadGrid = useCallback(() => {
+    setGridVisible(false);
+    setTimeout(() => {
+      setRowData(undefined);
+      setGridVisible(true);
+    });
+  }, []);
+
   const onGridPreDestroyed = useCallback((params) => {
     const { state } = params;
     console.log("Grid state on destroy (can be persisted)", state);
@@ -95,14 +100,6 @@ const GridExample = () => {
   const onStateUpdated = useCallback((params) => {
     console.log("State updated", params.state);
     setCurrentState(params.state);
-  }, []);
-
-  const reloadGrid = useCallback(() => {
-    setGridVisible(false);
-    setTimeout(() => {
-      setRowData(undefined);
-      setGridVisible(true);
-    });
   }, []);
 
   const printState = useCallback(() => {

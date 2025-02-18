@@ -1,5 +1,4 @@
 'use client';
-import "ag-grid-enterprise";
 import React, {
   StrictMode,
   useCallback,
@@ -8,7 +7,6 @@ import React, {
   useState,
 } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   ClientSideRowModelModule,
   CustomEditorModule,
@@ -24,7 +22,7 @@ import {
 } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react";
 
-import NumericCellEditor from "./numericCellEditor.jsx";
+import NumericCellEditor from "./numericCellEditor";
 import "./styles.css";
 
 ModuleRegistry.registerModules([

@@ -21,7 +21,6 @@ import {
   TextEditorModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
@@ -42,12 +41,16 @@ ModuleRegistry.registerModules([
   PivotModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/wide-spread-of-sports.json",
+  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState();
+
   const [columnDefs, setColumnDefs] = useState([
     { field: "country", pivot: true },
     { field: "year", rowGroup: true },
@@ -72,19 +75,13 @@ const GridExample = () => {
     return document.body;
   }, []);
 
-  const onGridReady = useCallback((params) => {
-    fetch("https://www.ag-grid.com/example-assets/wide-spread-of-sports.json")
-      .then((resp) => resp.json())
-      .then((data) => {
-        setRowData(data);
-      });
-  }, []);
   /** DARK INTEGRATED START **/ const [tick, setTick] = useState(0);
   useEffect(() => {
     setTick(1);
     const isInitialModeDark =
       document.documentElement.dataset.agThemeMode?.includes("dark");
 
+    // update chart themes based on dark mode status
     const updateChartThemes = (isDark) => {
       const themes = [
         "ag-default",
@@ -127,6 +124,7 @@ const GridExample = () => {
     };
     trySetInitial(0);
 
+    // event handler for color scheme changes
     const handleColorSchemeChange = (event) => {
       const { darkMode } = event.detail;
       updateChartThemes(darkMode);
@@ -159,13 +157,13 @@ const GridExample = () => {
         <div id="myGrid" style={gridStyle}>
           <AgGridReact
             ref={gridRef}
-            rowData={rowData}
+            rowData={data}
+            loading={loading}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
             autoGroupColumnDef={autoGroupColumnDef}
             pivotMode={true}
             popupParent={popupParent}
-            onGridReady={onGridReady}
             onFirstDataRendered={onFirstDataRendered}
           />
         </div>

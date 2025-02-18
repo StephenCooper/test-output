@@ -1,25 +1,14 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./style.css";
-import {} from "./style.css.jsx";
-import {
-  AllCommunityModule,
-  ModuleRegistry,
-  createGrid,
-  themeQuartz,
-} from "ag-grid-community";
-import { AllEnterpriseModule } from "ag-grid-enterprise";
 import "./style.css";
-ModuleRegistry.registerModules([AllCommunityModule, AllEnterpriseModule]);
+import { ModuleRegistry, themeQuartz } from "ag-grid-community";
+import { AllEnterpriseModule } from "ag-grid-enterprise";
+ModuleRegistry.registerModules([AllEnterpriseModule]);
+import { useFetchJson } from "./useFetchJson";
 
 const myTheme = themeQuartz.withParams({
   // the grid will load these fonts for you if loadThemeGoogleFonts=true
@@ -32,9 +21,12 @@ const myTheme = themeQuartz.withParams({
 });
 
 const GridExample = () => {
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState();
+
   const [columnDefs, setColumnDefs] = useState([
     { field: "athlete", minWidth: 170 },
     { field: "age" },
@@ -55,23 +47,17 @@ const GridExample = () => {
     };
   }, []);
 
-  const onGridReady = useCallback((params) => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data) => setRowData(data));
-  }, []);
-
   return (
     <div style={containerStyle}>
       <div style={gridStyle} className="ag-theme-quartz">
         <AgGridReact
-          rowData={rowData}
+          rowData={data}
+          loading={loading}
           columnDefs={columnDefs}
           theme={theme}
           loadThemeGoogleFonts={true}
           defaultColDef={defaultColDef}
           sideBar={true}
-          onGridReady={onGridReady}
         />
       </div>
     </div>

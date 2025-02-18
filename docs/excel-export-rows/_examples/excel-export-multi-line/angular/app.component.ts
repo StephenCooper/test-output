@@ -15,7 +15,6 @@ import {
   ModuleRegistry,
   RowAutoHeightModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,

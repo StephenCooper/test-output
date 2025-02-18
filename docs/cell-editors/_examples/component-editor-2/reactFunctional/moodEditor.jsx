@@ -18,7 +18,7 @@ export default memo(({ value, onValueChange, stopEditing }) => {
   };
 
   useEffect(() => {
-    refContainer.current.focus();
+    refContainer.current?.focus();
     setReady(true);
   }, []);
 

@@ -7,7 +7,6 @@ import {
 } from "vue";
 import { AgGridVue } from "ag-grid-vue3";
 import {
-  AllCommunityModule,
   CellSelectionOptions,
   ColDef,
   ColGroupDef,
@@ -16,12 +15,11 @@ import {
   GridReadyEvent,
   ModuleRegistry,
   Theme,
-  createGrid,
   themeQuartz,
 } from "ag-grid-community";
 import { AllEnterpriseModule } from "ag-grid-enterprise";
 import { IOlympicData } from "./interfaces";
-ModuleRegistry.registerModules([AllCommunityModule, AllEnterpriseModule]);
+ModuleRegistry.registerModules([AllEnterpriseModule]);
 
 const myTheme = themeQuartz.withParams({
   // color and style of border around selection

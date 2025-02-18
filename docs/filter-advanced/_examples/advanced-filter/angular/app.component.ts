@@ -12,7 +12,6 @@ import {
   ModuleRegistry,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   AdvancedFilterModule,

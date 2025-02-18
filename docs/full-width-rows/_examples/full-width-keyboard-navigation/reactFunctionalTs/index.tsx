@@ -21,7 +21,6 @@ import {
   SuppressKeyboardEventParams,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { getData } from "./data";
 import FullWidthCellRenderer from "./fullWidthCellRenderer.tsx";
@@ -153,3 +152,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

@@ -1,7 +1,7 @@
 'use client';
+import { useFetchJson } from './useFetchJson';
 import React, { StrictMode, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   ClientSideRowModelModule,
   ModuleRegistry,
@@ -25,9 +25,8 @@ ModuleRegistry.registerModules([
 ]);
 
 const GridExample = () => {
-  const [gridApi, setGridApi] = useState(null);
-  const [rowData, setRowData] = useState(null);
   const [lastFocused, setLastFocused] = useState();
+
   const columnDefs = useMemo(
     () => [
       {
@@ -52,17 +51,9 @@ const GridExample = () => {
     [],
   );
 
-  const onGridReady = (params) => {
-    setGridApi(params.api);
-
-    const updateData = (data) => {
-      setRowData(data);
-    };
-
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data) => updateData(data));
-  };
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
 
   const onCellFocused = (params) => {
     setLastFocused({ column: params.column, rowIndex: params.rowIndex });
@@ -78,9 +69,9 @@ const GridExample = () => {
     }
 
     if (lastFocused.rowIndex != null) {
-      gridApi.setFocusedCell(lastFocused.rowIndex, lastFocused.column);
+      params.api.setFocusedCell(lastFocused.rowIndex, lastFocused.column);
     } else {
-      gridApi.setFocusedHeader(lastFocused.column);
+      params.api.setFocusedHeader(lastFocused.column);
     }
 
     return true;
@@ -107,10 +98,10 @@ const GridExample = () => {
         </div>
         <div id="myGrid" style={{ height: "100%", width: "100%" }}>
           <AgGridReact
-            rowData={rowData}
+            rowData={data}
+            loading={loading}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
-            onGridReady={onGridReady}
             onCellFocused={onCellFocused}
             onHeaderFocused={onHeaderFocused}
             focusGridInnerElement={focusGridInnerElement}

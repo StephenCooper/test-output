@@ -1,7 +1,6 @@
 'use client';
 import React, { StrictMode, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   ClientSideRowModelModule,
   CustomEditorModule,
@@ -12,7 +11,7 @@ import {
 } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
 
-import NumericEditor from "./numericEditor.jsx";
+import NumericEditor from "./numericEditor";
 import "./styles.css";
 
 ModuleRegistry.registerModules([
@@ -48,7 +47,7 @@ const GridExample = () => {
         width: 300,
       },
       {
-        headerName: "Numeric",
+        headerName: "Custom Numeric",
         field: "number",
         cellEditor: NumericEditor,
         editable: true,

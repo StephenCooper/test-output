@@ -10,7 +10,6 @@ import React, {
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./styles.css";
-import { getData } from "./data.jsx";
 import {
   ClientSideRowModelModule,
   ModuleRegistry,
@@ -19,8 +18,8 @@ import {
   RowStyleModule,
   TextEditorModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
+import { getData } from "./data";
 ModuleRegistry.registerModules([
   TextEditorModule,
   NumberEditorModule,
@@ -30,12 +29,12 @@ ModuleRegistry.registerModules([
   ValidationModule /* Development Only */,
 ]);
 
-const randomInt = () => {
+function randomInt() {
   return Math.floor(Math.random() * 10);
-};
+}
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [rowData, setRowData] = useState(getData());

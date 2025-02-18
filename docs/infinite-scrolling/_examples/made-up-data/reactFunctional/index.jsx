@@ -1,12 +1,6 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useCallback, useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import {
@@ -15,7 +9,6 @@ import {
   ModuleRegistry,
   RowSelectionModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   ColumnApiModule,
@@ -26,7 +19,7 @@ ModuleRegistry.registerModules([
 
 const ALPHABET = "abcdefghijklmnopqrstuvwxyz".split("");
 
-const getColumnDefs = () => {
+function getColumnDefs() {
   const columnDefs = [
     { headerName: "#", width: 80, valueGetter: "node.rowIndex" },
   ];
@@ -38,9 +31,9 @@ const getColumnDefs = () => {
     });
   });
   return columnDefs;
-};
+}
 
-const getDataSource = (count) => {
+function getDataSource(count) {
   const dataSource = {
     rowCount: count,
     getRows: (params) => {
@@ -66,7 +59,7 @@ const getDataSource = (count) => {
     },
   };
   return dataSource;
-};
+}
 
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);

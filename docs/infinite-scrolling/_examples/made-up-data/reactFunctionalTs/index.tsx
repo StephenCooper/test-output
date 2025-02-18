@@ -25,7 +25,6 @@ import {
   RowSelectionModule,
   RowSelectionOptions,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   ColumnApiModule,
@@ -123,3 +122,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

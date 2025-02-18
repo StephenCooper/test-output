@@ -16,12 +16,10 @@ import {
   ColGroupDef,
   GridApi,
   GridOptions,
-  GridReadyEvent,
   ModuleRegistry,
   NumberFilterModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { PivotModule } from "ag-grid-enterprise";
 import { IOlympicData } from "./interfaces";
@@ -32,6 +30,7 @@ ModuleRegistry.registerModules([
   NumberFilterModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 function setIdText(id: string, value: string | number | undefined) {
   document.getElementById(id)!.textContent =
@@ -40,9 +39,12 @@ function setIdText(id: string, value: string | number | undefined) {
 
 const GridExample = () => {
   const gridRef = useRef<AgGridReact<IOlympicData>>(null);
+  const { data, loading } = useFetchJson<IOlympicData>(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState<IOlympicData[]>();
+
   const [columnDefs, setColumnDefs] = useState<(ColDef | ColGroupDef)[]>([
     {
       headerName: "Athlete Details",
@@ -113,12 +115,6 @@ const GridExample = () => {
     return {
       width: 200,
     };
-  }, []);
-
-  const onGridReady = useCallback((params: GridReadyEvent) => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data: IOlympicData[]) => setRowData(data));
   }, []);
 
   const setPivotOn = useCallback(() => {
@@ -252,11 +248,11 @@ const GridExample = () => {
         <div style={gridStyle}>
           <AgGridReact<IOlympicData>
             ref={gridRef}
-            rowData={rowData}
+            rowData={data}
+            loading={loading}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
             autoGroupColumnDef={autoGroupColumnDef}
-            onGridReady={onGridReady}
           />
         </div>
       </div>
@@ -270,3 +266,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

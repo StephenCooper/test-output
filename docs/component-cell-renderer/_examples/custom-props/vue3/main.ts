@@ -17,7 +17,6 @@ import {
   ModuleRegistry,
   RowApiModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import CustomButtonComponent from "./customButtonComponentVue";
 import MissionResultRenderer from "./missionResultRendererVue";

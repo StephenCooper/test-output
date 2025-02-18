@@ -23,7 +23,6 @@ import {
   NumberEditorModule,
   TextEditorModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { CellSelectionModule } from "ag-grid-enterprise";
 import { IOlympicDataWithId } from "./interfaces";
@@ -124,3 +123,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

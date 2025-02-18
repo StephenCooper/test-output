@@ -25,7 +25,6 @@ import {
   RowStyleModule,
   ValidationModule,
   ValueFormatterParams,
-  createGrid,
 } from "ag-grid-community";
 import { RowGroupingModule } from "ag-grid-enterprise";
 import { createNewRowData, getData } from "./data";
@@ -198,3 +197,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

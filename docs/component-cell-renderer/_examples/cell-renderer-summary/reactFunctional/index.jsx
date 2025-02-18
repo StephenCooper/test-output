@@ -1,34 +1,31 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./styles.css";
-import CompanyLogoRenderer from "./companyLogoRenderer.jsx";
-import CompanyRenderer from "./companyRenderer.jsx";
-import CustomButtonComponent from "./customButtonComponent.jsx";
-import MissionResultRenderer from "./missionResultRenderer.jsx";
-import PriceRenderer from "./priceRenderer.jsx";
 import {
   CellStyleModule,
   ClientSideRowModelModule,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
+import CompanyLogoRenderer from "./companyLogoRenderer.jsx";
+import CompanyRenderer from "./companyRenderer.jsx";
+import CustomButtonComponent from "./customButtonComponent.jsx";
+import MissionResultRenderer from "./missionResultRenderer.jsx";
+import PriceRenderer from "./priceRenderer.jsx";
 ModuleRegistry.registerModules([
   CellStyleModule,
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 const GridExample = () => {
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/small-company-data.json",
+  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [rowData, setRowData] = useState([]);
@@ -69,22 +66,15 @@ const GridExample = () => {
     },
   ]);
 
-  const onGridReady = useCallback((params) => {
-    fetch("https://www.ag-grid.com/example-assets/small-company-data.json")
-      .then((resp) => resp.json())
-      .then((data) => {
-        setRowData(data);
-      });
-  }, []);
-
   return (
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact
           rowData={rowData}
+          rowData={data}
+          loading={loading}
           defaultColDef={defaultColDef}
           columnDefs={columnDefs}
-          onGridReady={onGridReady}
         />
       </div>
     </div>

@@ -22,7 +22,6 @@ import {
   NumberFilterModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
@@ -94,14 +93,14 @@ const GridExample = () => {
   }, []);
 
   const onGridReady = useCallback((params: GridReadyEvent) => {
+    (document.getElementById("columnGroups") as HTMLInputElement).checked =
+      true;
+
     fetch("https://www.ag-grid.com/example-assets/small-olympic-winners.json")
       .then((resp) => resp.json())
       .then((data: IOlympicData[]) =>
         setRowData(data.filter((rec: any) => rec.country != null)),
       );
-
-    (document.getElementById("columnGroups") as HTMLInputElement).checked =
-      true;
   }, []);
 
   const onBtExport = useCallback(() => {
@@ -153,3 +152,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

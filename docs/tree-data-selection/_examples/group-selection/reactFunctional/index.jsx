@@ -10,14 +10,12 @@ import React, {
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./styles.css";
-import { getData } from "./data.jsx";
 import {
   ClientSideRowModelModule,
   ModuleRegistry,
   QuickFilterModule,
   RowSelectionModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
@@ -25,6 +23,7 @@ import {
   ContextMenuModule,
   TreeDataModule,
 } from "ag-grid-enterprise";
+import { getData } from "./data";
 ModuleRegistry.registerModules([
   RowSelectionModule,
   QuickFilterModule,
@@ -41,7 +40,7 @@ const getGroupSelectsValue = () => {
 };
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [rowData, setRowData] = useState(getData());

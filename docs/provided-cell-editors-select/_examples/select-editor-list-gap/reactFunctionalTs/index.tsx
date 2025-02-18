@@ -19,7 +19,6 @@ import {
   ModuleRegistry,
   SelectEditorModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
@@ -79,3 +78,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

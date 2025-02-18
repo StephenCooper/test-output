@@ -7,7 +7,6 @@ import React, {
   useState,
 } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   ClientSideRowModelModule,
   ColumnApiModule,
@@ -16,7 +15,7 @@ import {
 } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
 
-import { getData } from "./data.jsx";
+import { getData } from "./data";
 import "./styles.css";
 
 ModuleRegistry.registerModules([
@@ -26,11 +25,12 @@ ModuleRegistry.registerModules([
 ]);
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const [gridKey, setGridKey] = useState(`grid-key-${Math.random()}`);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [rowData, setRowData] = useState(getData());
+
   const [columnDefs, setColumnDefs] = useState([
     { field: "name", headerName: "Athlete", width: 250 },
     { field: "person.country", headerName: "Country" },
@@ -43,7 +43,6 @@ const GridExample = () => {
   const onGridReady = useCallback((params) => {
     const checkbox = document.querySelector("#pinFirstColumnOnLoad");
     const shouldPinFirstColumn = checkbox && checkbox.checked;
-
     if (shouldPinFirstColumn) {
       params.api.applyColumnState({
         state: [{ colId: "name", pinned: "left" }],
@@ -73,6 +72,7 @@ const GridExample = () => {
             </button>
           </div>
         </div>
+
         <div style={gridStyle}>
           <AgGridReact
             key={gridKey}

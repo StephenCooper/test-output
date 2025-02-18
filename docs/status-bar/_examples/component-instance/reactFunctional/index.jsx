@@ -1,5 +1,4 @@
 'use client';
-import "ag-grid-enterprise";
 import React, {
   StrictMode,
   useCallback,
@@ -8,7 +7,6 @@ import React, {
   useState,
 } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   ClientSideRowModelModule,
   ModuleRegistry,
@@ -20,7 +18,7 @@ import {
 import { CellSelectionModule, StatusBarModule } from "ag-grid-enterprise";
 import { AgGridReact, getInstance } from "ag-grid-react";
 
-import ClickableStatusBarComponent from "./clickableStatusBarComponent.jsx";
+import ClickableStatusBarComponent from "./clickableStatusBarComponent";
 import "./styles.css";
 
 ModuleRegistry.registerModules([
@@ -38,7 +36,7 @@ const rowSelection = {
 };
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "90%", width: "100%" }), []);
   const [rowData, setRowData] = useState([

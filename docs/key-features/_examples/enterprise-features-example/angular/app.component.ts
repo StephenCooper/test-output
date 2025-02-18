@@ -12,7 +12,6 @@ import {
   ModuleRegistry,
   RowGroupingDisplayType,
   SideBarDef,
-  createGrid,
 } from "ag-grid-community";
 import {
   AllEnterpriseModule,
@@ -402,5 +401,3 @@ export class AppComponent {
     );
   } /** DARK INTEGRATED END **/
 }
-
-const gridDiv = document.querySelector<HTMLElement>("#myGrid")!;

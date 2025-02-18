@@ -19,7 +19,6 @@ import {
   GridOptions,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { SparklinesModule } from "ag-grid-enterprise";
 import { getData } from "./data";
@@ -142,3 +141,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

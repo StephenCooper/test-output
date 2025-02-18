@@ -18,7 +18,6 @@ import {
   RowSelectionOptions,
   Theme,
   colorSchemeVariable,
-  createGrid,
   createTheme,
   iconSetMaterial,
 } from "ag-grid-community";
@@ -104,3 +103,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

@@ -15,7 +15,6 @@ import {
   RowApiModule,
   RowSelectionModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   CellSelectionModule,

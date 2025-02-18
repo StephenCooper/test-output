@@ -1,30 +1,23 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useCallback, useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./style.css";
-import FullWidthCellRenderer from "./fullWidthCellRenderer.jsx";
 import {
   ClientSideRowModelModule,
   ColumnApiModule,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
+import FullWidthCellRenderer from "./fullWidthCellRenderer.jsx";
 ModuleRegistry.registerModules([
   ColumnApiModule,
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
 
-const getColumnDefs = () => {
+function getColumnDefs() {
   const columnDefs = [];
   alphabet().forEach((letter) => {
     const colDef = {
@@ -41,13 +34,13 @@ const getColumnDefs = () => {
     columnDefs.push(colDef);
   });
   return columnDefs;
-};
+}
 
-const alphabet = () => {
+function alphabet() {
   return "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-};
+}
 
-const createData = (count, prefix) => {
+function createData(count, prefix) {
   const rowData = [];
   for (let i = 0; i < count; i++) {
     const item = {};
@@ -63,7 +56,7 @@ const createData = (count, prefix) => {
     rowData.push(item);
   }
   return rowData;
-};
+}
 
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);

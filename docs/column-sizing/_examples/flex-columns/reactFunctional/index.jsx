@@ -1,19 +1,12 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useCallback, useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import {
   ClientSideRowModelModule,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
@@ -24,7 +17,7 @@ const colSpan = function (params) {
   return params.data === 2 ? 3 : 1;
 };
 
-const fillAllCellsWithWidthMeasurement = () => {
+function fillAllCellsWithWidthMeasurement() {
   Array.prototype.slice
     .call(document.querySelectorAll(".ag-cell"))
     .forEach((cell) => {
@@ -32,7 +25,7 @@ const fillAllCellsWithWidthMeasurement = () => {
       const isFullWidthRow = cell.parentElement.childNodes.length === 1;
       cell.textContent = (isFullWidthRow ? "Total width: " : "") + width + "px";
     });
-};
+}
 
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);

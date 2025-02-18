@@ -19,7 +19,6 @@ import {
   ModuleRegistry,
   SelectEditorModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { colors } from "./colors";
 ModuleRegistry.registerModules([
@@ -88,3 +87,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

@@ -17,7 +17,6 @@ import {
   HighlightChangesModule,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { PivotModule } from "ag-grid-enterprise";
 ModuleRegistry.registerModules([
@@ -29,7 +28,7 @@ ModuleRegistry.registerModules([
   ValidationModule /* Development Only */,
 ]);
 
-const ageRangeValueGetter = (params) => {
+function ageRangeValueGetter(params) {
   const age = params.getValue("age");
   if (age === undefined) {
     return null;
@@ -41,28 +40,28 @@ const ageRangeValueGetter = (params) => {
   } else {
     return "20 to 30";
   }
-};
+}
 
 // pretty basic, but deterministic (so same numbers each time we run), random number generator
 var seed;
 
-const random = () => {
+function random() {
   seed = ((seed || 1) * 16807) % 2147483647;
   return seed;
-};
+}
 
-const getRowData = () => {
+function getRowData() {
   const rowData = [];
   for (let i = 1; i <= 100; i++) {
     const row = createRow();
     rowData.push(row);
   }
   return rowData;
-};
+}
 
 var studentId;
 
-const createRow = () => {
+function createRow() {
   studentId = studentId ? studentId : 10023;
   const randomNumber = random();
   return {
@@ -72,22 +71,22 @@ const createRow = () => {
     yearGroup: "Year " + ((randomNumber % 4) + 1),
     age: (randomNumber % 25) + 15, // 15 to 40
   };
-};
+}
 
-const createNewRandomScore = (data) => {
+function createNewRandomScore(data) {
   let randomValue = createRandomNumber();
   // make sure random number is not actually the same number again
   while (randomValue === data.points) {
     randomValue = createRandomNumber();
   }
   return randomValue;
-};
+}
 
-const createRandomNumber = () => {
+function createRandomNumber() {
   return Math.floor(Math.random() * 100);
-};
+}
 
-const pickExistingRowNodeAtRandom = (api) => {
+function pickExistingRowNodeAtRandom(api) {
   const allItems = [];
   api.forEachLeafNode(function (rowNode) {
     allItems.push(rowNode);
@@ -97,7 +96,7 @@ const pickExistingRowNodeAtRandom = (api) => {
   }
   const result = allItems[Math.floor(Math.random() * allItems.length)];
   return result;
-};
+}
 
 const pickExistingRowItemAtRandom = (api) => {
   const rowNode = pickExistingRowNodeAtRandom(api);
@@ -105,7 +104,7 @@ const pickExistingRowItemAtRandom = (api) => {
 };
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [rowData, setRowData] = useState(getRowData());

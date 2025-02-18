@@ -1,5 +1,4 @@
 import React, { useCallback, useRef } from "react";
-
 import { useGridFilter } from "ag-grid-react";
 
 export default ({ model, onModelChange }) => {
@@ -11,7 +10,7 @@ export default ({ model, onModelChange }) => {
 
   const afterGuiAttached = useCallback((params) => {
     if (!params || !params.suppressFocus) {
-      refInput.current.focus();
+      refInput.current?.focus();
     }
   }, []);
 

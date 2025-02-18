@@ -21,7 +21,6 @@ import {
   RowStyleModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   TextFilterModule,

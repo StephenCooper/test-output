@@ -11,7 +11,6 @@ export default (props) => {
 
     // Get the initial count
     onRowCountChanged();
-
     return () => {
       props.api.removeEventListener("rowDataUpdated", onRowCountChanged);
     };

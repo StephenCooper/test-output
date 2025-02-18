@@ -1,12 +1,6 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./styles.css";
@@ -14,42 +8,41 @@ import {
   ClientSideRowModelModule,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
 
-const hashValueGetter = (params) => {
+function hashValueGetter(params) {
   return params.node ? Number(params.node.id) : null;
-};
+}
 
-const abValueGetter = (params) => {
+function abValueGetter(params) {
   return params.data.a + params.data.b;
-};
+}
 
-const a1000ValueGetter = (params) => {
+function a1000ValueGetter(params) {
   return params.data.a * 1000;
-};
+}
 
-const b137ValueGetter = (params) => {
+function b137ValueGetter(params) {
   return params.data.b * 137;
-};
+}
 
-const randomValueGetter = () => {
+function randomValueGetter() {
   return Math.floor(Math.random() * 1000);
-};
+}
 
-const chainValueGetter = (params) => {
+function chainValueGetter(params) {
   return params.getValue("a&b") * 1000;
-};
+}
 
-const constValueGetter = () => {
+function constValueGetter() {
   return 99999;
-};
+}
 
-const createRowData = () => {
+function createRowData() {
   const rowData = [];
   for (let i = 0; i < 100; i++) {
     rowData.push({
@@ -58,7 +51,7 @@ const createRowData = () => {
     });
   }
   return rowData;
-};
+}
 
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);

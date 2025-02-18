@@ -16,7 +16,6 @@ import {
   NumberFilterModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   AdvancedFilterModule,
@@ -34,18 +33,22 @@ ModuleRegistry.registerModules([
   RowGroupingModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
-const valueGetter = (params) => {
+function valueGetter(params) {
   return params.data ? params.data[params.colDef.field] * -1 : null;
-};
+}
 
 let includeHiddenColumns = false;
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState();
+
   const [columnDefs, setColumnDefs] = useState([
     {
       field: "athlete",
@@ -103,12 +106,6 @@ const GridExample = () => {
     };
   }, []);
 
-  const onGridReady = useCallback((params) => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data) => setRowData(data));
-  }, []);
-
   const onIncludeHiddenColumnsToggled = useCallback(() => {
     includeHiddenColumns = !includeHiddenColumns;
     gridRef.current.api.setGridOption(
@@ -134,12 +131,12 @@ const GridExample = () => {
         <div style={gridStyle}>
           <AgGridReact
             ref={gridRef}
-            rowData={rowData}
+            rowData={data}
+            loading={loading}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
             groupDefaultExpanded={1}
             enableAdvancedFilter={true}
-            onGridReady={onGridReady}
           />
         </div>
       </div>

@@ -18,7 +18,6 @@ import {
   ValidationModule,
   ValueFormatterParams,
   ValueGetterParams,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,

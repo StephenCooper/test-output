@@ -1,14 +1,6 @@
 'use client';
-import "ag-grid-enterprise";
-import React, {
-  StrictMode,
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { StrictMode, useCallback, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   ClientSideRowModelModule,
   ModuleRegistry,
@@ -22,7 +14,6 @@ import {
   ExcelExportModule,
 } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react";
-
 import "./styles.css";
 
 ModuleRegistry.registerModules([
@@ -35,19 +26,19 @@ ModuleRegistry.registerModules([
   ValidationModule /* Development Only */,
 ]);
 
-const getNumber = (id) => {
-  var el = document.querySelector(id);
+function getNumber(id) {
+  const el = document.querySelector(id);
   if (!el || isNaN(el.value)) {
     return 0;
   }
   return parseFloat(el.value);
-};
+}
 
-const getValue = (id) => {
+function getValue(id) {
   return document.querySelector(id).value;
-};
+}
 
-const getSheetConfig = () => {
+function getSheetConfig() {
   return {
     pageSetup: {
       orientation: getValue("#pageOrientation"),
@@ -62,13 +53,13 @@ const getSheetConfig = () => {
       footer: getNumber("#footer"),
     },
   };
-};
+}
 
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
+  const [gridApi, setGridApi] = useState(null);
   const [rowData, setRowData] = useState();
-  const [gridApi, setGridApi] = useState();
   const [columnDefs, setColumnDefs] = useState([
     { field: "athlete", minWidth: 200 },
     { field: "country", minWidth: 200 },
@@ -86,10 +77,6 @@ const GridExample = () => {
     };
   }, []);
 
-  const popupParent = useMemo(() => {
-    return document.body;
-  }, []);
-
   const onFormSubmit = useCallback(
     (e) => {
       e.preventDefault();
@@ -99,6 +86,9 @@ const GridExample = () => {
     [gridApi],
   );
 
+  const popupParent = useMemo(() => {
+    return document.body;
+  }, []);
   const onGridReady = useCallback((params) => {
     setGridApi(params.api);
     fetch("https://www.ag-grid.com/example-assets/small-olympic-winners.json")

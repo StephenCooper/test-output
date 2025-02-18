@@ -5,7 +5,7 @@ export default forwardRef((props, ref) => {
     return {
       medalUserFunction() {
         console.log(
-          `user function called for medal column: row = ${props.node.rowIndex}, column = ${props.column.getId()}`,
+          `user function called for medal column: row = ${props.node.rowIndex}, column = ${props.column?.getId()}`,
         );
       },
     };

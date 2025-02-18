@@ -21,7 +21,6 @@ import {
   ModuleRegistry,
   ValidationModule,
   ValueFormatterParams,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   CellStyleModule,
@@ -93,3 +92,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

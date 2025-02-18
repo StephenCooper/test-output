@@ -26,7 +26,6 @@ import {
   ServerSideTransaction,
   ServerSideTransactionResult,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ServerSideRowModelApiModule,
@@ -205,3 +204,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

@@ -1,12 +1,6 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import {
@@ -17,7 +11,6 @@ import {
   RowSelectionModule,
   TextEditorModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
@@ -39,16 +32,17 @@ ModuleRegistry.registerModules([
   SetFilterModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
-const suppressEnter = (params) => {
+function suppressEnter(params) {
   const KEY_ENTER = "Enter";
   const event = params.event;
   const key = event.key;
   const suppress = key === KEY_ENTER;
   return suppress;
-};
+}
 
-const suppressNavigation = (params) => {
+function suppressNavigation(params) {
   const KEY_A = "A";
   const KEY_C = "C";
   const KEY_V = "V";
@@ -106,7 +100,7 @@ const suppressNavigation = (params) => {
     return suppressedKey === key || key.toUpperCase() === suppressedKey;
   });
   return suppress;
-};
+}
 
 const suppressUpDownNavigation = (params) => {
   const key = params.event.key;
@@ -114,9 +108,12 @@ const suppressUpDownNavigation = (params) => {
 };
 
 const GridExample = () => {
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState();
+
   const [columnDefs, setColumnDefs] = useState([
     {
       field: "athlete",
@@ -160,21 +157,15 @@ const GridExample = () => {
     };
   }, []);
 
-  const onGridReady = useCallback((params) => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data) => setRowData(data));
-  }, []);
-
   return (
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact
-          rowData={rowData}
+          rowData={data}
+          loading={loading}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           rowSelection={rowSelection}
-          onGridReady={onGridReady}
         />
       </div>
     </div>

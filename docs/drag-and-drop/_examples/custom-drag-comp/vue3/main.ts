@@ -20,7 +20,6 @@ import {
   RowStyleModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import DragSourceRenderer from "./dragSourceRendererVue";
 import { getData } from "./data";

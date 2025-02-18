@@ -15,14 +15,12 @@ import {
   ColGroupDef,
   GridApi,
   GridOptions,
-  GridReadyEvent,
   IRowDragItem,
   ModuleRegistry,
   NumberFilterModule,
   RowDragModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { IOlympicData } from "./interfaces";
 ModuleRegistry.registerModules([
@@ -32,11 +30,15 @@ ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 const GridExample = () => {
+  const { data, loading } = useFetchJson<IOlympicData>(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState<IOlympicData[]>();
+
   const rowDragText = useCallback(function (params: IRowDragItem) {
     // keep double equals here because data can be a string or number
     if (params.rowNode!.data.year == "2012") {
@@ -61,22 +63,16 @@ const GridExample = () => {
     };
   }, []);
 
-  const onGridReady = useCallback((params: GridReadyEvent) => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data: IOlympicData[]) => setRowData(data));
-  }, []);
-
   return (
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact<IOlympicData>
-          rowData={rowData}
+          rowData={data}
+          loading={loading}
           rowDragText={rowDragText}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           rowDragManaged={true}
-          onGridReady={onGridReady}
         />
       </div>
     </div>
@@ -89,3 +85,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

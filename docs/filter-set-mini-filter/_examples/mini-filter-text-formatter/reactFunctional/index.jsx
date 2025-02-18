@@ -1,12 +1,6 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import {
@@ -14,7 +8,6 @@ import {
   ModuleRegistry,
   NumberFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
@@ -31,8 +24,9 @@ ModuleRegistry.registerModules([
   NumberFilterModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
-const replaceAccents = (value) => {
+function replaceAccents(value) {
   return value
     .replace(new RegExp("[àáâãäå]", "g"), "a")
     .replace(new RegExp("æ", "g"), "ae")
@@ -45,16 +39,19 @@ const replaceAccents = (value) => {
     .replace(new RegExp("[ùúûü]", "g"), "u")
     .replace(new RegExp("[ýÿ]", "g"), "y")
     .replace(new RegExp("\\W", "g"), "");
-};
+}
 
 const filterParams = {
   textFormatter: replaceAccents,
 };
 
 const GridExample = () => {
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState();
+
   const [columnDefs, setColumnDefs] = useState([
     // set filter
     {
@@ -75,20 +72,14 @@ const GridExample = () => {
     };
   }, []);
 
-  const onGridReady = useCallback((params) => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data) => setRowData(data));
-  }, []);
-
   return (
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact
-          rowData={rowData}
+          rowData={data}
+          loading={loading}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
-          onGridReady={onGridReady}
         />
       </div>
     </div>

@@ -1,8 +1,6 @@
 'use client';
-import "ag-grid-enterprise";
 import React, { StrictMode, useCallback, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   InfiniteRowModelModule,
   ModuleRegistry,
@@ -18,7 +16,7 @@ import {
 } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react";
 
-import { countries } from "./countries.jsx";
+import { countries } from "./countries";
 import "./styles.css";
 
 ModuleRegistry.registerModules([
@@ -169,6 +167,7 @@ const GridExample = () => {
     return {
       flex: 1,
       minWidth: 150,
+
       floatingFilter: true,
     };
   }, []);

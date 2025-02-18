@@ -2,8 +2,6 @@
 // React Grid Logic
 import React, { StrictMode, useState } from "react";
 import { createRoot } from "react-dom/client";
-
-// Theme
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 // Core CSS
 import { AgGridReact } from "ag-grid-react";

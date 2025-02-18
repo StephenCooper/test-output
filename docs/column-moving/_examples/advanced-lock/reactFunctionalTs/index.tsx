@@ -19,12 +19,10 @@ import {
   ColumnPinnedEvent,
   GridApi,
   GridOptions,
-  GridReadyEvent,
   ModuleRegistry,
   NumberFilterModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import ControlsCellRenderer from "./controlsCellRenderer.tsx";
 import { IOlympicData } from "./interfaces";
@@ -36,12 +34,16 @@ ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 const GridExample = () => {
   const gridRef = useRef<AgGridReact<IOlympicData>>(null);
+  const { data, loading } = useFetchJson<IOlympicData>(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState<IOlympicData[]>();
+
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
     {
       lockPosition: "left",
@@ -65,12 +67,6 @@ const GridExample = () => {
     return {
       width: 150,
     };
-  }, []);
-
-  const onGridReady = useCallback((params: GridReadyEvent) => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data: IOlympicData[]) => setRowData(data));
   }, []);
 
   const onColumnPinned = useCallback((event: ColumnPinnedEvent) => {
@@ -115,11 +111,11 @@ const GridExample = () => {
         <div style={gridStyle}>
           <AgGridReact<IOlympicData>
             ref={gridRef}
-            rowData={rowData}
+            rowData={data}
+            loading={loading}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
             suppressDragLeaveHidesColumns={true}
-            onGridReady={onGridReady}
             onColumnPinned={onColumnPinned}
           />
         </div>
@@ -134,3 +130,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

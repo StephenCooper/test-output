@@ -24,7 +24,6 @@ import {
   RowSelectionOptions,
   ValidationModule,
   ValueFormatterParams,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   RowSelectionModule,
@@ -130,3 +129,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

@@ -19,7 +19,6 @@ import {
   RowApiModule,
   RowModelType,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,

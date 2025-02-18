@@ -20,7 +20,6 @@ import {
   ModuleRegistry,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   AdvancedFilterModule,
@@ -124,3 +123,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

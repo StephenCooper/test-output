@@ -19,7 +19,6 @@ import {
   ProcessHeaderForExportParams,
   ProcessRowGroupForExportParams,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,

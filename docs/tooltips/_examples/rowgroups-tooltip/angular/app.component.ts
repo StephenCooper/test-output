@@ -11,7 +11,6 @@ import {
   ModuleRegistry,
   TooltipModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,

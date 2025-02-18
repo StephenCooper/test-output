@@ -10,18 +10,17 @@ import React, {
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./styles.css";
-import { FakeServer } from "./fakeServer.jsx";
 import {
   HighlightChangesModule,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   RowGroupingModule,
   ServerSideRowModelApiModule,
   ServerSideRowModelModule,
 } from "ag-grid-enterprise";
+import { FakeServer } from "./fakeServer";
 ModuleRegistry.registerModules([
   HighlightChangesModule,
   RowGroupingModule,
@@ -93,7 +92,7 @@ const getServerSideDatasource = (server) => {
 };
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 

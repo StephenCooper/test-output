@@ -7,7 +7,6 @@ import {
 } from "vue";
 import { AgGridVue } from "ag-grid-vue3";
 import {
-  AllCommunityModule,
   ColDef,
   ColGroupDef,
   GridApi,
@@ -18,13 +17,12 @@ import {
   RowSelectionOptions,
   Theme,
   colorSchemeVariable,
-  createGrid,
   createPart,
   createTheme,
 } from "ag-grid-community";
 import { AllEnterpriseModule } from "ag-grid-enterprise";
 import { IOlympicData } from "./interfaces";
-ModuleRegistry.registerModules([AllCommunityModule, AllEnterpriseModule]);
+ModuleRegistry.registerModules([AllEnterpriseModule]);
 
 const myCheckboxStyle = createPart({
   // By setting the feature, adding this part to a theme will remove the

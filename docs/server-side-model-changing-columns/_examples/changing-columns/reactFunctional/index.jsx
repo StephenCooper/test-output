@@ -10,12 +10,10 @@ import React, {
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./styles.css";
-import { FakeServer } from "./fakeServer.jsx";
 import {
   ModuleRegistry,
   NumberFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
@@ -25,6 +23,7 @@ import {
   ServerSideRowModelModule,
   SetFilterModule,
 } from "ag-grid-enterprise";
+import { FakeServer } from "./fakeServer";
 ModuleRegistry.registerModules([
   NumberFilterModule,
   ColumnsToolPanelModule,
@@ -60,17 +59,17 @@ const colDefSilver = { field: "silver", aggFunc: "sum" };
 
 const colDefBronze = { field: "bronze", aggFunc: "sum" };
 
-const getAthletesAsync = (params) => {
+function getAthletesAsync(params) {
   const countries = fakeServer.getAthletes();
   // simulating real server call with a 500ms delay
   setTimeout(() => {
     params.success(countries);
   }, 500);
-};
+}
 
-const getBooleanValue = (cssSelector) => {
+function getBooleanValue(cssSelector) {
   return document.querySelector(cssSelector).checked === true;
-};
+}
 
 const getServerSideDatasource = (server) => {
   return {
@@ -97,7 +96,7 @@ const getServerSideDatasource = (server) => {
 var fakeServer = undefined;
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 
@@ -124,6 +123,15 @@ const GridExample = () => {
   }, []);
 
   const onGridReady = useCallback((params) => {
+    document.getElementById("athlete").checked = true;
+    document.getElementById("age").checked = true;
+    document.getElementById("country").checked = true;
+    document.getElementById("year").checked = true;
+    document.getElementById("sport").checked = true;
+    document.getElementById("gold").checked = true;
+    document.getElementById("silver").checked = true;
+    document.getElementById("bronze").checked = true;
+
     fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
       .then((resp) => resp.json())
       .then((data) => {
@@ -134,15 +142,6 @@ const GridExample = () => {
         // register the datasource with the grid
         params.api.setGridOption("serverSideDatasource", datasource);
       });
-
-    document.getElementById("athlete").checked = true;
-    document.getElementById("age").checked = true;
-    document.getElementById("country").checked = true;
-    document.getElementById("year").checked = true;
-    document.getElementById("sport").checked = true;
-    document.getElementById("gold").checked = true;
-    document.getElementById("silver").checked = true;
-    document.getElementById("bronze").checked = true;
   }, []);
 
   const onBtApply = useCallback(() => {

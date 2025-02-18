@@ -16,7 +16,6 @@ import {
   GridReadyEvent,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import CustomHeaderGroup from "./customHeaderGroupVue";
 import { IOlympicData } from "./interfaces";

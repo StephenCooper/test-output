@@ -1,5 +1,4 @@
 'use client';
-import "ag-grid-enterprise";
 import React, {
   StrictMode,
   useCallback,
@@ -8,7 +7,6 @@ import React, {
   useState,
 } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   ClientSideRowModelApiModule,
   ClientSideRowModelModule,
@@ -66,7 +64,10 @@ const GridExample = () => {
     return {
       refreshStrategy: "rows",
       detailGridOptions: {
-        rowSelection: { mode: "multiRow" },
+        rowSelection: {
+          mode: "multiRow",
+          headerCheckbox: false,
+        },
         getRowId: (params) => {
           return String(params.data.callId);
         },
@@ -83,6 +84,7 @@ const GridExample = () => {
         },
       },
       getDetailRowData: (params) => {
+        // params.successCallback([]);
         params.successCallback(params.data.callRecords);
       },
     };

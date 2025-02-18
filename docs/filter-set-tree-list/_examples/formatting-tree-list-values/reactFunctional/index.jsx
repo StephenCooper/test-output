@@ -1,12 +1,6 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useCallback, useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import {
@@ -14,7 +8,6 @@ import {
   ModuleRegistry,
   NumberFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
@@ -36,29 +29,29 @@ ModuleRegistry.registerModules([
   ValidationModule /* Development Only */,
 ]);
 
-const dateCellValueFormatter = (params) => {
+function dateCellValueFormatter(params) {
   return params.value ? params.value.toLocaleDateString() : "";
-};
+}
 
-const dateFloatingFilterValueFormatter = (params) => {
+function dateFloatingFilterValueFormatter(params) {
   return params.value ? params.value.toLocaleDateString() : "(Blanks)";
-};
+}
 
-const treeListFormatter = (pathKey, level, _parentPathKeys) => {
+function treeListFormatter(pathKey, level, _parentPathKeys) {
   if (level === 1) {
     const date = new Date();
     date.setMonth(Number(pathKey) - 1);
     return date.toLocaleDateString(undefined, { month: "long" });
   }
   return pathKey || "(Blanks)";
-};
+}
 
-const groupTreeListFormatter = (pathKey, level, _parentPathKeys) => {
+function groupTreeListFormatter(pathKey, level, _parentPathKeys) {
   if (level === 0 && pathKey) {
     return pathKey + " (" + pathKey.substring(0, 2).toUpperCase() + ")";
   }
   return pathKey || "(Blanks)";
-};
+}
 
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);

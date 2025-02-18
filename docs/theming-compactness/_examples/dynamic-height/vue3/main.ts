@@ -7,7 +7,6 @@ import {
 } from "vue";
 import { AgGridVue } from "ag-grid-vue3";
 import {
-  AllCommunityModule,
   ColDef,
   ColGroupDef,
   GridApi,
@@ -15,11 +14,10 @@ import {
   GridReadyEvent,
   ModuleRegistry,
   SideBarDef,
-  createGrid,
 } from "ag-grid-community";
 import { AllEnterpriseModule } from "ag-grid-enterprise";
 import { IOlympicData } from "./interfaces";
-ModuleRegistry.registerModules([AllCommunityModule, AllEnterpriseModule]);
+ModuleRegistry.registerModules([AllEnterpriseModule]);
 
 const VueExample = defineComponent({
   template: `

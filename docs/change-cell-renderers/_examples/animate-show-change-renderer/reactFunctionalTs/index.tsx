@@ -23,7 +23,6 @@ import {
   TextEditorModule,
   ValidationModule,
   ValueParserParams,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   TextEditorModule,
@@ -149,3 +148,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

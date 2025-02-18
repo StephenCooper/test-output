@@ -1,24 +1,14 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useCallback, useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
-import GenderCellRenderer from "./genderCellRenderer.jsx";
-import { IRow } from "./data.jsx";
-import { getData } from "./data.jsx";
 import {
   ClientSideRowModelModule,
   LargeTextEditorModule,
   ModuleRegistry,
   TextEditorModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
@@ -26,6 +16,8 @@ import {
   ContextMenuModule,
   RichSelectModule,
 } from "ag-grid-enterprise";
+import { getData } from "./data";
+import GenderCellRenderer from "./genderCellRenderer.jsx";
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ColumnsToolPanelModule,

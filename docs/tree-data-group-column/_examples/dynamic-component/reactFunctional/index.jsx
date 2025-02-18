@@ -1,14 +1,6 @@
 'use client';
-import "ag-grid-enterprise";
-import React, {
-  StrictMode,
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { StrictMode, useCallback, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   ClientSideRowModelModule,
   ModuleRegistry,
@@ -17,8 +9,8 @@ import {
 import { TreeDataModule } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react";
 
-import CustomGroupCellRenderer from "./customGroupCellRenderer.jsx";
-import { getData } from "./data.jsx";
+import CustomGroupCellRenderer from "./customGroupCellRenderer";
+import { getData } from "./data";
 import "./styles.css";
 
 ModuleRegistry.registerModules([
@@ -47,7 +39,6 @@ const GridExample = () => {
       },
     },
   ]);
-  const getDataPath = useCallback((data) => data.path, []);
   const autoGroupColumnDef = useMemo(() => {
     return {
       cellRendererSelector: (params) => {
@@ -68,6 +59,8 @@ const GridExample = () => {
       minWidth: 120,
     };
   }, []);
+
+  const getDataPath = useCallback((data) => data.path, []);
 
   const onCellDoubleClicked = useCallback((params) => {
     if (params.colDef.showRowGroup) {

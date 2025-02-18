@@ -11,7 +11,6 @@ import {
   GridReadyEvent,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
@@ -52,7 +51,7 @@ export class AppComponent {
       .get<
         IOlympicData[]
       >("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .subscribe((data) => (this.rowData = data.slice(5, 10)));
+      .subscribe((data) => (this.rowData = data.slice(0, 10)));
   }
 }
 

@@ -7,7 +7,6 @@ import React, {
   useState,
 } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   ClientSideRowModelModule,
   CustomFilterModule,
@@ -18,8 +17,8 @@ import {
 } from "ag-grid-community";
 import { AgGridReact, getInstance } from "ag-grid-react";
 
-import { getData } from "./data.jsx";
-import PartialMatchFilter from "./partialMatchFilter.jsx";
+import { getData } from "./data";
+import PartialMatchFilter from "./partialMatchFilter";
 import "./styles.css";
 
 ModuleRegistry.registerModules([
@@ -31,7 +30,7 @@ ModuleRegistry.registerModules([
 ]);
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [rowData, setRowData] = useState(getData());
@@ -71,6 +70,7 @@ const GridExample = () => {
         >
           Invoke Filter Instance Method
         </button>
+
         <div style={gridStyle}>
           <AgGridReact
             ref={gridRef}

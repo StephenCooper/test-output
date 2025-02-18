@@ -20,7 +20,6 @@ import {
   TextEditorModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   NumberEditorModule,

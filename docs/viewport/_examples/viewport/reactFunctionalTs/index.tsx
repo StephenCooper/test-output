@@ -26,7 +26,6 @@ import {
   RowSelectionOptions,
   ValidationModule,
   ValueFormatterParams,
-  createGrid,
 } from "ag-grid-community";
 import { ViewportRowModelModule } from "ag-grid-enterprise";
 import { createMockServer } from "./mock-server";
@@ -153,3 +152,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

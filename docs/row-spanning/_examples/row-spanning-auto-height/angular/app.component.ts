@@ -12,7 +12,6 @@ import {
   ModuleRegistry,
   RowAutoHeightModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   CellSpanModule,

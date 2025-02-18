@@ -17,7 +17,6 @@ import {
   NumberFilterModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
@@ -35,19 +34,19 @@ ModuleRegistry.registerModules([
   ValidationModule /* Development Only */,
 ]);
 
-const getBoolean = (id) => {
+function getBoolean(id) {
   return !!document.querySelector("#" + id).checked;
-};
+}
 
-const getParams = () => {
+function getParams() {
   return {
     skipColumnGroupHeaders: getBoolean("columnGroups"),
     skipColumnHeaders: getBoolean("skipHeader"),
   };
-};
+}
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [rowData, setRowData] = useState();
@@ -88,11 +87,11 @@ const GridExample = () => {
   }, []);
 
   const onGridReady = useCallback((params) => {
+    document.getElementById("columnGroups").checked = true;
+
     fetch("https://www.ag-grid.com/example-assets/small-olympic-winners.json")
       .then((resp) => resp.json())
       .then((data) => setRowData(data.filter((rec) => rec.country != null)));
-
-    document.getElementById("columnGroups").checked = true;
   }, []);
 
   const onBtExport = useCallback(() => {

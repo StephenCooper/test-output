@@ -25,7 +25,6 @@ import {
   RowApiModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { RowGroupingModule, SetFilterModule } from "ag-grid-enterprise";
 import { createDataItem, getData } from "./data";
@@ -45,7 +44,7 @@ const GridExample = () => {
   const gridRef = useRef<AgGridReact>(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-
+  const [rowData, setRowData] = useState<any[]>();
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
     { field: "name" },
     { field: "laptop" },
@@ -76,7 +75,7 @@ const GridExample = () => {
       .then(() => {
         params.api.onFilterChanged();
       });
-    params.api.setGridOption("rowData", getData());
+    setRowData(getData());
   }, []);
 
   const onBtnApply = useCallback(() => {
@@ -115,6 +114,7 @@ const GridExample = () => {
         <div style={gridStyle} className="test-grid">
           <AgGridReact
             ref={gridRef}
+            rowData={rowData}
             getRowId={getRowId}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
@@ -133,3 +133,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

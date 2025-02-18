@@ -1,6 +1,5 @@
 import "./style.css";
 import {
-  AllCommunityModule,
   ColDef,
   ColGroupDef,
   GridApi,
@@ -16,7 +15,7 @@ import { IOlympicData } from "./interfaces";
 
 import "./style.css";
 
-ModuleRegistry.registerModules([AllCommunityModule, AllEnterpriseModule]);
+ModuleRegistry.registerModules([AllEnterpriseModule]);
 
 const columnDefs: ColDef[] = [
   { field: "athlete", minWidth: 170 },
@@ -52,7 +51,6 @@ const gridOptions: GridOptions<IOlympicData> = {
   sideBar: true,
 };
 
-// setup the grid after the page has finished loading
 const gridDiv = document.querySelector<HTMLElement>("#myGrid")!;
 gridApi = createGrid(gridDiv, gridOptions);
 

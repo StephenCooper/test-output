@@ -1,5 +1,4 @@
 'use client';
-import "ag-grid-enterprise";
 import React, {
   StrictMode,
   useCallback,
@@ -8,7 +7,6 @@ import React, {
   useState,
 } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   ClientSideRowModelModule,
   ColumnApiModule,
@@ -37,7 +35,7 @@ ModuleRegistry.registerModules([
 
 // creates a unique symbol, eg 'ADG' or 'ZJD'
 function createUniqueRandomSymbol(data) {
-  let symbol;
+  let symbol = "";
   const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   let isUnique = false;
   while (!isUnique) {

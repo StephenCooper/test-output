@@ -10,14 +10,12 @@ import React, {
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./styles.css";
-import DetailCellRenderer from "./detailCellRenderer.jsx";
 import {
   ClientSideRowModelApiModule,
   ClientSideRowModelModule,
   ModuleRegistry,
   RowApiModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
@@ -25,6 +23,7 @@ import {
   ContextMenuModule,
   MasterDetailModule,
 } from "ag-grid-enterprise";
+import DetailCellRenderer from "./detailCellRenderer.jsx";
 ModuleRegistry.registerModules([
   ClientSideRowModelApiModule,
   RowApiModule,
@@ -35,12 +34,16 @@ ModuleRegistry.registerModules([
   ContextMenuModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/master-detail-data.json",
+  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState();
+
   const [columnDefs, setColumnDefs] = useState([
     // group cell renderer needed for expand / collapse icons
     { field: "name", cellRenderer: "agGroupCellRenderer" },
@@ -54,14 +57,6 @@ const GridExample = () => {
     };
   }, []);
   const detailCellRenderer = useCallback(DetailCellRenderer, []);
-
-  const onGridReady = useCallback((params) => {
-    fetch("https://www.ag-grid.com/example-assets/master-detail-data.json")
-      .then((resp) => resp.json())
-      .then((data) => {
-        setRowData(data);
-      });
-  }, []);
 
   const onFirstDataRendered = useCallback((params) => {
     // arbitrarily expand a row for presentational purposes
@@ -96,13 +91,13 @@ const GridExample = () => {
         <div style={gridStyle}>
           <AgGridReact
             ref={gridRef}
-            rowData={rowData}
+            rowData={data}
+            loading={loading}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
             masterDetail={true}
             detailRowHeight={310}
             detailCellRenderer={detailCellRenderer}
-            onGridReady={onGridReady}
             onFirstDataRendered={onFirstDataRendered}
           />
         </div>

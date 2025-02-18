@@ -1,13 +1,6 @@
 'use client';
-import React, {
-  StrictMode,
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { StrictMode, useCallback, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   ClientSideRowModelModule,
   ColumnApiModule,
@@ -15,8 +8,7 @@ import {
   ValidationModule,
 } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
-
-import { getData } from "./data.jsx";
+import { getData } from "./data";
 import "./styles.css";
 
 ModuleRegistry.registerModules([
@@ -45,11 +37,7 @@ const GridExample = () => {
 
   const onGridPreDestroyed = useCallback(
     (params) => {
-      if (!gridApi) {
-        return;
-      }
-
-      const allColumns = gridApi.getColumns();
+      const allColumns = gridApi?.getColumns();
       if (!allColumns) {
         return;
       }
@@ -70,12 +58,7 @@ const GridExample = () => {
       return;
     }
 
-    const columns = gridApi.getColumns();
-    if (!columns) {
-      return;
-    }
-
-    const newWidths = columns.map((column) => {
+    const newWidths = gridApi.getColumns().map((column) => {
       return {
         key: column.getColId(),
         newWidth: Math.round((150 + Math.random() * 100) * 100) / 100,

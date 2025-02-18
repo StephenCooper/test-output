@@ -1,12 +1,6 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useCallback, useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import {
@@ -15,7 +9,6 @@ import {
   NumberEditorModule,
   TextEditorModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { CellSelectionModule } from "ag-grid-enterprise";
 ModuleRegistry.registerModules([
@@ -36,7 +29,7 @@ const daysList = [
   "Saturday",
 ];
 
-const createRowData = (rowData) => {
+function createRowData(rowData) {
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
   for (let i = 0; i < rowData.length; i++) {
@@ -48,7 +41,7 @@ const createRowData = (rowData) => {
     rowData[i].dayOfTheWeek = daysList[dt.getDay()];
   }
   return rowData;
-};
+}
 
 var getRandom = function (start, finish) {
   return Math.floor(Math.random() * (finish - start) + start);

@@ -14,7 +14,6 @@ import {
   PinnedRowModule,
   RowHeightParams,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   ColumnApiModule,

@@ -11,13 +11,11 @@ import React, {
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./style.css";
-import { getData } from "./data.jsx";
 import { AgChartsEnterpriseModule } from "ag-charts-enterprise";
 import {
   ClientSideRowModelModule,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
@@ -25,6 +23,7 @@ import {
   IntegratedChartsModule,
   RowGroupingModule,
 } from "ag-grid-enterprise";
+import { getData } from "./data";
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   IntegratedChartsModule.with(AgChartsEnterpriseModule),
@@ -34,19 +33,19 @@ ModuleRegistry.registerModules([
   ValidationModule /* Development Only */,
 ]);
 
-const formatTime = (date) => {
+function formatTime(date) {
   return Intl.DateTimeFormat("en-GB", {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
   }).format(new Date(date));
-};
+}
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-
+  const [rowData, setRowData] = useState();
   const [columnDefs, setColumnDefs] = useState([
     { field: "timestamp", chartDataType: "time" },
     { field: "cpuUsage" },
@@ -104,7 +103,7 @@ const GridExample = () => {
   }, []);
 
   const onGridReady = useCallback((params) => {
-    getData().then((rowData) => params.api.setGridOption("rowData", rowData));
+    getData().then((rowData) => setRowData(rowData));
   }, []);
   /** DARK INTEGRATED START **/ const [tick, setTick] = useState(0);
   useEffect(() => {
@@ -112,6 +111,7 @@ const GridExample = () => {
     const isInitialModeDark =
       document.documentElement.dataset.agThemeMode?.includes("dark");
 
+    // update chart themes based on dark mode status
     const updateChartThemes = (isDark) => {
       const themes = [
         "ag-default",
@@ -154,6 +154,7 @@ const GridExample = () => {
     };
     trySetInitial(0);
 
+    // event handler for color scheme changes
     const handleColorSchemeChange = (event) => {
       const { darkMode } = event.detail;
       updateChartThemes(darkMode);
@@ -180,6 +181,7 @@ const GridExample = () => {
         <div style={gridStyle} className="my-grid">
           <AgGridReact
             ref={gridRef}
+            rowData={rowData}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
             cellSelection={true}

@@ -20,7 +20,6 @@ import {
   RowApiModule,
   RowHeightParams,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,

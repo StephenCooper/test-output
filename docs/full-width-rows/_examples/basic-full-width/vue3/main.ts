@@ -20,7 +20,6 @@ import {
   PinnedRowModule,
   RowHeightParams,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import FullWidthCellRenderer from "./fullWidthCellRendererVue";
 ModuleRegistry.registerModules([

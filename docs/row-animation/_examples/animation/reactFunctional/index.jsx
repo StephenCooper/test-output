@@ -1,12 +1,6 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./styles.css";
@@ -16,7 +10,6 @@ import {
   ModuleRegistry,
   NumberFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { ColumnMenuModule, SetFilterModule } from "ag-grid-enterprise";
 ModuleRegistry.registerModules([
@@ -27,13 +20,14 @@ ModuleRegistry.registerModules([
   SetFilterModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 let countDownDirection = true;
 
 // the code below executes an action every 2,000 milliseconds.
 // it's an interval, and each time it runs, it takes the next action
 // from the 'actions' list below
-const startInterval = (api) => {
+function startInterval(api) {
   let actionIndex = 0;
   resetCountdown();
   executeAfterXSeconds();
@@ -50,16 +44,16 @@ const startInterval = (api) => {
     }, 3000);
   }
   setTitleFormatted(null);
-};
+}
 
-const resetCountdown = () => {
+function resetCountdown() {
   document.querySelector("#animationCountdown").style.width = countDownDirection
     ? "100%"
     : "0%";
   countDownDirection = !countDownDirection;
-};
+}
 
-const setTitleFormatted = (apiName, methodName, paramsName) => {
+function setTitleFormatted(apiName, methodName, paramsName) {
   let html;
   if (apiName === null) {
     html = '<span class="code-highlight-yellow">command:> </span>';
@@ -81,9 +75,9 @@ const setTitleFormatted = (apiName, methodName, paramsName) => {
       '<span class="code-highlight-blue">)</span>';
   }
   document.querySelector("#animationAction").innerHTML = html;
-};
+}
 
-const getActions = () => {
+function getActions() {
   return [
     function (api) {
       api.applyColumnState({
@@ -127,12 +121,16 @@ const getActions = () => {
       setTitleFormatted("api", "applyColumnState", "clear sort");
     },
   ];
-};
+}
 
 const GridExample = () => {
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+    50,
+  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState();
+
   const [columnDefs, setColumnDefs] = useState([
     { field: "athlete", minWidth: 150 },
     { field: "country", minWidth: 150 },
@@ -146,15 +144,6 @@ const GridExample = () => {
       flex: 1,
       filter: true,
     };
-  }, []);
-
-  const onGridReady = useCallback((params) => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data) => {
-        setRowData(data.slice(0, 50));
-        startInterval(params.api);
-      });
   }, []);
 
   return (
@@ -173,10 +162,10 @@ const GridExample = () => {
 
         <div style={gridStyle}>
           <AgGridReact
-            rowData={rowData}
+            rowData={data}
+            loading={loading}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
-            onGridReady={onGridReady}
           />
         </div>
       </div>

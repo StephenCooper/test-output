@@ -16,16 +16,15 @@ import {
   ColGroupDef,
   GridApi,
   GridOptions,
-  GridReadyEvent,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { IOlympicData } from "./interfaces";
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 const columnDefsMedalsIncluded: ColDef[] = [
   { field: "athlete" },
@@ -51,9 +50,12 @@ const colDefsMedalsExcluded: ColDef[] = [
 
 const GridExample = () => {
   const gridRef = useRef<AgGridReact<IOlympicData>>(null);
+  const { data, loading } = useFetchJson<IOlympicData>(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState<IOlympicData[]>();
+
   const [columnDefs, setColumnDefs] = useState<ColDef[]>(
     columnDefsMedalsIncluded,
   );
@@ -61,12 +63,6 @@ const GridExample = () => {
     return {
       initialWidth: 100,
     };
-  }, []);
-
-  const onGridReady = useCallback((params: GridReadyEvent) => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data: IOlympicData[]) => setRowData(data));
   }, []);
 
   const onBtExcludeMedalColumns = useCallback(() => {
@@ -92,10 +88,10 @@ const GridExample = () => {
         <div style={gridStyle} className="test-grid">
           <AgGridReact<IOlympicData>
             ref={gridRef}
-            rowData={rowData}
+            rowData={data}
+            loading={loading}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
-            onGridReady={onGridReady}
           />
         </div>
       </div>
@@ -109,3 +105,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

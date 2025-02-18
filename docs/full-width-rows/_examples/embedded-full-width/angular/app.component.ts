@@ -13,7 +13,6 @@ import {
   ModuleRegistry,
   RowHeightParams,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   ColumnApiModule,

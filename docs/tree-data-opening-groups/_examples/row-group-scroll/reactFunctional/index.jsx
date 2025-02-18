@@ -9,16 +9,15 @@ import React, {
 } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
-import { getData } from "./data.jsx";
 import {
   ClientSideRowModelModule,
   ModuleRegistry,
   ScrollApiModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { TreeDataModule } from "ag-grid-enterprise";
+import { getData } from "./data";
 ModuleRegistry.registerModules([
   ScrollApiModule,
   ClientSideRowModelModule,
@@ -28,7 +27,7 @@ ModuleRegistry.registerModules([
 ]);
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [rowData, setRowData] = useState(getData());

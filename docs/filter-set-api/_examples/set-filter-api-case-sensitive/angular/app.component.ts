@@ -15,7 +15,6 @@ import {
   ModuleRegistry,
   SideBarDef,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,

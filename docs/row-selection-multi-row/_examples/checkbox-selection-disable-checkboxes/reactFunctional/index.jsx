@@ -1,11 +1,6 @@
 'use client';
-import React, {
-  StrictMode,
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useFetchJson } from './useFetchJson';
+import React, { StrictMode, useMemo, useRef } from "react";
 import { createRoot } from "react-dom/client";
 
 import {
@@ -26,10 +21,13 @@ ModuleRegistry.registerModules([
 
 const GridExample = () => {
   const grid = useRef(null);
-  const defaultColDef = useMemo(() => ({
-    flex: 1,
-    minWidth: 100,
-  }));
+  const defaultColDef = useMemo(
+    () => ({
+      flex: 1,
+      minWidth: 100,
+    }),
+    [],
+  );
 
   const columnDefs = useMemo(
     () => [
@@ -48,13 +46,10 @@ const GridExample = () => {
     }),
     [],
   );
-  const [rowData, setRowData] = useState();
 
-  const onGridReady = (params) => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data) => setRowData(data));
-  };
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
 
   function toggleHideCheckbox() {
     grid.current?.api.setGridOption("rowSelection", {
@@ -80,11 +75,11 @@ const GridExample = () => {
       <div id="myGrid" className="grid">
         <AgGridReact
           ref={grid}
-          rowData={rowData}
+          rowData={data}
+          loading={loading}
           defaultColDef={defaultColDef}
           columnDefs={columnDefs}
           rowSelection={rowSelection}
-          onGridReady={onGridReady}
         />
       </div>
     </div>

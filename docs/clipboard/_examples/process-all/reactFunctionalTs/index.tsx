@@ -22,7 +22,6 @@ import {
   ProcessDataFromClipboardParams,
   TextEditorModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   CellSelectionModule,
@@ -122,3 +121,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

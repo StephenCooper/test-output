@@ -16,7 +16,6 @@ import {
   GridReadyEvent,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { IOlympicData } from "./interfaces";
 ModuleRegistry.registerModules([
@@ -82,7 +81,7 @@ const VueExample = defineComponent({
     const onGridReady = (params: GridReadyEvent) => {
       gridApi.value = params.api;
 
-      const updateData = (data) => (rowData.value = data.slice(5, 10));
+      const updateData = (data) => (rowData.value = data.slice(0, 10));
 
       fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
         .then((resp) => resp.json())

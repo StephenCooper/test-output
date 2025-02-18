@@ -1,5 +1,4 @@
 import React, { useCallback, useRef } from "react";
-
 import { useGridFilter } from "ag-grid-react";
 
 export default ({ model, onModelChange, getValue }) => {
@@ -24,7 +23,7 @@ export default ({ model, onModelChange, getValue }) => {
       // Focus the input element for keyboard navigation.
       // Can't do this in an effect,
       // as the component is not recreated when hidden and then shown again
-      refInput.current.focus();
+      refInput.current?.focus();
     }
   }, []);
 

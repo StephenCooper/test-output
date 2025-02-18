@@ -1,16 +1,11 @@
-import "ag-grid-enterprise";
 import { createApp, defineComponent } from "vue";
 
 import type { ColDef } from "ag-grid-community";
-import {
-  AllCommunityModule,
-  ModuleRegistry,
-  themeQuartz,
-} from "ag-grid-community";
+import { ModuleRegistry, themeQuartz } from "ag-grid-community";
 import { AllEnterpriseModule } from "ag-grid-enterprise";
 import { AgGridVue } from "ag-grid-vue3";
 
-ModuleRegistry.registerModules([AllCommunityModule, AllEnterpriseModule]);
+ModuleRegistry.registerModules([AllEnterpriseModule]);
 
 const VueExample = defineComponent({
   template: `

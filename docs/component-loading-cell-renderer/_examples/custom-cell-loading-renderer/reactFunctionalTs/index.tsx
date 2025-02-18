@@ -20,7 +20,6 @@ import {
   ModuleRegistry,
   RowModelType,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   RowGroupingModule,
@@ -140,3 +139,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

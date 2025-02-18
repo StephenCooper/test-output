@@ -1,5 +1,5 @@
 'use client';
-import "ag-grid-enterprise";
+import { useFetchJson } from './useFetchJson';
 import React, {
   StrictMode,
   useCallback,
@@ -8,7 +8,6 @@ import React, {
   useState,
 } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   CellStyleModule,
   ClientSideRowModelApiModule,
@@ -89,7 +88,7 @@ const GridExample = () => {
   const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState();
+
   const [columnDefs, setColumnDefs] = useState([
     {
       field: "country",
@@ -189,17 +188,13 @@ const GridExample = () => {
     };
   }, []);
 
-  const onGridReady = useCallback(() => {
-    fetch("https://www.ag-grid.com/example-assets/monthly-sales.json")
-      .then((resp) => resp.json())
-      .then((data) => {
-        setRowData(data);
-      });
-  }, []);
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/monthly-sales.json",
+  );
 
   const onChangeMonth = useCallback(
     (i) => {
-      var newMonth = (context.current.month += i);
+      let newMonth = (context.current.month += i);
       if (newMonth < -1) {
         newMonth = -1;
       }
@@ -258,14 +253,14 @@ const GridExample = () => {
         <div style={gridStyle}>
           <AgGridReact
             ref={gridRef}
-            rowData={rowData}
+            rowData={data}
+            loading={loading}
             columnDefs={columnDefs}
             suppressMovableColumns={true}
             context={context.current}
             defaultColDef={defaultColDef}
             autoGroupColumnDef={autoGroupColumnDef}
             rowSelection={rowSelection}
-            onGridReady={onGridReady}
           />
         </div>
       </div>

@@ -15,11 +15,8 @@ import {
   GridReadyEvent,
   ModuleRegistry,
   RowSelectionOptions,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([AllCommunityModule]);
-
-const gridDiv = document.querySelector<HTMLElement>("#myGrid")!;
 
 const VueExample = defineComponent({
   template: `

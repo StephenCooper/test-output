@@ -20,7 +20,6 @@ import {
   ModuleRegistry,
   RowApiModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   HighlightChangesModule,
@@ -123,3 +122,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

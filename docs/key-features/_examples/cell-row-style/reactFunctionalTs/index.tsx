@@ -21,7 +21,6 @@ import {
   ModuleRegistry,
   RowClassRules,
   RowSelectionOptions,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -29,8 +28,6 @@ const ragCellClassRules: CellClassRules = {
   // apply green to electric cars
   "rag-green": (params) => params.value === true,
 };
-
-const gridDiv = document.querySelector<HTMLElement>("#myGrid")!;
 
 const GridExample = () => {
   const gridRef = useRef<AgGridReact>(null);
@@ -173,3 +170,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

@@ -19,7 +19,6 @@ import {
   TextFilterModule,
   TooltipModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import AthleteCellRenderer from "./athleteCellRendererVue";
 import { IOlympicData } from "./interfaces";

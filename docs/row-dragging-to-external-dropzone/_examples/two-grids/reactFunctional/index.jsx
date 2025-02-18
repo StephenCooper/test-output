@@ -7,7 +7,6 @@ import React, {
   useState,
 } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   ClientSideRowModelApiModule,
   ClientSideRowModelModule,
@@ -110,7 +109,7 @@ const GridExample = () => {
   };
 
   const onFactoryButtonClick = (e) => {
-    var button = e.currentTarget,
+    const button = e.currentTarget,
       buttonColor = button.getAttribute("data-color"),
       side = button.getAttribute("data-side"),
       data = createDataItem(buttonColor);
@@ -124,12 +123,12 @@ const GridExample = () => {
       return;
     }
 
-    var transaction = {
+    const transaction = {
       remove: [data],
     };
 
     [leftApi, rightApi].forEach((api) => {
-      var rowsInGrid = !!api.getRowNode(data.id);
+      const rowsInGrid = !!api.getRowNode(data.id);
 
       if (rowsInGrid) {
         api.applyTransaction(transaction);

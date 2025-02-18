@@ -15,7 +15,6 @@ import {
   ModuleRegistry,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   TextFilterModule,
@@ -23,11 +22,11 @@ ModuleRegistry.registerModules([
   ValidationModule /* Development Only */,
 ]);
 
-const sortAndFilter = (allOfTheData, sortModel, filterModel) => {
+function sortAndFilter(allOfTheData, sortModel, filterModel) {
   return sortData(sortModel, filterData(filterModel, allOfTheData));
-};
+}
 
-const sortData = (sortModel, data) => {
+function sortData(sortModel, data) {
   const sortPresent = sortModel && sortModel.length > 0;
   if (!sortPresent) {
     return data;
@@ -54,9 +53,9 @@ const sortData = (sortModel, data) => {
     return 0;
   });
   return resultOfSort;
-};
+}
 
-const filterData = (filterModel, data) => {
+function filterData(filterModel, data) {
   const filterPresent = filterModel && Object.keys(filterModel).length > 0;
   if (!filterPresent) {
     return data;
@@ -88,10 +87,10 @@ const filterData = (filterModel, data) => {
     }
   }
   return resultOfFilter;
-};
+}
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 

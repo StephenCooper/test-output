@@ -10,7 +10,6 @@ import React, {
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./styles.css";
-import { getData, globalRowData } from "./data.jsx";
 import {
   CellStyleModule,
   ClientSideRowModelApiModule,
@@ -18,9 +17,9 @@ import {
   HighlightChangesModule,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { RowGroupingModule, RowGroupingPanelModule } from "ag-grid-enterprise";
+import { getData, globalRowData } from "./data";
 ModuleRegistry.registerModules([
   ClientSideRowModelApiModule,
   CellStyleModule,
@@ -33,14 +32,14 @@ ModuleRegistry.registerModules([
 
 const UPDATE_COUNT = 500;
 
-const numberCellFormatter = (params) => {
+function numberCellFormatter(params) {
   return Math.floor(params.value)
     .toString()
     .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
-};
+}
 
 // makes a copy of the original and merges in the new values
-const copyObject = (object) => {
+function copyObject(object) {
   // start with new object
   const newObject = {};
   // copy in the old values
@@ -48,13 +47,13 @@ const copyObject = (object) => {
     newObject[key] = object[key];
   });
   return newObject;
-};
+}
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-
+  const [rowData, setRowData] = useState();
   const [columnDefs, setColumnDefs] = useState([
     // these are the row groups, so they are all hidden (they are show in the group column)
     {
@@ -191,7 +190,7 @@ const GridExample = () => {
 
   const onGridReady = useCallback((params) => {
     getData();
-    params.api.setGridOption("rowData", globalRowData);
+    setRowData(globalRowData);
   }, []);
 
   const onNormalUpdate = useCallback(() => {
@@ -277,6 +276,7 @@ const GridExample = () => {
         <div style={gridStyle}>
           <AgGridReact
             ref={gridRef}
+            rowData={rowData}
             columnDefs={columnDefs}
             suppressAggFuncInHeader={true}
             rowGroupPanelShow={"always"}

@@ -15,7 +15,6 @@ import {
   ModuleRegistry,
   TextEditorModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
@@ -35,7 +34,7 @@ ModuleRegistry.registerModules([
   ValidationModule /* Development Only */,
 ]);
 
-const getRowData = () => {
+function getRowData() {
   return [
     { col1: "A" },
     { col1: "A" },
@@ -44,10 +43,10 @@ const getRowData = () => {
     { col1: "C" },
     { col1: "C" },
   ];
-};
+}
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [rowData, setRowData] = useState(getRowData());

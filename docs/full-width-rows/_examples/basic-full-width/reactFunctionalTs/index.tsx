@@ -22,7 +22,6 @@ import {
   PinnedRowModule,
   RowHeightParams,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import FullWidthCellRenderer from "./fullWidthCellRenderer.tsx";
 ModuleRegistry.registerModules([
@@ -124,3 +123,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

@@ -25,7 +25,6 @@ import {
   RowDragMoveEvent,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { getData } from "./data";
 ModuleRegistry.registerModules([
@@ -70,7 +69,7 @@ const GridExample = () => {
     immutableStore.forEach(function (data, index) {
       data.id = index;
     });
-    params.api.setGridOption("rowData", immutableStore);
+    setRowData(immutableStore);
   }, []);
 
   // listen for change on sort changed
@@ -161,3 +160,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

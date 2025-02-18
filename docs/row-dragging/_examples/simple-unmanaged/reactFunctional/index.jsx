@@ -9,7 +9,6 @@ import React, {
 } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
-import { getData } from "./data.jsx";
 import {
   ClientSideRowModelModule,
   ColumnApiModule,
@@ -18,8 +17,8 @@ import {
   RowDragModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
+import { getData } from "./data";
 ModuleRegistry.registerModules([
   RowDragModule,
   TextFilterModule,
@@ -36,7 +35,7 @@ let sortActive = false;
 let filterActive = false;
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [rowData, setRowData] = useState();
@@ -62,7 +61,7 @@ const GridExample = () => {
     immutableStore.forEach(function (data, index) {
       data.id = index;
     });
-    params.api.setGridOption("rowData", immutableStore);
+    setRowData(immutableStore);
   }, []);
 
   // listen for change on sort changed

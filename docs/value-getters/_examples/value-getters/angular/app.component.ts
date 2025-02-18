@@ -11,7 +11,6 @@ import {
   ModuleRegistry,
   ValidationModule,
   ValueGetterParams,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,

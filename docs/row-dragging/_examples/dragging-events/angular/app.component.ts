@@ -19,7 +19,6 @@ import {
   RowDragMoveEvent,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   RowDragModule,

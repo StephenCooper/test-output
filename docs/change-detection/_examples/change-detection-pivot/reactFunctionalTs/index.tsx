@@ -26,7 +26,6 @@ import {
   ModuleRegistry,
   ValidationModule,
   ValueGetterParams,
-  createGrid,
 } from "ag-grid-community";
 import { PivotModule } from "ag-grid-enterprise";
 ModuleRegistry.registerModules([
@@ -289,3 +288,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

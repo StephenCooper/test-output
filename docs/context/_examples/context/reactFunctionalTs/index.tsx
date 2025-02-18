@@ -21,7 +21,6 @@ import {
   RenderApiModule,
   ValidationModule,
   ValueGetterParams,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   RenderApiModule,
@@ -174,3 +173,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

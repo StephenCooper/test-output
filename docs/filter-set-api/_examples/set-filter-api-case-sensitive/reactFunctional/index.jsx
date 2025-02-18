@@ -1,5 +1,4 @@
 'use client';
-import "ag-grid-enterprise";
 import React, {
   StrictMode,
   useCallback,
@@ -8,7 +7,6 @@ import React, {
   useState,
 } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   ClientSideRowModelModule,
   ModuleRegistry,
@@ -22,7 +20,7 @@ import {
 } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react";
 
-import { getData } from "./data.jsx";
+import { getData } from "./data";
 import "./styles.css";
 
 ModuleRegistry.registerModules([
@@ -148,8 +146,9 @@ const GridExample = () => {
       .getColumnFilterInstance(FILTER_TYPES[type])
       .then((instance) => {
         instance.resetFilterValues();
-        instance.setModel(null);
-        gridRef.current.api.onFilterChanged();
+        instance.setModel(null).then(() => {
+          gridRef.current.api.onFilterChanged();
+        });
       });
   }, []);
 

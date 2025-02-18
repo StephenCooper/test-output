@@ -21,7 +21,6 @@ import {
   NumberFilterModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import ControlsCellRenderer from "./controlsCellRendererVue";
 import { IOlympicData } from "./interfaces";

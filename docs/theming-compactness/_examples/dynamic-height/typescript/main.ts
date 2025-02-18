@@ -1,5 +1,4 @@
 import {
-  AllCommunityModule,
   ColDef,
   ColGroupDef,
   GridApi,
@@ -11,7 +10,7 @@ import {
 import { AllEnterpriseModule } from "ag-grid-enterprise";
 import { IOlympicData } from "./interfaces";
 
-ModuleRegistry.registerModules([AllCommunityModule, AllEnterpriseModule]);
+ModuleRegistry.registerModules([AllEnterpriseModule]);
 
 function changeSize(value: number) {
   document.documentElement.style.setProperty("--ag-spacing", `${value}px`);
@@ -43,7 +42,6 @@ const gridOptions: GridOptions<IOlympicData> = {
   animateRows: false,
 };
 
-// setup the grid after the page has finished loading
 const gridDiv = document.querySelector<HTMLElement>("#myGrid")!;
 gridApi = createGrid(gridDiv, gridOptions);
 

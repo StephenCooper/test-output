@@ -17,7 +17,6 @@ import {
   TextEditorModule,
   UndoRedoEditModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { CellSelectionModule, ClipboardModule } from "ag-grid-enterprise";
 ModuleRegistry.registerModules([
@@ -30,15 +29,15 @@ ModuleRegistry.registerModules([
   ValidationModule /* Development Only */,
 ]);
 
-const disable = (id, disabled) => {
+function disable(id, disabled) {
   document.querySelector(id).disabled = disabled;
-};
+}
 
-const setValue = (id, value) => {
+function setValue(id, value) {
   document.querySelector(id).value = value;
-};
+}
 
-const getRows = () => {
+function getRows() {
   return Array.apply(null, Array(100)).map(function (_, i) {
     return {
       a: "a-" + i,
@@ -51,10 +50,10 @@ const getRows = () => {
       h: "h-" + i,
     };
   });
-};
+}
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [rowData, setRowData] = useState(getRows());

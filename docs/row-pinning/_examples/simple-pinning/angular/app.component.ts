@@ -13,7 +13,6 @@ import {
   RowClassParams,
   RowStyle,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   PinnedRowModule,

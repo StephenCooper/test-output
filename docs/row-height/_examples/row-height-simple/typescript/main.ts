@@ -47,7 +47,6 @@ function getRowHeight(params: RowHeightParams): number | undefined | null {
   return params.data.rowHeight;
 }
 
-// setup the grid after the page has finished loading
 const gridDiv = document.querySelector<HTMLElement>("#myGrid")!;
 gridApi = createGrid(gridDiv, gridOptions);
 

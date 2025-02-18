@@ -1,7 +1,6 @@
 'use client';
 import React, { StrictMode, useCallback, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   ClientSideRowModelModule,
   DateFilterModule,
@@ -11,7 +10,7 @@ import {
 } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
 
-import CustomDateComponent from "./customDateComponent.jsx";
+import CustomDateComponent from "./customDateComponent";
 import "./styles.css";
 
 ModuleRegistry.registerModules([

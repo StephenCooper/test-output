@@ -9,7 +9,6 @@ import React, {
 } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
-import { getData } from "./data.jsx";
 import {
   CellStyleModule,
   ClientSideRowModelApiModule,
@@ -22,9 +21,9 @@ import {
   TextEditorModule,
   ValidationModule,
   ValueCacheModule,
-  createGrid,
 } from "ag-grid-community";
 import { RowGroupingModule } from "ag-grid-enterprise";
+import { getData } from "./data";
 ModuleRegistry.registerModules([
   ClientSideRowModelApiModule,
   RowApiModule,
@@ -66,13 +65,13 @@ const total10ValueGetter = function (params) {
   return total * 10;
 };
 
-const formatNumber = (params) => {
+function formatNumber(params) {
   const number = params.value;
   return Math.floor(number).toLocaleString();
-};
+}
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [rowData, setRowData] = useState(getData());

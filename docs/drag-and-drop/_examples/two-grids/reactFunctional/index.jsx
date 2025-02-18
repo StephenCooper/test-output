@@ -1,7 +1,6 @@
 'use client';
 import React, { StrictMode, useRef } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   ClientSideRowModelApiModule,
   ClientSideRowModelModule,
@@ -85,7 +84,7 @@ const GridExample = () => {
   const createLeftRowData = () => ["Red", "Green", "Blue"].map(createDataItem);
 
   const createDataItem = (color) => {
-    let newDataItem = {
+    const newDataItem = {
       id: nextRowId++,
       color: color,
       value1: Math.floor(Math.random() * 100),

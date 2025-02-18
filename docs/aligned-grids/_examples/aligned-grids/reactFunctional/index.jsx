@@ -1,7 +1,7 @@
 'use client';
-import React, { StrictMode, useMemo, useRef, useState } from "react";
+import { useFetchJson } from './useFetchJson';
+import React, { StrictMode, useMemo, useRef } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   AlignedGridsModule,
   ClientSideRowModelModule,
@@ -30,17 +30,12 @@ const GridExample = () => {
   const topGrid = useRef(null);
   const bottomGrid = useRef(null);
 
-  const defaultColDef = useMemo(() => ({
-    filter: true,
-    minWidth: 100,
-  }));
-
   const columnDefs = useMemo(
     () => [
       { field: "athlete" },
       { field: "age" },
       { field: "country" },
-      { field: "date" },
+      { field: "year" },
       { field: "sport" },
       {
         headerName: "Medals",
@@ -60,7 +55,13 @@ const GridExample = () => {
     [],
   );
 
-  const [rowData, setRowData] = useState();
+  const defaultColDef = useMemo(
+    () => ({
+      filter: true,
+      minWidth: 100,
+    }),
+    [],
+  );
 
   const autoSizeStrategy = useMemo(
     () => ({
@@ -69,46 +70,50 @@ const GridExample = () => {
     [],
   );
 
-  const onGridReady = (params) => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data) => setRowData(data));
-  };
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
 
   const onCbAthlete = (event) => {
     // we only need to update one grid, as the other is a slave
-    if (topGrid.current) {
-      topGrid.current.api.setColumnsVisible(["athlete"], event.target.checked);
-    }
+    topGrid.current.api.setColumnsVisible(["athlete"], event.target.checked);
   };
 
   const onCbAge = (event) => {
     // we only need to update one grid, as the other is a slave
-    if (topGrid.current) {
-      topGrid.current.api.setColumnsVisible(["age"], event.target.checked);
-    }
+    topGrid.current.api.setColumnsVisible(["age"], event.target.checked);
   };
 
   const onCbCountry = (event) => {
     // we only need to update one grid, as the other is a slave
-    if (topGrid.current) {
-      topGrid.current.api.setColumnsVisible(["country"], event.target.checked);
-    }
+    topGrid.current.api.setColumnsVisible(["country"], event.target.checked);
   };
 
   return (
     <div className="container">
       <div className="header">
         <label>
-          <input type="checkbox" defaultChecked onChange={onCbAthlete} />
+          <input
+            type="checkbox"
+            defaultChecked={true}
+            onChange={(event) => onCbAthlete(event)}
+          />
           Athlete
         </label>
         <label>
-          <input type="checkbox" defaultChecked onChange={onCbAge} />
+          <input
+            type="checkbox"
+            defaultChecked={true}
+            onChange={(event) => onCbAge(event)}
+          />
           Age
         </label>
         <label>
-          <input type="checkbox" defaultChecked onChange={onCbCountry} />
+          <input
+            type="checkbox"
+            defaultChecked={true}
+            onChange={(event) => onCbCountry(event)}
+          />
           Country
         </label>
       </div>
@@ -117,11 +122,11 @@ const GridExample = () => {
         <AgGridReact
           ref={topGrid}
           alignedGrids={[bottomGrid]}
-          rowData={rowData}
-          defaultColDef={defaultColDef}
+          rowData={data}
+          loading={loading}
           columnDefs={columnDefs}
+          defaultColDef={defaultColDef}
           autoSizeStrategy={autoSizeStrategy}
-          onGridReady={onGridReady}
         />
       </div>
 
@@ -131,9 +136,10 @@ const GridExample = () => {
         <AgGridReact
           ref={bottomGrid}
           alignedGrids={[topGrid]}
-          rowData={rowData}
-          defaultColDef={defaultColDef}
+          rowData={data}
+          loading={loading}
           columnDefs={columnDefs}
+          defaultColDef={defaultColDef}
         />
       </div>
     </div>

@@ -10,16 +10,15 @@ import React, {
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./style.css";
-import { getData } from "./data.jsx";
 import {
   ClientSideRowModelApiModule,
   ClientSideRowModelModule,
   ModuleRegistry,
   RowDragModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { TreeDataModule } from "ag-grid-enterprise";
+import { getData } from "./data";
 ModuleRegistry.registerModules([
   RowDragModule,
   ClientSideRowModelApiModule,
@@ -34,7 +33,7 @@ const valueFormatter = function (params) {
 
 // this updates the filePath locations in our data, we update the data
 // before we send it to AG Grid
-const moveToPath = (newParentPath, node, allUpdatedNodes) => {
+function moveToPath(newParentPath, node, allUpdatedNodes) {
   // last part of the file path is the file name
   const oldPath = node.data.filePath;
   const fileName = oldPath[oldPath.length - 1];
@@ -47,9 +46,9 @@ const moveToPath = (newParentPath, node, allUpdatedNodes) => {
       moveToPath(newChildPath, childNode, allUpdatedNodes);
     });
   }
-};
+}
 
-const isSelectionParentOfTarget = (selectedNode, targetNode) => {
+function isSelectionParentOfTarget(selectedNode, targetNode) {
   const children = [...(selectedNode.childrenAfterGroup || [])];
   if (!targetNode) {
     return false;
@@ -67,9 +66,9 @@ const isSelectionParentOfTarget = (selectedNode, targetNode) => {
     }
   }
   return false;
-};
+}
 
-const arePathsEqual = (path1, path2) => {
+function arePathsEqual(path1, path2) {
   if (path1.length !== path2.length) {
     return false;
   }
@@ -80,7 +79,7 @@ const arePathsEqual = (path1, path2) => {
     }
   });
   return equal;
-};
+}
 
 class FileCellRenderer {
   eGui;
@@ -117,7 +116,7 @@ class FileCellRenderer {
 }
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [rowData, setRowData] = useState(getData());

@@ -11,7 +11,6 @@ import {
   ModuleRegistry,
   RowNumbersOptions,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { RowNumbersModule } from "ag-grid-enterprise";
 ModuleRegistry.registerModules([

@@ -19,7 +19,6 @@ import {
   ValidationModule,
   ValueFormatterLiteParams,
   ValueParserLiteParams,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   NumberEditorModule,

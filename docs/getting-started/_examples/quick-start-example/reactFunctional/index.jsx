@@ -1,7 +1,6 @@
 'use client';
 import React, { StrictMode, useState } from "react";
 import { createRoot } from "react-dom/client";
-
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
 

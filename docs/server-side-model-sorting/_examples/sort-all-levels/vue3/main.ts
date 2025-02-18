@@ -17,7 +17,6 @@ import {
   ModuleRegistry,
   RowModelType,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   RowGroupingModule,

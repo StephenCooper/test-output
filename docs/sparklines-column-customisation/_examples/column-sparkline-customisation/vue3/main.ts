@@ -19,7 +19,6 @@ import {
   GridReadyEvent,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { SparklinesModule } from "ag-grid-enterprise";
 import { getData } from "./data";

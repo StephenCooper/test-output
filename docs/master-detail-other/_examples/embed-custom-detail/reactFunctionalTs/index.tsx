@@ -17,11 +17,9 @@ import {
   FirstDataRenderedEvent,
   GridApi,
   GridOptions,
-  GridReadyEvent,
   ModuleRegistry,
   RowApiModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { MasterDetailModule } from "ag-grid-enterprise";
 import DetailCellRenderer from "./detailCellRenderer.tsx";
@@ -32,11 +30,15 @@ ModuleRegistry.registerModules([
   MasterDetailModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 const GridExample = () => {
+  const { data, loading } = useFetchJson<IAccount>(
+    "https://www.ag-grid.com/example-assets/master-detail-data.json",
+  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState<IAccount[]>();
+
   const detailCellRenderer = useCallback(DetailCellRenderer, []);
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
     // group cell renderer needed for expand / collapse icons
@@ -53,14 +55,6 @@ const GridExample = () => {
     return {};
   }, []);
 
-  const onGridReady = useCallback((params: GridReadyEvent) => {
-    fetch("https://www.ag-grid.com/example-assets/master-detail-data.json")
-      .then((resp) => resp.json())
-      .then((data: IAccount[]) => {
-        setRowData(data);
-      });
-  }, []);
-
   const onFirstDataRendered = useCallback((params: FirstDataRenderedEvent) => {
     setTimeout(() => {
       params.api.forEachNode(function (node) {
@@ -73,14 +67,14 @@ const GridExample = () => {
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact<IAccount>
-          rowData={rowData}
+          rowData={data}
+          loading={loading}
           masterDetail={true}
           detailCellRenderer={detailCellRenderer}
           detailRowHeight={150}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           embedFullWidthRows={true}
-          onGridReady={onGridReady}
           onFirstDataRendered={onFirstDataRendered}
         />
       </div>
@@ -94,3 +88,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

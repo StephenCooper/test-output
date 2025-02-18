@@ -10,7 +10,6 @@ import {
   GridOptions,
   GridReadyEvent,
   ModuleRegistry,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([AllCommunityModule]);
 import { IOlympicData } from "./interfaces";

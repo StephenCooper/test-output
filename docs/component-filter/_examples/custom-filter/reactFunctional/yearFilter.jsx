@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from "react";
-
 import { useGridFilter } from "ag-grid-react";
 
 export default ({ model, onModelChange }) => {

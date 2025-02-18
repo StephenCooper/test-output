@@ -20,7 +20,6 @@ import {
   RowEditingStartedEvent,
   RowEditingStoppedEvent,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import GenderRenderer from "./genderRendererVue";
 import MoodRenderer from "./moodRendererVue";

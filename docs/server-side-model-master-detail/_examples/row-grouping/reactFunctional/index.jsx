@@ -1,21 +1,13 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useCallback, useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
-import { FakeServer } from "./fakeServer.jsx";
 import {
   ClientSideRowModelModule,
   ModuleRegistry,
   RowApiModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
@@ -25,6 +17,7 @@ import {
   RowGroupingModule,
   ServerSideRowModelModule,
 } from "ag-grid-enterprise";
+import { FakeServer } from "./fakeServer";
 ModuleRegistry.registerModules([
   RowApiModule,
   ClientSideRowModelModule,
@@ -102,6 +95,14 @@ const GridExample = () => {
   }, []);
 
   const onGridReady = useCallback((params) => {
+    setTimeout(() => {
+      // expand some master row
+      const someRow = params.api.getRowNode("1");
+      if (someRow) {
+        someRow.setExpanded(true);
+      }
+    }, 1000);
+
     fetch("https://www.ag-grid.com/example-assets/call-data.json")
       .then((resp) => resp.json())
       .then((data) => {
@@ -112,14 +113,6 @@ const GridExample = () => {
         // register the datasource with the grid
         params.api.setGridOption("serverSideDatasource", datasource);
       });
-
-    setTimeout(() => {
-      // expand some master row
-      const someRow = params.api.getRowNode("1");
-      if (someRow) {
-        someRow.setExpanded(true);
-      }
-    }, 1000);
   }, []);
 
   return (

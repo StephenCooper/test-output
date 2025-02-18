@@ -19,7 +19,6 @@ import {
   TextEditorModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import PartialMatchFilter from "./partialMatchFilterVue";
 import { getData } from "./data";

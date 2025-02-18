@@ -1,24 +1,17 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useCallback, useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./styles.css";
-import { getData } from "./data.jsx";
 import {
   CellStyleModule,
   ClientSideRowModelModule,
   ColumnAutoSizeModule,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
+import { getData } from "./data";
 ModuleRegistry.registerModules([
   ColumnAutoSizeModule,
   CellStyleModule,
@@ -31,13 +24,13 @@ const cellClassRules = {
   "quarters-cell": 'data.section === "quarters"',
 };
 
-const isHeaderRow = (params) => {
+function isHeaderRow(params) {
   return params.data.section === "big-title";
-};
+}
 
-const isQuarterRow = (params) => {
+function isQuarterRow(params) {
   return params.data.section === "quarters";
-};
+}
 
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);

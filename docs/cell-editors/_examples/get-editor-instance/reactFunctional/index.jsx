@@ -7,7 +7,6 @@ import React, {
   useState,
 } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   ClientSideRowModelModule,
   CustomEditorModule,
@@ -18,8 +17,7 @@ import {
   ValidationModule,
 } from "ag-grid-community";
 import { AgGridReact, getInstance } from "ag-grid-react";
-
-import MySimpleEditor from "./mySimpleEditor.jsx";
+import MySimpleEditor from "./mySimpleEditor";
 import "./style.css";
 
 ModuleRegistry.registerModules([
@@ -88,45 +86,48 @@ const createRowData = () => {
 const GridExample = () => {
   const gridRef = useRef(null);
   const [rowData] = useState(createRowData());
-  const columnDefs = useMemo(() => [
-    {
-      field: "first_name",
-      headerName: "First Name",
-      width: 120,
-      editable: true,
-    },
-    {
-      field: "last_name",
-      headerName: "Last Name",
-      width: 120,
-      editable: true,
-    },
-    {
-      field: "gender",
-      width: 100,
-      cellEditor: MySimpleEditor,
-    },
-    {
-      field: "age",
-      width: 80,
-      cellEditor: MySimpleEditor,
-    },
-    {
-      field: "mood",
-      width: 90,
-      cellEditor: MySimpleEditor,
-    },
-    {
-      field: "country",
-      width: 110,
-      cellEditor: MySimpleEditor,
-    },
-    {
-      field: "address",
-      minWidth: 502,
-      cellEditor: MySimpleEditor,
-    },
-  ]);
+  const columnDefs = useMemo(
+    () => [
+      {
+        field: "first_name",
+        headerName: "First Name",
+        width: 120,
+        editable: true,
+      },
+      {
+        field: "last_name",
+        headerName: "Last Name",
+        width: 120,
+        editable: true,
+      },
+      {
+        field: "gender",
+        width: 100,
+        cellEditor: MySimpleEditor,
+      },
+      {
+        field: "age",
+        width: 80,
+        cellEditor: MySimpleEditor,
+      },
+      {
+        field: "mood",
+        width: 90,
+        cellEditor: MySimpleEditor,
+      },
+      {
+        field: "country",
+        width: 110,
+        cellEditor: MySimpleEditor,
+      },
+      {
+        field: "address",
+        minWidth: 502,
+        cellEditor: MySimpleEditor,
+      },
+    ],
+    [],
+  );
 
   const onGridReady = useCallback((params) => {
     if (gridRef.current) {

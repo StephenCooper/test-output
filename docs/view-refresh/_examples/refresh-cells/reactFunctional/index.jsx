@@ -18,7 +18,6 @@ import {
   RenderApiModule,
   RowApiModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   RenderApiModule,
@@ -52,27 +51,27 @@ const createData = (count) => {
   return result;
 };
 
-const isForceRefreshSelected = () => {
+function isForceRefreshSelected() {
   return document.querySelector("#forceRefresh").checked;
-};
+}
 
-const isSuppressFlashSelected = () => {
+function isSuppressFlashSelected() {
   return document.querySelector("#suppressFlash").checked;
-};
+}
 
-const callRefreshAfterMillis = (params, millis, api) => {
+function callRefreshAfterMillis(params, millis, api) {
   setTimeout(() => {
     api.refreshCells(params);
   }, millis);
-};
+}
 
-const scramble = () => {
+function scramble() {
   data.forEach(scrambleItem);
   topRowData.forEach(scrambleItem);
   bottomRowData.forEach(scrambleItem);
-};
+}
 
-const scrambleItem = (item) => {
+function scrambleItem(item) {
   ["a", "b", "c", "d", "e", "f"].forEach((colId) => {
     // skip 50% of the cells so updates are random
     if (Math.random() > 0.5) {
@@ -80,10 +79,10 @@ const scrambleItem = (item) => {
     }
     item[colId] = Math.floor(Math.random() * 100);
   });
-};
+}
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [rowData, setRowData] = useState([]);
@@ -114,7 +113,7 @@ const GridExample = () => {
     data = createData(14);
     topRowData = createData(2);
     bottomRowData = createData(2);
-    params.api.setGridOption("rowData", data);
+    setRowData(data);
     params.api.setGridOption("pinnedTopRowData", topRowData);
     params.api.setGridOption("pinnedBottomRowData", bottomRowData);
   }, []);

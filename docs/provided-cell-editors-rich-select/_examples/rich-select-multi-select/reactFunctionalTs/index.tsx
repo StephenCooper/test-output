@@ -22,7 +22,6 @@ import {
   ValidationModule,
   ValueFormatterParams,
   ValueParserParams,
-  createGrid,
 } from "ag-grid-community";
 import { RichSelectModule } from "ag-grid-enterprise";
 import { colors } from "./colors";
@@ -148,3 +147,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

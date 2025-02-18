@@ -1,23 +1,13 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useCallback, useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import {
   ClientSideRowModelModule,
-  GridApi,
-  GridOptions,
-  KeyCreatorParams,
   ModuleRegistry,
   NumberFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { RowGroupingModule, SetFilterModule } from "ag-grid-enterprise";
 ModuleRegistry.registerModules([
@@ -27,11 +17,15 @@ ModuleRegistry.registerModules([
   SetFilterModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 const GridExample = () => {
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState();
+
   const [columnDefs, setColumnDefs] = useState([
     { field: "country", rowGroup: true, hide: true, filter: true },
     { field: "year", rowGroup: true, hide: true, filter: true },
@@ -59,10 +53,6 @@ const GridExample = () => {
   }, []);
 
   const onGridReady = useCallback((params) => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data) => setRowData(data));
-
     params.api.showColumnFilter("ag-Grid-AutoColumn");
   }, []);
 
@@ -70,7 +60,8 @@ const GridExample = () => {
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact
-          rowData={rowData}
+          rowData={data}
+          loading={loading}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           autoGroupColumnDef={autoGroupColumnDef}

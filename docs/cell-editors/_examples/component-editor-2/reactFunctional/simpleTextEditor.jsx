@@ -21,7 +21,7 @@ export default ({ value, onValueChange, eventKey, rowIndex, column }, ref) => {
 
     updateValue(startValue);
 
-    refInput.current.focus();
+    refInput.current?.focus();
   }, []);
 
   const refInput = useRef(null);

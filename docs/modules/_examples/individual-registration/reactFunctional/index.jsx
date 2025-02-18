@@ -1,12 +1,5 @@
 'use client';
-import "ag-grid-enterprise";
-import React, {
-  StrictMode,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { StrictMode, useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 
 import {
@@ -35,7 +28,6 @@ ModuleRegistry.registerModules([
   ContextMenuModule,
   ValidationModule /* Development Only */,
 ]);
-
 const leftModules = [SetFilterModule, ClipboardModule, CsvExportModule];
 const rightModules = [
   TextFilterModule,
@@ -58,7 +50,6 @@ const GridExample = () => {
   const [rightRowData, setRightRowData] = useState([]);
 
   let rowIdSequence = 100;
-
   useEffect(() => {
     const createRowBlock = () =>
       ["Red", "Green", "Blue"].map((color) => ({

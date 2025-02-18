@@ -1,21 +1,13 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useCallback, useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
-import { getData } from "./data.jsx";
 import {
   ClientSideRowModelModule,
   ModuleRegistry,
   RowAutoHeightModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
@@ -23,6 +15,7 @@ import {
   ContextMenuModule,
   RowGroupingModule,
 } from "ag-grid-enterprise";
+import { getData } from "./data";
 ModuleRegistry.registerModules([
   RowAutoHeightModule,
   ClientSideRowModelModule,
@@ -36,7 +29,7 @@ ModuleRegistry.registerModules([
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-
+  const [rowData, setRowData] = useState();
   const [columnDefs, setColumnDefs] = useState([
     {
       headerName: "Row #",
@@ -86,7 +79,7 @@ const GridExample = () => {
     // in this example, the CSS styles are loaded AFTER the grid is created,
     // so we put this in a timeout, so height is calculated after styles are applied.
     setTimeout(() => {
-      params.api.setGridOption("rowData", getData());
+      setRowData(getData());
     }, 500);
   }, []);
 
@@ -94,6 +87,7 @@ const GridExample = () => {
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact
+          rowData={rowData}
           columnDefs={columnDefs}
           sideBar={sideBar}
           onGridReady={onGridReady}

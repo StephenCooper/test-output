@@ -30,7 +30,7 @@ export default forwardRef(
 
       updateValue(startValue);
 
-      refInput.current.focus();
+      refInput.current?.focus();
     }, []);
 
     const refInput = useRef(null);

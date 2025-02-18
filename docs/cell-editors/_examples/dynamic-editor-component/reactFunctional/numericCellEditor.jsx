@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useEffect, useRef } from "react";
-
 import { useGridCellEditor } from "ag-grid-react";
 
+// backspace starts the editor on Windows
 const KEY_BACKSPACE = "Backspace";
 const KEY_F2 = "F2";
 const KEY_ENTER = "Enter";

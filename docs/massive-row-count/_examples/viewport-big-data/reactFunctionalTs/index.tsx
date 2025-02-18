@@ -19,7 +19,6 @@ import {
   ModuleRegistry,
   RowModelType,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { ViewportRowModelModule } from "ag-grid-enterprise";
 ModuleRegistry.registerModules([
@@ -99,3 +98,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

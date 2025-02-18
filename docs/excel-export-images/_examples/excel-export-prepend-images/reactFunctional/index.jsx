@@ -10,19 +10,18 @@ import React, {
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./styles.css";
-import { logos } from "./imageUtils.jsx";
 import {
   ClientSideRowModelModule,
   CsvExportModule,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
   ContextMenuModule,
   ExcelExportModule,
 } from "ag-grid-enterprise";
+import { logos } from "./imageUtils";
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   CsvExportModule,
@@ -33,10 +32,10 @@ ModuleRegistry.registerModules([
 ]);
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-
+  const [rowData, setRowData] = useState();
   const [columnDefs, setColumnDefs] = useState([
     { field: "athlete" },
     { field: "country" },
@@ -93,7 +92,7 @@ const GridExample = () => {
   const onGridReady = useCallback((params) => {
     fetch("https://www.ag-grid.com/example-assets/small-olympic-winners.json")
       .then((response) => response.json())
-      .then((data) => params.api.setGridOption("rowData", data));
+      .then((data) => setRowData(data));
   }, []);
 
   const onBtExport = useCallback(() => {
@@ -112,6 +111,7 @@ const GridExample = () => {
           <div style={gridStyle}>
             <AgGridReact
               ref={gridRef}
+              rowData={rowData}
               columnDefs={columnDefs}
               defaultColDef={defaultColDef}
               defaultExcelExportParams={defaultExcelExportParams}

@@ -1,4 +1,3 @@
-import "ag-grid-enterprise";
 import { AgChartsEnterpriseModule } from "ag-charts-enterprise";
 import {
   createApp,

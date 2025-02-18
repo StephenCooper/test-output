@@ -19,7 +19,6 @@ import {
   NumberFilterModule,
   TextEditorModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { RowGroupingModule, SetFilterModule } from "ag-grid-enterprise";
 ModuleRegistry.registerModules([
@@ -38,7 +37,7 @@ let rowIdCounter = 0;
 
 let callCount = 0;
 
-const createRowData = () => {
+function createRowData() {
   const result = [];
   for (let i = 1; i <= 2; i++) {
     for (let j = 1; j <= 5; j++) {
@@ -49,9 +48,9 @@ const createRowData = () => {
     }
   }
   return result;
-};
+}
 
-const createRowItem = (i, j, k) => {
+function createRowItem(i, j, k) {
   const rowDataItem = {
     id: rowIdCounter++,
     a: (j * k * 863) % 100,
@@ -66,28 +65,28 @@ const createRowItem = (i, j, k) => {
     rowDataItem.group = "Group A" + j;
   }
   return rowDataItem;
-};
+}
 
 // converts strings to numbers
-const numberValueParser = (params) => {
+function numberValueParser(params) {
   console.log("=> updating to " + params.newValue);
   return Number(params.newValue);
-};
+}
 
-const pickRandomColumn = () => {
+function pickRandomColumn() {
   const letters = ["a", "b", "c", "d"];
   const randomIndex = Math.floor(Math.random() * letters.length);
   return letters[randomIndex];
-};
+}
 
-const createRandomNumber = () => {
+function createRandomNumber() {
   return Math.floor(Math.random() * 100);
-};
+}
 
-const pickExistingRowItemAtRandom = (api) => {
+function pickExistingRowItemAtRandom(api) {
   const rowNode = pickExistingRowNodeAtRandom(api);
   return rowNode ? rowNode.data : null;
-};
+}
 
 const pickExistingRowNodeAtRandom = (api) => {
   const allItems = [];
@@ -102,10 +101,10 @@ const pickExistingRowNodeAtRandom = (api) => {
 };
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-
+  const [rowData, setRowData] = useState();
   const [columnDefs, setColumnDefs] = useState([
     { field: "topGroup", rowGroup: true, hide: true },
     { field: "group", rowGroup: true, hide: true },
@@ -177,7 +176,7 @@ const GridExample = () => {
   const getRowId = useCallback((params) => String(params.data.id), []);
 
   const onGridReady = useCallback((params) => {
-    params.api.setGridOption("rowData", createRowData());
+    setRowData(createRowData());
   }, []);
 
   const updateOneRecord = useCallback(() => {
@@ -264,6 +263,7 @@ const GridExample = () => {
           <div style={gridStyle}>
             <AgGridReact
               ref={gridRef}
+              rowData={rowData}
               columnDefs={columnDefs}
               defaultColDef={defaultColDef}
               autoGroupColumnDef={autoGroupColumnDef}

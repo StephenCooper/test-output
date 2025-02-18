@@ -17,12 +17,10 @@ import {
   GetGroupIncludeTotalRowParams,
   GridApi,
   GridOptions,
-  GridReadyEvent,
   ModuleRegistry,
   RowApiModule,
   UseGroupTotalRow,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { RowGroupingModule } from "ag-grid-enterprise";
 ModuleRegistry.registerModules([
@@ -31,11 +29,16 @@ ModuleRegistry.registerModules([
   RowGroupingModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 const GridExample = () => {
+  const { data, loading } = useFetchJson<any>(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+    50,
+  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState<any[]>();
+
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
     { field: "country", rowGroup: true, hide: true },
     { field: "year", rowGroup: true, hide: true },
@@ -61,12 +64,6 @@ const GridExample = () => {
     return undefined;
   }, []);
 
-  const onGridReady = useCallback((params: GridReadyEvent) => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data: any[]) => setRowData(data.slice(0, 50)));
-  }, []);
-
   const onFirstDataRendered = useCallback((params: FirstDataRenderedEvent) => {
     params.api.forEachNode((node) => {
       if (node.key === "United States" || node.key === "Russia") {
@@ -79,12 +76,12 @@ const GridExample = () => {
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact
-          rowData={rowData}
+          rowData={data}
+          loading={loading}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           autoGroupColumnDef={autoGroupColumnDef}
           groupTotalRow={groupTotalRow}
-          onGridReady={onGridReady}
           onFirstDataRendered={onFirstDataRendered}
         />
       </div>
@@ -98,3 +95,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

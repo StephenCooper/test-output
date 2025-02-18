@@ -11,7 +11,6 @@ import {
   RowSelectionOptions,
   Theme,
   colorSchemeVariable,
-  createGrid,
   createTheme,
   iconSetMaterial,
 } from "ag-grid-community";

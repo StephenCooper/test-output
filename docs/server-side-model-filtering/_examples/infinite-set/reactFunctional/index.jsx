@@ -9,12 +9,10 @@ import React, {
 } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
-import { FakeServer } from "./fakeServer.jsx";
 import {
   ModuleRegistry,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
@@ -23,6 +21,7 @@ import {
   ServerSideRowModelModule,
   SetFilterModule,
 } from "ag-grid-enterprise";
+import { FakeServer } from "./fakeServer";
 ModuleRegistry.registerModules([
   ColumnMenuModule,
   ContextMenuModule,
@@ -57,7 +56,7 @@ let selectedCountries = null;
 
 let textFilterStored = null;
 
-const areEqual = (a, b) => {
+function areEqual(a, b) {
   if (a == null && b == null) {
     return true;
   }
@@ -70,25 +69,25 @@ const areEqual = (a, b) => {
       return b[i] === v;
     })
   );
-};
+}
 
-const getCountryValuesAsync = (params) => {
+function getCountryValuesAsync(params) {
   const sportFilterModel = params.api.getFilterModel()["sport"];
   const countries = fakeServer.getCountries(sportFilterModel);
   // simulating real server call with a 500ms delay
   setTimeout(() => {
     params.success(countries);
   }, 500);
-};
+}
 
-const getSportValuesAsync = (params) => {
+function getSportValuesAsync(params) {
   const sportFilterModel = params.api.getFilterModel()["sport"];
   const sports = fakeServer.getSports(selectedCountries, sportFilterModel);
   // simulating real server call with a 500ms delay
   setTimeout(() => {
     params.success(sports);
   }, 500);
-};
+}
 
 const getServerSideDatasource = (server) => {
   return {
@@ -113,7 +112,7 @@ const getServerSideDatasource = (server) => {
 };
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 

@@ -10,7 +10,6 @@ import React, {
 } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
-import { getData } from "./data.jsx";
 import { AgChartsEnterpriseModule } from "ag-charts-enterprise";
 import {
   ClientSideRowModelModule,
@@ -20,7 +19,6 @@ import {
   TextEditorModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
@@ -28,6 +26,7 @@ import {
   IntegratedChartsModule,
   RowGroupingModule,
 } from "ag-grid-enterprise";
+import { getData } from "./data";
 ModuleRegistry.registerModules([
   NumberEditorModule,
   TextEditorModule,
@@ -41,7 +40,7 @@ ModuleRegistry.registerModules([
   ValidationModule /* Development Only */,
 ]);
 
-const createGroupedBarChart = (params, selector, columns) => {
+function createGroupedBarChart(params, selector, columns) {
   params.api.createRangeChart({
     chartContainer: document.querySelector(selector),
     cellRange: {
@@ -52,9 +51,9 @@ const createGroupedBarChart = (params, selector, columns) => {
     suppressChartRanges: true,
     chartType: "groupedBar",
   });
-};
+}
 
-const createPieChart = (params, selector, columns) => {
+function createPieChart(params, selector, columns) {
   params.api.createRangeChart({
     chartContainer: document.querySelector(selector),
     cellRange: { columns },
@@ -75,13 +74,13 @@ const createPieChart = (params, selector, columns) => {
       },
     },
   });
-};
+}
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "30%", width: "100%" }), []);
-
+  const [rowData, setRowData] = useState();
   const [columnDefs, setColumnDefs] = useState([
     { field: "country", width: 150, chartDataType: "category" },
     { field: "group", chartDataType: "category" },
@@ -106,7 +105,7 @@ const GridExample = () => {
   const getChartToolbarItems = useCallback(() => [], []);
 
   const onGridReady = useCallback((params) => {
-    getData().then((rowData) => params.api.setGridOption("rowData", rowData));
+    getData().then((rowData) => setRowData(rowData));
   }, []);
   /** DARK INTEGRATED START **/ const [tick, setTick] = useState(0);
   useEffect(() => {
@@ -114,6 +113,7 @@ const GridExample = () => {
     const isInitialModeDark =
       document.documentElement.dataset.agThemeMode?.includes("dark");
 
+    // update chart themes based on dark mode status
     const updateChartThemes = (isDark) => {
       const themes = [
         "ag-default",
@@ -156,6 +156,7 @@ const GridExample = () => {
     };
     trySetInitial(0);
 
+    // event handler for color scheme changes
     const handleColorSchemeChange = (event) => {
       const { darkMode } = event.detail;
       updateChartThemes(darkMode);
@@ -185,6 +186,7 @@ const GridExample = () => {
         <div style={gridStyle}>
           <AgGridReact
             ref={gridRef}
+            rowData={rowData}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
             cellSelection={true}

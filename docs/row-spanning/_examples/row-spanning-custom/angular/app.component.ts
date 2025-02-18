@@ -12,7 +12,6 @@ import {
   ModuleRegistry,
   SpanRowsParams,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
   CellSpanModule,

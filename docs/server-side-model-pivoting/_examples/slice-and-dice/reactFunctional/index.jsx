@@ -1,24 +1,13 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  StrictMode,
-} from "react";
+import React, { useCallback, useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
-import { getCountries } from "./countries.jsx";
-import { CustomAgeFilter } from "./customAgeFilter.jsx";
-import { createFakeServer, createServerSideDatasource } from "./server.jsx";
 import {
   CustomFilterModule,
-  IServerSideDatasource,
   ModuleRegistry,
   NumberFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
@@ -30,6 +19,9 @@ import {
   ServerSideRowModelModule,
   SetFilterModule,
 } from "ag-grid-enterprise";
+import { getCountries } from "./countries";
+import { CustomAgeFilter } from "./customAgeFilter";
+import { createFakeServer, createServerSideDatasource } from "./server";
 ModuleRegistry.registerModules([
   NumberFilterModule,
   ColumnsToolPanelModule,

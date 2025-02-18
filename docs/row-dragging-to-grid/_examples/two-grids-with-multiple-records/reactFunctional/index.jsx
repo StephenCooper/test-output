@@ -1,7 +1,6 @@
 'use client';
 import React, { StrictMode, useCallback, useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
-
 import {
   ClientSideRowModelApiModule,
   ClientSideRowModelModule,
@@ -137,7 +136,7 @@ const GridExample = () => {
 
   const onDragStop = useCallback(
     (params) => {
-      var nodes = params.nodes;
+      const nodes = params.nodes;
 
       if (radioChecked === 0) {
         leftApi.applyTransaction({

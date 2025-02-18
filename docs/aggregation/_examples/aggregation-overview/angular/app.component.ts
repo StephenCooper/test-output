@@ -12,7 +12,6 @@ import {
   ModuleRegistry,
   UseGroupTotalRow,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { ColumnMenuModule, RowGroupingModule } from "ag-grid-enterprise";
 ModuleRegistry.registerModules([

@@ -1,10 +1,4 @@
-import React, {
-  KeyboardEvent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
 export default ({ column, api, active, onActiveChange }) => {
   const filterWrapperRef = useRef(null);
@@ -21,7 +15,7 @@ export default ({ column, api, active, onActiveChange }) => {
 
   useEffect(() => {
     if (active) {
-      optionRef.current.focus();
+      optionRef.current?.focus();
     }
   }, [active]);
 

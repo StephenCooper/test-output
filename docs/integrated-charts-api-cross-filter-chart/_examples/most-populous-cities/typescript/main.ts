@@ -122,7 +122,6 @@ function createBubbleChart(api: GridApi) {
   });
 }
 
-// setup the grid after the page has finished loading
 gridApi = createGrid(
   document.querySelector<HTMLElement>("#myGrid")!,
   gridOptions,

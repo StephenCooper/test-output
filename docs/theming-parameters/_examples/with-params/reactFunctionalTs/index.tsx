@@ -16,7 +16,6 @@ import {
   GridOptions,
   ModuleRegistry,
   Theme,
-  createGrid,
   themeQuartz,
 } from "ag-grid-community";
 import { IOlympicData } from "./interfaces";
@@ -90,3 +89,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

@@ -19,7 +19,6 @@ import {
   FirstDataRenderedEvent,
   GridApi,
   GridOptions,
-  GridReadyEvent,
   ModuleRegistry,
   NumberEditorModule,
   NumberFilterModule,
@@ -27,7 +26,6 @@ import {
   TextEditorModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
@@ -48,12 +46,16 @@ ModuleRegistry.registerModules([
   PivotModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 const GridExample = () => {
   const gridRef = useRef<AgGridReact>(null);
+  const { data, loading } = useFetchJson<any>(
+    "https://www.ag-grid.com/example-assets/wide-spread-of-sports.json",
+  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState<any[]>();
+
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
     { field: "country", pivot: true },
     { field: "year", rowGroup: true },
@@ -78,13 +80,6 @@ const GridExample = () => {
     return document.body;
   }, []);
 
-  const onGridReady = useCallback((params: GridReadyEvent) => {
-    fetch("https://www.ag-grid.com/example-assets/wide-spread-of-sports.json")
-      .then((resp) => resp.json())
-      .then((data: any[]) => {
-        setRowData(data);
-      });
-  }, []);
   /** DARK INTEGRATED START **/ const [tick, setTick] = useState(0);
   useEffect(() => {
     setTick(1);
@@ -179,13 +174,13 @@ const GridExample = () => {
         <div id="myGrid" style={gridStyle}>
           <AgGridReact
             ref={gridRef}
-            rowData={rowData}
+            rowData={data}
+            loading={loading}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
             autoGroupColumnDef={autoGroupColumnDef}
             pivotMode={true}
             popupParent={popupParent}
-            onGridReady={onGridReady}
             onFirstDataRendered={onFirstDataRendered}
           />
         </div>
@@ -201,3 +196,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

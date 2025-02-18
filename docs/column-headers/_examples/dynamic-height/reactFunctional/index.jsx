@@ -16,7 +16,6 @@ import {
   NumberFilterModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import { PivotModule } from "ag-grid-enterprise";
 ModuleRegistry.registerModules([
@@ -26,17 +25,21 @@ ModuleRegistry.registerModules([
   NumberFilterModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
-const setIdText = (id, value) => {
+function setIdText(id, value) {
   document.getElementById(id).textContent =
     value == undefined ? "undefined" : value + "";
-};
+}
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState();
+
   const [columnDefs, setColumnDefs] = useState([
     {
       headerName: "Athlete Details",
@@ -107,12 +110,6 @@ const GridExample = () => {
     return {
       width: 200,
     };
-  }, []);
-
-  const onGridReady = useCallback((params) => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data) => setRowData(data));
   }, []);
 
   const setPivotOn = useCallback(() => {
@@ -246,11 +243,11 @@ const GridExample = () => {
         <div style={gridStyle}>
           <AgGridReact
             ref={gridRef}
-            rowData={rowData}
+            rowData={data}
+            loading={loading}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
             autoGroupColumnDef={autoGroupColumnDef}
-            onGridReady={onGridReady}
           />
         </div>
       </div>

@@ -10,12 +10,10 @@ import React, {
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./styles.css";
-import { getData } from "./data.jsx";
 import {
   ClientSideRowModelModule,
   ModuleRegistry,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
@@ -24,6 +22,7 @@ import {
   FiltersToolPanelModule,
   SetFilterModule,
 } from "ag-grid-enterprise";
+import { getData } from "./data";
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ColumnsToolPanelModule,
@@ -42,11 +41,11 @@ const valuesArray = list1.slice();
 
 let valuesCallbackList = list1;
 
-const valuesCallback = (params) => {
+function valuesCallback(params) {
   setTimeout(() => {
     params.success(valuesCallbackList);
   }, 1000);
-};
+}
 
 const arrayFilterParams = {
   values: valuesArray,
@@ -58,7 +57,7 @@ const callbackFilterParams = {
 };
 
 const GridExample = () => {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [rowData, setRowData] = useState(getData());

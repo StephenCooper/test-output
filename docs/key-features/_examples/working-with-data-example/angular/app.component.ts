@@ -9,7 +9,6 @@ import {
   GridReadyEvent,
   ModuleRegistry,
   RowSelectionOptions,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -407,5 +406,3 @@ export class AppComponent {
     );
   } /** DARK INTEGRATED END **/
 }
-
-const gridDiv = document.querySelector<HTMLElement>("#myGrid")!;

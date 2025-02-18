@@ -18,7 +18,6 @@ import {
   CsvExportModule,
   GridApi,
   GridOptions,
-  GridReadyEvent,
   ICellRendererComp,
   ICellRendererParams,
   LocaleModule,
@@ -33,7 +32,6 @@ import {
   TextEditorModule,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import {
   CellSelectionModule,
@@ -78,6 +76,7 @@ ModuleRegistry.registerModules([
   IntegratedChartsModule.with(AgChartsEnterpriseModule),
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 class NodeIdRenderer implements ICellRendererComp {
   eGui!: HTMLElement;
@@ -97,9 +96,12 @@ class NodeIdRenderer implements ICellRendererComp {
 }
 
 const GridExample = () => {
+  const { data, loading } = useFetchJson<IOlympicData>(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState<IOlympicData[]>();
+
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
     // this row just shows the row index, doesn't use any data from the row
     {
@@ -171,17 +173,12 @@ const GridExample = () => {
     return { mode: "multiRow" };
   }, []);
 
-  const onGridReady = useCallback((params: GridReadyEvent) => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data: IOlympicData[]) => setRowData(data));
-  }, []);
-
   return (
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact<IOlympicData>
-          rowData={rowData}
+          rowData={data}
+          loading={loading}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           sideBar={true}
@@ -193,7 +190,6 @@ const GridExample = () => {
           enableCharts={true}
           localeText={localeText}
           rowSelection={rowSelection}
-          onGridReady={onGridReady}
         />
       </div>
     </div>
@@ -206,3 +202,4 @@ root.render(
     <GridExample />
   </StrictMode>,
 );
+(window as any).tearDownExample = () => root.unmount();

@@ -1,4 +1,3 @@
-import "ag-grid-enterprise";
 import { HttpClient } from "@angular/common/http";
 import type { ElementRef } from "@angular/core";
 import { Component, ViewChild } from "@angular/core";

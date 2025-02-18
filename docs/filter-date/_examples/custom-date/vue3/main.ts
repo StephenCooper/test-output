@@ -18,7 +18,6 @@ import {
   ModuleRegistry,
   TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 import CustomDateComponent from "./customDateComponentVue";
 import { IOlympicData } from "./interfaces";

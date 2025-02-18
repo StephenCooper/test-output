@@ -1,5 +1,4 @@
 import React, { memo, useCallback, useEffect, useRef } from "react";
-
 import { useGridCellEditor } from "ag-grid-react";
 
 // backspace starts the editor on Windows
@@ -57,7 +56,7 @@ export default memo(({ value, onValueChange, eventKey, stopEditing }) => {
   const refInput = useRef(null);
 
   const isLeftOrRight = (event) => {
-    return ["ArrowLeft", "ArrowRight"].indexOf(event.key) > -1;
+    return ["ArrowLeft", "ArrowLeft"].indexOf(event.key) > -1;
   };
 
   const isCharNumeric = (charStr) => {
