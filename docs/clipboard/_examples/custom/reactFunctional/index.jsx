@@ -34,16 +34,12 @@ ModuleRegistry.registerModules([
   CellSelectionModule,
   ValidationModule /* Development Only */,
 ]);
-import { useFetchJson } from "./useFetchJson";
 
 const GridExample = () => {
   const gridRef = useRef(null);
-  const { data, loading } = useFetchJson(
-    "https://www.ag-grid.com/example-assets/olympic-winners.json",
-  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-
+  const [rowData, setRowData] = useState();
   const [columnDefs, setColumnDefs] = useState([
     { field: "athlete", minWidth: 200 },
     { field: "age" },
@@ -65,6 +61,12 @@ const GridExample = () => {
   }, []);
   const rowSelection = useMemo(() => {
     return { mode: "multiRow" };
+  }, []);
+
+  const onGridReady = useCallback((params) => {
+    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
+      .then((resp) => resp.json())
+      .then((data) => setRowData(data));
   }, []);
 
   const onBtCopyRows = useCallback(() => {
@@ -95,13 +97,13 @@ const GridExample = () => {
         <div style={gridStyle}>
           <AgGridReact
             ref={gridRef}
-            rowData={data}
-            loading={loading}
+            rowData={rowData}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
             cellSelection={true}
             rowSelection={rowSelection}
             sendToClipboard={sendToClipboard}
+            onGridReady={onGridReady}
           />
         </div>
       </div>

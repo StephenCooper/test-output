@@ -18,6 +18,8 @@ import {
 } from "ag-grid-community";
 ModuleRegistry.registerModules([AllCommunityModule]);
 
+const gridDiv = document.querySelector<HTMLElement>("#myGrid")!;
+
 const VueExample = defineComponent({
   template: `
         <div style="height: 100%">

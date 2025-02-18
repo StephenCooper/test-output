@@ -1,6 +1,5 @@
 'use client';
-import { useFetchJson } from './useFetchJson';
-import React, { StrictMode, useMemo, useRef } from "react";
+import React, { StrictMode, useMemo, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
   AlignedGridsModule,
@@ -67,6 +66,8 @@ const GridExample = () => {
     [],
   );
 
+  const [rowData, setRowData] = useState([]);
+
   const autoSizeStrategy = useMemo(
     () => ({
       type: "fitGridWidth",
@@ -74,9 +75,13 @@ const GridExample = () => {
     [],
   );
 
-  const { data, loading } = useFetchJson(
-    "https://www.ag-grid.com/example-assets/olympic-winners.json",
-  );
+  const onGridReady = (params) => {
+    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
+      .then((resp) => resp.json())
+      .then((data) => {
+        setRowData(data);
+      });
+  };
 
   const onFirstDataRendered = (params) => {
     // mix up some columns
@@ -89,10 +94,10 @@ const GridExample = () => {
       <div className="grid">
         <AgGridReact
           ref={topGridRef}
-          rowData={data}
-          loading={loading}
+          rowData={rowData}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
+          onGridReady={onGridReady}
           onFirstDataRendered={onFirstDataRendered}
           alignedGrids={[bottomGridRef]}
           autoSizeStrategy={autoSizeStrategy}
@@ -104,8 +109,7 @@ const GridExample = () => {
       <div className="grid">
         <AgGridReact
           ref={bottomGridRef}
-          rowData={data}
-          loading={loading}
+          rowData={rowData}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           alignedGrids={[topGridRef]}

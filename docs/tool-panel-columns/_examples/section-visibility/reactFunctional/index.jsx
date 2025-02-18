@@ -29,16 +29,12 @@ ModuleRegistry.registerModules([
   PivotModule,
   ValidationModule /* Development Only */,
 ]);
-import { useFetchJson } from "./useFetchJson";
 
 const GridExample = () => {
   const gridRef = useRef(null);
-  const { data, loading } = useFetchJson(
-    "https://www.ag-grid.com/example-assets/olympic-winners.json",
-  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-
+  const [rowData, setRowData] = useState();
   const [columnDefs, setColumnDefs] = useState([
     { headerName: "Name", field: "athlete", minWidth: 200 },
     { field: "age", enableRowGroup: true },
@@ -87,6 +83,12 @@ const GridExample = () => {
     };
   }, []);
 
+  const onGridReady = useCallback((params) => {
+    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
+      .then((resp) => resp.json())
+      .then((data) => setRowData(data));
+  }, []);
+
   const showPivotModeSection = useCallback(() => {
     const columnToolPanel = gridRef.current.api.getToolPanelInstance("columns");
     columnToolPanel.setPivotModeSectionVisible(true);
@@ -126,12 +128,12 @@ const GridExample = () => {
         <div style={gridStyle}>
           <AgGridReact
             ref={gridRef}
-            rowData={data}
-            loading={loading}
+            rowData={rowData}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
             autoGroupColumnDef={autoGroupColumnDef}
             sideBar={sideBar}
+            onGridReady={onGridReady}
           />
         </div>
       </div>

@@ -6,6 +6,8 @@ import { AgGridReact } from "ag-grid-react";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
+const gridDiv = document.querySelector("#myGrid");
+
 const rowSelection = {
   mode: "multiRow",
   headerCheckbox: false,

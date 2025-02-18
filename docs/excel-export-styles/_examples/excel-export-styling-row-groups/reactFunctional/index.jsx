@@ -35,7 +35,6 @@ ModuleRegistry.registerModules([
   RowGroupingModule,
   ValidationModule /* Development Only */,
 ]);
-import { useFetchJson } from "./useFetchJson";
 
 function rowGroupCallback(params) {
   return params.node.key;
@@ -53,12 +52,9 @@ function getIndentClass(params) {
 
 const GridExample = () => {
   const gridRef = useRef(null);
-  const { data, loading } = useFetchJson(
-    "https://www.ag-grid.com/example-assets/olympic-winners.json",
-  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-
+  const [rowData, setRowData] = useState();
   const [columnDefs, setColumnDefs] = useState([
     { field: "country", minWidth: 120, rowGroup: true },
     { field: "year", rowGroup: true },
@@ -113,6 +109,14 @@ const GridExample = () => {
     ];
   }, []);
 
+  const onGridReady = useCallback((params) => {
+    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
+      .then((resp) => resp.json())
+      .then((data) => {
+        setRowData(data);
+      });
+  }, []);
+
   const onBtnExportDataAsExcel = useCallback(() => {
     gridRef.current.api.exportDataAsExcel({
       processRowGroupCallback: rowGroupCallback,
@@ -135,13 +139,13 @@ const GridExample = () => {
           <div style={gridStyle}>
             <AgGridReact
               ref={gridRef}
-              rowData={data}
-              loading={loading}
+              rowData={rowData}
               columnDefs={columnDefs}
               defaultColDef={defaultColDef}
               groupDefaultExpanded={-1}
               autoGroupColumnDef={autoGroupColumnDef}
               excelStyles={excelStyles}
+              onGridReady={onGridReady}
             />
           </div>
         </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { AG_GRID_LOCALE_DE } from "@ag-grid-community/locale";
-import React, { useMemo, useState, StrictMode } from "react";
+import React, { useCallback, useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import { AgChartsEnterpriseModule } from "ag-charts-enterprise";
@@ -60,7 +60,6 @@ ModuleRegistry.registerModules([
   IntegratedChartsModule.with(AgChartsEnterpriseModule),
   ValidationModule /* Development Only */,
 ]);
-import { useFetchJson } from "./useFetchJson";
 
 class NodeIdRenderer {
   eGui;
@@ -80,12 +79,9 @@ class NodeIdRenderer {
 }
 
 const GridExample = () => {
-  const { data, loading } = useFetchJson(
-    "https://www.ag-grid.com/example-assets/olympic-winners.json",
-  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-
+  const [rowData, setRowData] = useState();
   const [columnDefs, setColumnDefs] = useState([
     // this row just shows the row index, doesn't use any data from the row
     {
@@ -151,12 +147,17 @@ const GridExample = () => {
     return { mode: "multiRow" };
   }, []);
 
+  const onGridReady = useCallback((params) => {
+    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
+      .then((resp) => resp.json())
+      .then((data) => setRowData(data));
+  }, []);
+
   return (
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact
-          rowData={data}
-          loading={loading}
+          rowData={rowData}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           sideBar={true}
@@ -168,6 +169,7 @@ const GridExample = () => {
           enableCharts={true}
           localeText={localeText}
           rowSelection={rowSelection}
+          onGridReady={onGridReady}
         />
       </div>
     </div>

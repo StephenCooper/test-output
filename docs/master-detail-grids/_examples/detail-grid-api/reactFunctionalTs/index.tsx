@@ -19,6 +19,7 @@ import {
   GetRowIdParams,
   GridApi,
   GridOptions,
+  GridReadyEvent,
   HighlightChangesModule,
   IDetailCellRendererParams,
   ModuleRegistry,
@@ -46,16 +47,12 @@ ModuleRegistry.registerModules([
   HighlightChangesModule,
   ValidationModule /* Development Only */,
 ]);
-import { useFetchJson } from "./useFetchJson";
 
 const GridExample = () => {
   const gridRef = useRef<AgGridReact<IAccount>>(null);
-  const { data, loading } = useFetchJson<IAccount>(
-    "https://www.ag-grid.com/example-assets/master-detail-data.json",
-  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-
+  const [rowData, setRowData] = useState<IAccount[]>();
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
     // group cell renderer needed for expand / collapse icons
     { field: "name", cellRenderer: "agGroupCellRenderer" },
@@ -94,6 +91,14 @@ const GridExample = () => {
     };
   }, []);
 
+  const onGridReady = useCallback((params: GridReadyEvent) => {
+    fetch("https://www.ag-grid.com/example-assets/master-detail-data.json")
+      .then((resp) => resp.json())
+      .then((data: IAccount[]) => {
+        setRowData(data);
+      });
+  }, []);
+
   const onFirstDataRendered = useCallback((params: FirstDataRenderedEvent) => {
     setTimeout(() => {
       params.api.forEachNode(function (node) {
@@ -127,14 +132,14 @@ const GridExample = () => {
         <div style={gridStyle}>
           <AgGridReact<IAccount>
             ref={gridRef}
-            rowData={data}
-            loading={loading}
+            rowData={rowData}
             columnDefs={columnDefs}
             masterDetail={true}
             detailRowHeight={200}
             detailCellRendererParams={detailCellRendererParams}
             getRowId={getRowId}
             defaultColDef={defaultColDef}
+            onGridReady={onGridReady}
             onFirstDataRendered={onFirstDataRendered}
           />
         </div>

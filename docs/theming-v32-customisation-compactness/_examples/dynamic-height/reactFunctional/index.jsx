@@ -33,15 +33,11 @@ ModuleRegistry.registerModules([
   SetFilterModule,
   ValidationModule /* Development Only */,
 ]);
-import { useFetchJson } from "./useFetchJson";
 
 const GridExample = () => {
-  const { data, loading } = useFetchJson(
-    "https://www.ag-grid.com/example-assets/olympic-winners.json",
-  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-
+  const [rowData, setRowData] = useState();
   const [columnDefs, setColumnDefs] = useState([
     { field: "athlete", minWidth: 170 },
     { field: "age" },
@@ -59,6 +55,12 @@ const GridExample = () => {
       editable: true,
       filter: true,
     };
+  }, []);
+
+  const onGridReady = useCallback((params) => {
+    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
+      .then((resp) => resp.json())
+      .then((data) => setRowData(data));
   }, []);
 
   const changeSize = useCallback((value) => {
@@ -85,12 +87,12 @@ const GridExample = () => {
 
         <div style={gridStyle} className="ag-theme-quartz">
           <AgGridReact
-            rowData={data}
-            loading={loading}
+            rowData={rowData}
             columnDefs={columnDefs}
             theme={"legacy"}
             defaultColDef={defaultColDef}
             sideBar={"columns"}
+            onGridReady={onGridReady}
           />
         </div>
       </div>

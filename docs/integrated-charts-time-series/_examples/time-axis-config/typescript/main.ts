@@ -108,6 +108,7 @@ function formatTime(date: Date | number) {
   }).format(new Date(date));
 }
 
+// setup the grid after the page has finished loading
 gridApi = createGrid(
   document.querySelector<HTMLElement>("#myGrid")!,
   gridOptions,

@@ -16,6 +16,7 @@ import {
   ColGroupDef,
   GridApi,
   GridOptions,
+  GridReadyEvent,
   ModuleRegistry,
   SuppressHeaderKeyboardEventParams,
   TextFilterModule,
@@ -28,7 +29,6 @@ ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
-import { useFetchJson } from "./useFetchJson";
 
 const GRID_CELL_CLASSNAME = "ag-header-cell";
 
@@ -108,12 +108,9 @@ function suppressHeaderKeyboardEvent({
 }
 
 const GridExample = () => {
-  const { data, loading } = useFetchJson<IOlympicData>(
-    "https://www.ag-grid.com/example-assets/olympic-winners.json",
-  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-
+  const [rowData, setRowData] = useState<IOlympicData[]>();
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
     {
       field: "athlete",
@@ -139,14 +136,22 @@ const GridExample = () => {
     };
   }, []);
 
+  const onGridReady = useCallback((params: GridReadyEvent) => {
+    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
+      .then((resp) => resp.json())
+      .then((data: IOlympicData[]) => {
+        setRowData(data);
+      });
+  }, []);
+
   return (
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact<IOlympicData>
-          rowData={data}
-          loading={loading}
+          rowData={rowData}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
+          onGridReady={onGridReady}
         />
       </div>
     </div>

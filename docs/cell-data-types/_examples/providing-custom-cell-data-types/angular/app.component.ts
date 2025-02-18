@@ -103,6 +103,7 @@ export class AppComponent {
       .subscribe(
         (data) =>
           (this.rowData = data.map((rowData) => {
+            const dateParts = rowData.date.split("/");
             return {
               ...rowData,
               countryObject: {

@@ -101,6 +101,7 @@ function printState() {
   console.log("Grid state", gridApi.getState());
 }
 
+// setup the grid after the page has finished loading
 const gridDiv = document.querySelector<HTMLElement>("#myGrid")!;
 gridApi = createGrid(gridDiv, gridOptions);
 

@@ -18,6 +18,7 @@ import {
   ColumnGroup,
   GridApi,
   GridOptions,
+  GridReadyEvent,
   HeaderPosition,
   ModuleRegistry,
   NavigateToNextCellParams,
@@ -41,7 +42,6 @@ ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
-import { useFetchJson } from "./useFetchJson";
 
 // define some handy keycode constants
 const KEY_LEFT = "ArrowLeft";
@@ -99,12 +99,9 @@ const moveHeaderFocusUpDown: (
 };
 
 const GridExample = () => {
-  const { data, loading } = useFetchJson<IOlympicData>(
-    "https://www.ag-grid.com/example-assets/olympic-winners.json",
-  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-
+  const [rowData, setRowData] = useState<IOlympicData[]>();
   const [columnDefs, setColumnDefs] = useState<(ColDef | ColGroupDef)[]>([
     {
       headerName: "Athlete",
@@ -133,6 +130,12 @@ const GridExample = () => {
       minWidth: 100,
       filter: true,
     };
+  }, []);
+
+  const onGridReady = useCallback((params: GridReadyEvent) => {
+    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
+      .then((resp) => resp.json())
+      .then((data: IOlympicData[]) => setRowData(data));
   }, []);
 
   const navigateToNextHeader = useCallback(
@@ -229,14 +232,14 @@ const GridExample = () => {
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact<IOlympicData>
-          rowData={data}
-          loading={loading}
+          rowData={rowData}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           navigateToNextHeader={navigateToNextHeader}
           tabToNextHeader={tabToNextHeader}
           tabToNextCell={tabToNextCell}
           navigateToNextCell={navigateToNextCell}
+          onGridReady={onGridReady}
         />
       </div>
     </div>

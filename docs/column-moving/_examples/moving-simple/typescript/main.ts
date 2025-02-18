@@ -63,6 +63,7 @@ function onPrintColumns() {
   console.log("columns are: " + colNames);
 }
 
+// setup the grid after the page has finished loading
 const gridDiv = document.querySelector<HTMLElement>("#myGrid")!;
 gridApi = createGrid(gridDiv, gridOptions);
 

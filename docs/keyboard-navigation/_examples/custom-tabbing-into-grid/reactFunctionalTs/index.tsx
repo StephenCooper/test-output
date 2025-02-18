@@ -1,5 +1,4 @@
 'use client';
-import { useFetchJson } from './useFetchJson';
 import React, { StrictMode, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
 
@@ -10,6 +9,7 @@ import type {
   ColumnGroup,
   FocusGridInnerElementParams,
   GridApi,
+  GridReadyEvent,
   HeaderFocusedParams,
 } from "ag-grid-community";
 import {
@@ -35,6 +35,8 @@ ModuleRegistry.registerModules([
 ]);
 
 const GridExample = () => {
+  const [gridApi, setGridApi] = useState<GridApi | null>(null);
+  const [rowData, setRowData] = useState<any[]>();
   const [lastFocused, setLastFocused] = useState<
     | { column: string | Column | ColumnGroup | null; rowIndex?: number | null }
     | undefined
@@ -64,9 +66,17 @@ const GridExample = () => {
     [],
   );
 
-  const { data, loading } = useFetchJson<IOlympicData>(
-    "https://www.ag-grid.com/example-assets/olympic-winners.json",
-  );
+  const onGridReady = (params: GridReadyEvent) => {
+    setGridApi(params.api);
+
+    const updateData = (data: any[]) => {
+      setRowData(data);
+    };
+
+    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
+      .then((resp) => resp.json())
+      .then((data) => updateData(data));
+  };
 
   const onCellFocused = (params: CellFocusedParams) => {
     setLastFocused({ column: params.column, rowIndex: params.rowIndex });
@@ -82,12 +92,12 @@ const GridExample = () => {
     }
 
     if (lastFocused.rowIndex != null) {
-      params.api.setFocusedCell(
+      gridApi!.setFocusedCell(
         lastFocused.rowIndex,
         lastFocused.column as Column | string,
       );
     } else {
-      params.api.setFocusedHeader(lastFocused.column);
+      gridApi!.setFocusedHeader(lastFocused.column);
     }
 
     return true;
@@ -114,10 +124,10 @@ const GridExample = () => {
         </div>
         <div id="myGrid" style={{ height: "100%", width: "100%" }}>
           <AgGridReact
-            rowData={data}
-            loading={loading}
+            rowData={rowData}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
+            onGridReady={onGridReady}
             onCellFocused={onCellFocused}
             onHeaderFocused={onHeaderFocused}
             focusGridInnerElement={focusGridInnerElement}

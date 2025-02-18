@@ -15,6 +15,7 @@ import {
   ColGroupDef,
   GridApi,
   GridOptions,
+  GridReadyEvent,
   ModuleRegistry,
   TooltipModule,
   ValidationModule,
@@ -37,15 +38,11 @@ ModuleRegistry.registerModules([
   SetFilterModule,
   ValidationModule /* Development Only */,
 ]);
-import { useFetchJson } from "./useFetchJson";
 
 const GridExample = () => {
-  const { data, loading } = useFetchJson<IOlympicData>(
-    "https://www.ag-grid.com/example-assets/olympic-winners.json",
-  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-
+  const [rowData, setRowData] = useState<IOlympicData[]>();
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
     { field: "country", width: 120, rowGroup: true, hide: true },
     { field: "year", width: 90, rowGroup: true, hide: true },
@@ -73,16 +70,24 @@ const GridExample = () => {
     };
   }, []);
 
+  const onGridReady = useCallback((params: GridReadyEvent) => {
+    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
+      .then((resp) => resp.json())
+      .then((data: IOlympicData[]) => {
+        setRowData(data);
+      });
+  }, []);
+
   return (
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact<IOlympicData>
-          rowData={data}
-          loading={loading}
+          rowData={rowData}
           columnDefs={columnDefs}
           autoGroupColumnDef={autoGroupColumnDef}
           defaultColDef={defaultColDef}
           tooltipShowDelay={500}
+          onGridReady={onGridReady}
         />
       </div>
     </div>

@@ -1,5 +1,4 @@
 'use client';
-import { useFetchJson } from './useFetchJson';
 import React, { StrictMode, useMemo, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
@@ -18,7 +17,7 @@ ModuleRegistry.registerModules([
 
 const GridExample = () => {
   const gridRef = useRef(null);
-
+  const [rowData, setRowData] = useState(null);
   const columnDefs = useMemo(
     () => [
       { field: "athlete", width: 150 },
@@ -39,9 +38,13 @@ const GridExample = () => {
     width: "100%",
   });
 
-  const { data, loading } = useFetchJson(
-    "https://www.ag-grid.com/example-assets/olympic-winners.json",
-  );
+  const onGridReady = (params) => {
+    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
+      .then((resp) => resp.json())
+      .then((data) => {
+        setRowData(data);
+      });
+  };
 
   const fillLarge = () => {
     setWidthAndHeight("100%", "100%");
@@ -73,9 +76,9 @@ const GridExample = () => {
         <div style={style}>
           <AgGridReact
             ref={gridRef}
-            rowData={data}
-            loading={loading}
+            rowData={rowData}
             columnDefs={columnDefs}
+            onGridReady={onGridReady}
           />
         </div>
       </div>

@@ -16,6 +16,7 @@ import {
   ColGroupDef,
   GridApi,
   GridOptions,
+  GridReadyEvent,
   GroupSelectionMode,
   ModuleRegistry,
   QuickFilterModule,
@@ -40,7 +41,6 @@ ModuleRegistry.registerModules([
   RowSelectionModule,
   ValidationModule /* Development Only */,
 ]);
-import { useFetchJson } from "./useFetchJson";
 
 const getGroupSelectsValue: () => GroupSelectionMode = () => {
   return (
@@ -51,12 +51,9 @@ const getGroupSelectsValue: () => GroupSelectionMode = () => {
 
 const GridExample = () => {
   const gridRef = useRef<AgGridReact<IOlympicData>>(null);
-  const { data, loading } = useFetchJson<IOlympicData>(
-    "https://www.ag-grid.com/example-assets/olympic-winners.json",
-  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-
+  const [rowData, setRowData] = useState<IOlympicData[]>();
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
     { field: "country", rowGroup: true, hide: true },
     { field: "sport", rowGroup: true, hide: true },
@@ -85,6 +82,12 @@ const GridExample = () => {
       mode: "multiRow",
       groupSelects: "self",
     };
+  }, []);
+
+  const onGridReady = useCallback((params: GridReadyEvent) => {
+    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
+      .then((resp) => resp.json())
+      .then((data: IOlympicData[]) => setRowData(data));
   }, []);
 
   const onSelectionModeChange = useCallback(() => {
@@ -130,13 +133,13 @@ const GridExample = () => {
         <div style={gridStyle}>
           <AgGridReact<IOlympicData>
             ref={gridRef}
-            rowData={data}
-            loading={loading}
+            rowData={rowData}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
             autoGroupColumnDef={autoGroupColumnDef}
             rowSelection={rowSelection}
             suppressAggFuncInHeader={true}
+            onGridReady={onGridReady}
           />
         </div>
       </div>

@@ -1,5 +1,4 @@
 'use client';
-import { useFetchJson } from './useFetchJson';
 import React, {
   StrictMode,
   useCallback,
@@ -12,6 +11,7 @@ import { createRoot } from "react-dom/client";
 import type {
   ColDef,
   ColGroupDef,
+  GridReadyEvent,
   RowSelectionOptions,
 } from "ag-grid-community";
 import {
@@ -95,7 +95,7 @@ const GridExample = () => {
   const gridRef = useRef<AgGridReact>(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-
+  const [rowData, setRowData] = useState<any[]>();
   const [columnDefs, setColumnDefs] = useState<(ColDef | ColGroupDef)[]>([
     {
       field: "country",
@@ -195,9 +195,13 @@ const GridExample = () => {
     };
   }, []);
 
-  const { data, loading } = useFetchJson(
-    "https://www.ag-grid.com/example-assets/monthly-sales.json",
-  );
+  const onGridReady = useCallback((params: GridReadyEvent) => {
+    fetch("https://www.ag-grid.com/example-assets/monthly-sales.json")
+      .then((resp) => resp.json())
+      .then((data: any[]) => {
+        setRowData(data);
+      });
+  }, []);
 
   const onChangeMonth = useCallback(
     (i: number) => {
@@ -260,14 +264,14 @@ const GridExample = () => {
         <div style={gridStyle}>
           <AgGridReact
             ref={gridRef}
-            rowData={data}
-            loading={loading}
+            rowData={rowData}
             columnDefs={columnDefs}
             suppressMovableColumns={true}
             context={context.current}
             defaultColDef={defaultColDef}
             autoGroupColumnDef={autoGroupColumnDef}
             rowSelection={rowSelection}
+            onGridReady={onGridReady}
           />
         </div>
       </div>

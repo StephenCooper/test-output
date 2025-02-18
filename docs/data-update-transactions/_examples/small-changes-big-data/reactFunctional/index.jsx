@@ -126,7 +126,7 @@ const GridExample = () => {
   const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState();
+
   const [columnDefs, setColumnDefs] = useState([
     { field: "city", rowGroup: true, hide: true },
     { field: "laptop", rowGroup: true, hide: true },
@@ -162,7 +162,7 @@ const GridExample = () => {
       value: { value: "50" },
     });
     timeOperation("Initialisation", () => {
-      setRowData(getData());
+      params.api.setGridOption("rowData", getData());
     });
   }, []);
 
@@ -251,7 +251,6 @@ const GridExample = () => {
         <div style={gridStyle} className="test-grid">
           <AgGridReact
             ref={gridRef}
-            rowData={rowData}
             getRowId={getRowId}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}

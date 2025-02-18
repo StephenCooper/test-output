@@ -1,5 +1,4 @@
 'use client';
-import { useFetchJson } from './useFetchJson';
 import React, {
   StrictMode,
   useCallback,
@@ -39,7 +38,7 @@ const GridExample = () => {
   const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-
+  const [rowData, setRowData] = useState();
   const [columnDefs, setColumnDefs] = useState([
     { field: "country", rowGroup: true },
     { field: "sport", pivot: true },
@@ -57,9 +56,11 @@ const GridExample = () => {
     };
   }, []);
 
-  const { data, loading } = useFetchJson(
-    "https://www.ag-grid.com/example-assets/olympic-winners.json",
-  );
+  const onGridReady = useCallback((params) => {
+    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
+      .then((resp) => resp.json())
+      .then((data) => setRowData(data));
+  }, []);
 
   const togglePivotHeader = useCallback(() => {
     const checkbox = document.querySelector(
@@ -89,13 +90,13 @@ const GridExample = () => {
         <div style={gridStyle}>
           <AgGridReact
             ref={gridRef}
-            rowData={data}
-            loading={loading}
+            rowData={rowData}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
             autoGroupColumnDef={autoGroupColumnDef}
             pivotMode={true}
             removePivotHeaderRowWhenSingleValueColumn={true}
+            onGridReady={onGridReady}
           />
         </div>
       </div>

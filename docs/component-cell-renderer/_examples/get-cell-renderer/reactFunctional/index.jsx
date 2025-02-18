@@ -1,5 +1,4 @@
 'use client';
-import { useFetchJson } from './useFetchJson';
 import React, {
   StrictMode,
   useCallback,
@@ -38,7 +37,7 @@ const GridExample = () => {
   const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-
+  const [rowData, setRowData] = useState();
   const [columnDefs, setColumnDefs] = useState([
     { field: "athlete", width: 150 },
     { field: "country", width: 150 },
@@ -63,9 +62,13 @@ const GridExample = () => {
     };
   }, []);
 
-  const { data, loading } = useFetchJson(
-    "https://www.ag-grid.com/example-assets/olympic-winners.json",
-  );
+  const onGridReady = useCallback((params) => {
+    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
+      .then((resp) => resp.json())
+      .then((data) => {
+        setRowData(data);
+      });
+  }, []);
 
   const onCallGold = useCallback(() => {
     console.log("=========> calling all gold");
@@ -109,10 +112,10 @@ const GridExample = () => {
         <div style={gridStyle}>
           <AgGridReact
             ref={gridRef}
-            rowData={data}
-            loading={loading}
+            rowData={rowData}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
+            onGridReady={onGridReady}
           />
         </div>
       </div>

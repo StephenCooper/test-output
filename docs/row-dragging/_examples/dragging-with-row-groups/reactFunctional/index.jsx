@@ -47,7 +47,7 @@ const GridExample = () => {
   const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState();
+
   const [columnDefs, setColumnDefs] = useState([
     { field: "athlete", rowDrag: rowDrag },
     { field: "country", rowGroup: true },
@@ -66,7 +66,7 @@ const GridExample = () => {
   }, []);
 
   const onGridReady = useCallback((params) => {
-    setRowData(getData());
+    params.api.setGridOption("rowData", getData());
   }, []);
 
   const onRowDragMove = useCallback((event) => {
@@ -98,7 +98,6 @@ const GridExample = () => {
       <div style={gridStyle}>
         <AgGridReact
           ref={gridRef}
-          rowData={rowData}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           groupDefaultExpanded={1}

@@ -21,16 +21,12 @@ ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
-import { useFetchJson } from "./useFetchJson";
 
 const GridExample = () => {
   const gridRef = useRef(null);
-  const { data, loading } = useFetchJson(
-    "https://www.ag-grid.com/example-assets/small-olympic-winners.json",
-  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-
+  const [rowData, setRowData] = useState();
   const [columnDefs, setColumnDefs] = useState([
     { field: "athlete", width: 150, suppressSizeToFit: true },
     { field: "age", width: 50, maxWidth: 50 },
@@ -52,6 +48,12 @@ const GridExample = () => {
     };
   }, []);
 
+  const onGridReady = useCallback((params) => {
+    fetch("https://www.ag-grid.com/example-assets/small-olympic-winners.json")
+      .then((resp) => resp.json())
+      .then((data) => setRowData(data));
+  }, []);
+
   const sizeToFit = useCallback(() => {
     gridRef.current.api.sizeColumnsToFit({
       defaultMinWidth: 100,
@@ -69,10 +71,10 @@ const GridExample = () => {
           <div style={gridStyle}>
             <AgGridReact
               ref={gridRef}
-              rowData={data}
-              loading={loading}
+              rowData={rowData}
               columnDefs={columnDefs}
               autoSizeStrategy={autoSizeStrategy}
+              onGridReady={onGridReady}
             />
           </div>
         </div>

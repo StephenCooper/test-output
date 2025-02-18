@@ -17,6 +17,7 @@ import {
   ColGroupDef,
   GridApi,
   GridOptions,
+  GridReadyEvent,
   ModuleRegistry,
   ValidationModule,
 } from "ag-grid-community";
@@ -30,7 +31,6 @@ ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
-import { useFetchJson } from "./useFetchJson";
 
 interface IRow {
   company: string;
@@ -40,9 +40,6 @@ interface IRow {
 }
 
 const GridExample = () => {
-  const { data, loading } = useFetchJson<any>(
-    "https://www.ag-grid.com/example-assets/small-company-data.json",
-  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [rowData, setRowData] = useState<any[]>([] as IRow[]);
@@ -83,15 +80,22 @@ const GridExample = () => {
     },
   ] as ColDef[]);
 
+  const onGridReady = useCallback((params: GridReadyEvent) => {
+    fetch("https://www.ag-grid.com/example-assets/small-company-data.json")
+      .then((resp) => resp.json())
+      .then((data: any[]) => {
+        setRowData(data);
+      });
+  }, []);
+
   return (
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact
           rowData={rowData}
-          rowData={data}
-          loading={loading}
           defaultColDef={defaultColDef}
           columnDefs={columnDefs}
+          onGridReady={onGridReady}
         />
       </div>
     </div>

@@ -32,6 +32,8 @@ ModuleRegistry.registerModules([
   IntegratedChartsModule.with(AgChartsEnterpriseModule),
 ]);
 
+const gridDiv = document.querySelector<HTMLElement>("#myGrid")!;
+
 const GridExample = () => {
   const gridRef = useRef<AgGridReact>(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);

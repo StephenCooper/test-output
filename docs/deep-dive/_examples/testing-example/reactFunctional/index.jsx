@@ -1,7 +1,6 @@
 'use client';
-import { useFetchJson } from './useFetchJson';
 // React Grid Logic
-import React, { StrictMode, useMemo, useState } from "react";
+import React, { StrictMode, useEffect, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
@@ -82,9 +81,7 @@ const rowSelection = {
 // Create new GridExample component
 const GridExample = () => {
   // Row Data: The data to be displayed.
-  const { data, loading } = useFetchJson(
-    "https://www.ag-grid.com/example-assets/space-mission-data.json",
-  );
+  const [rowData, setRowData] = useState([]);
 
   // Column Definitions: Defines & controls grid columns.
   const [colDefs] = useState([
@@ -120,6 +117,13 @@ const GridExample = () => {
     { field: "rocket" },
   ]);
 
+  // Fetch data & update rowData state
+  useEffect(() => {
+    fetch("https://www.ag-grid.com/example-assets/space-mission-data.json")
+      .then((result) => result.json())
+      .then((rowData) => setRowData(rowData));
+  }, []);
+
   // Apply settings across all columns
   const defaultColDef = useMemo(() => {
     return {
@@ -132,8 +136,7 @@ const GridExample = () => {
   return (
     <div style={{ width: "100%", height: "100%" }}>
       <AgGridReact
-        rowData={data}
-        loading={loading}
+        rowData={rowData}
         columnDefs={colDefs}
         defaultColDef={defaultColDef}
         pagination={true}

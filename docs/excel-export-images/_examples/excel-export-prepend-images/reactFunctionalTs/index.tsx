@@ -42,7 +42,7 @@ const GridExample = () => {
   const gridRef = useRef<AgGridReact<IOlympicData>>(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState<IOlympicData[]>();
+
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
     { field: "athlete" },
     { field: "country" },
@@ -99,7 +99,7 @@ const GridExample = () => {
   const onGridReady = useCallback((params: GridReadyEvent) => {
     fetch("https://www.ag-grid.com/example-assets/small-olympic-winners.json")
       .then((response) => response.json())
-      .then((data) => setRowData(data));
+      .then((data) => params.api.setGridOption("rowData", data));
   }, []);
 
   const onBtExport = useCallback(() => {
@@ -118,7 +118,6 @@ const GridExample = () => {
           <div style={gridStyle}>
             <AgGridReact<IOlympicData>
               ref={gridRef}
-              rowData={rowData}
               columnDefs={columnDefs}
               defaultColDef={defaultColDef}
               defaultExcelExportParams={defaultExcelExportParams}

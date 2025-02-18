@@ -16,6 +16,7 @@ import {
   ColGroupDef,
   GridApi,
   GridOptions,
+  GridReadyEvent,
   ModuleRegistry,
   NumberFilterModule,
   PaginationModule,
@@ -36,7 +37,6 @@ ModuleRegistry.registerModules([
   RowGroupingModule,
   ValidationModule /* Development Only */,
 ]);
-import { useFetchJson } from "./useFetchJson";
 
 function setText(selector: string, text: any) {
   (document.querySelector(selector) as any).innerHTML = text;
@@ -48,12 +48,9 @@ function setLastButtonDisabled(disabled: boolean) {
 
 const GridExample = () => {
   const gridRef = useRef<AgGridReact<IOlympicData>>(null);
-  const { data, loading } = useFetchJson<IOlympicData>(
-    "https://www.ag-grid.com/example-assets/olympic-winners.json",
-  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-
+  const [rowData, setRowData] = useState<IOlympicData[]>();
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
     // this row just shows the row index, doesn't use any data from the row
     {
@@ -90,6 +87,12 @@ const GridExample = () => {
   }, []);
   const paginationPageSizeSelector = useMemo<number[] | boolean>(() => {
     return [100, 500, 1000];
+  }, []);
+
+  const onGridReady = useCallback((params: GridReadyEvent) => {
+    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
+      .then((resp) => resp.json())
+      .then((data: IOlympicData[]) => setRowData(data));
   }, []);
 
   const onPaginationChanged = useCallback(() => {
@@ -175,8 +178,7 @@ const GridExample = () => {
         <div style={gridStyle}>
           <AgGridReact<IOlympicData>
             ref={gridRef}
-            rowData={data}
-            loading={loading}
+            rowData={rowData}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
             rowSelection={rowSelection}
@@ -185,6 +187,7 @@ const GridExample = () => {
             pagination={true}
             suppressPaginationPanel={true}
             suppressScrollOnNewData={true}
+            onGridReady={onGridReady}
             onPaginationChanged={onPaginationChanged}
           />
         </div>

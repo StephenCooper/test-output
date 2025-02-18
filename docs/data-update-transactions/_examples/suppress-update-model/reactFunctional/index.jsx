@@ -38,7 +38,7 @@ const GridExample = () => {
   const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState();
+
   const [columnDefs, setColumnDefs] = useState([
     { field: "name" },
     { field: "laptop" },
@@ -69,7 +69,7 @@ const GridExample = () => {
       .then(() => {
         params.api.onFilterChanged();
       });
-    setRowData(getData());
+    params.api.setGridOption("rowData", getData());
   }, []);
 
   const onBtnApply = useCallback(() => {
@@ -108,7 +108,6 @@ const GridExample = () => {
         <div style={gridStyle} className="test-grid">
           <AgGridReact
             ref={gridRef}
-            rowData={rowData}
             getRowId={getRowId}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}

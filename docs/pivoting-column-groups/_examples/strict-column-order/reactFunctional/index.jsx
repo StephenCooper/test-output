@@ -29,7 +29,7 @@ const GridExample = () => {
   const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState();
+
   const [columnDefs, setColumnDefs] = useState([
     { field: "pivotValue", pivot: true },
     { field: "agg", aggFunc: "sum", rowGroup: true },
@@ -50,7 +50,10 @@ const GridExample = () => {
     setInterval(() => {
       count += 1;
       const rowData = getData();
-      setRowData(rowData.slice(0, (count % rowData.length) + 1));
+      params.api.setGridOption(
+        "rowData",
+        rowData.slice(0, (count % rowData.length) + 1),
+      );
     }, 1000);
   }, []);
 
@@ -81,7 +84,6 @@ const GridExample = () => {
         <div style={gridStyle}>
           <AgGridReact
             ref={gridRef}
-            rowData={rowData}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
             autoGroupColumnDef={autoGroupColumnDef}

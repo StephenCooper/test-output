@@ -45,6 +45,7 @@ function toggleGroupAllowUnbalanced() {
   gridApi.setGridOption("groupAllowUnbalanced", enable);
 }
 
+// setup the grid after the page has finished loading
 var gridDiv = document.querySelector<HTMLElement>("#myGrid")!;
 gridApi = createGrid(gridDiv, gridOptions);
 

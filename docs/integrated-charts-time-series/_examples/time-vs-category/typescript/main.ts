@@ -149,6 +149,7 @@ function formatDate(date: Date | number) {
   }).format(new Date(date));
 }
 
+// setup the grid after the page has finished loading
 const gridDiv = document.querySelector<HTMLElement>("#myGrid")!;
 gridApi = createGrid(gridDiv, gridOptions);
 

@@ -1,5 +1,4 @@
 'use client';
-import { useFetchJson } from './useFetchJson';
 import React, { StrictMode, useMemo, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 
@@ -47,6 +46,7 @@ const bottomData = [
 ];
 
 const GridExample = () => {
+  const [rowData, setRowData] = useState(null);
   const topGrid = useRef<AgGridReact>(null);
   const bottomGrid = useRef<AgGridReact>(null);
 
@@ -87,9 +87,11 @@ const GridExample = () => {
     [],
   );
 
-  const { data, loading } = useFetchJson(
-    "https://www.ag-grid.com/example-assets/olympic-winners.json",
-  );
+  const onGridReady = (params: GridReadyEvent) => {
+    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
+      .then((resp) => resp.json())
+      .then((data) => setRowData(data));
+  };
 
   return (
     <div
@@ -100,10 +102,10 @@ const GridExample = () => {
         <AgGridReact
           ref={topGrid}
           alignedGrids={[bottomGrid]}
-          rowData={data}
-          loading={loading}
+          rowData={rowData}
           defaultColDef={defaultColDef}
           columnDefs={columnDefs}
+          onGridReady={onGridReady}
           suppressHorizontalScroll
           alwaysShowVerticalScroll
           autoSizeStrategy={autoSizeStrategy}

@@ -29,6 +29,8 @@ ModuleRegistry.registerModules([
   IntegratedChartsModule.with(AgChartsEnterpriseModule),
 ]);
 
+const gridDiv = document.querySelector<HTMLElement>("#myGrid")!;
+
 const VueExample = defineComponent({
   template: `
         <div style="height: 100%">

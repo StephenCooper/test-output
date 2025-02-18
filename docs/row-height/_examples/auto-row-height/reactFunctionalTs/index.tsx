@@ -41,7 +41,7 @@ ModuleRegistry.registerModules([
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState<any[]>();
+
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
     {
       headerName: "Row #",
@@ -93,7 +93,7 @@ const GridExample = () => {
     // in this example, the CSS styles are loaded AFTER the grid is created,
     // so we put this in a timeout, so height is calculated after styles are applied.
     setTimeout(() => {
-      setRowData(getData());
+      params.api.setGridOption("rowData", getData());
     }, 500);
   }, []);
 
@@ -101,7 +101,6 @@ const GridExample = () => {
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact
-          rowData={rowData}
           columnDefs={columnDefs}
           sideBar={sideBar}
           onGridReady={onGridReady}

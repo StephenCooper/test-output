@@ -1,5 +1,4 @@
 'use client';
-import { useFetchJson } from './useFetchJson';
 import React, { StrictMode, useCallback, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
@@ -56,7 +55,7 @@ const myTheme = themeQuartz.withPart(
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-
+  const [rowData, setRowData] = useState();
   const [columnDefs, setColumnDefs] = useState([
     { field: "athlete", width: 150, filter: "agTextColumnFilter" },
     { field: "age", width: 90 },
@@ -113,9 +112,13 @@ const GridExample = () => {
     };
   }, []);
 
-  const { data, loading } = useFetchJson(
-    "https://www.ag-grid.com/example-assets/olympic-winners.json",
-  );
+  const onGridReady = useCallback((params) => {
+    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
+      .then((resp) => resp.json())
+      .then((data) => {
+        setRowData(data);
+      });
+  }, []);
 
   const onCellValueChanged = useCallback((params) => {
     params.api.refreshClientSideRowModel();
@@ -127,12 +130,12 @@ const GridExample = () => {
         <div style={gridStyle}>
           <AgGridReact
             theme={myTheme}
-            rowData={data}
-            loading={loading}
+            rowData={rowData}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
             icons={icons}
             sideBar={sideBar}
+            onGridReady={onGridReady}
             onCellValueChanged={onCellValueChanged}
           />
         </div>

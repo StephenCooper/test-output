@@ -100,6 +100,7 @@ var getRandom = function (start: number, finish: number) {
   return Math.floor(Math.random() * (finish - start) + start);
 };
 
+// setup the grid after the page has finished loading
 const gridDiv = document.querySelector<HTMLElement>("#myGrid")!;
 gridApi = createGrid(gridDiv, gridOptions);
 

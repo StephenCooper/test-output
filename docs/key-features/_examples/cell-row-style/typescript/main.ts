@@ -13,6 +13,8 @@ import {
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
+let gridApi: GridApi;
+
 const ragCellClassRules: CellClassRules = {
   // apply green to electric cars
   "rag-green": (params) => params.value === true,
@@ -60,7 +62,7 @@ const gridOptions: GridOptions = {
 };
 
 const gridDiv = document.querySelector<HTMLElement>("#myGrid")!;
-const gridApi = createGrid(gridDiv, gridOptions);
+gridApi = createGrid(gridDiv, gridOptions);
 /** DARK INTEGRATED START **/
 const isInitialModeDark =
   document.documentElement.dataset.agThemeMode?.includes("dark");

@@ -1,5 +1,4 @@
 'use client';
-import { useFetchJson } from './useFetchJson';
 import React, { StrictMode, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
 
@@ -27,6 +26,7 @@ ModuleRegistry.registerModules([
 ]);
 
 const GridExample = () => {
+  const [rowData, setRowData] = useState<any[]>();
   const columnDefs = useMemo<ColDef[]>(
     () => [
       {
@@ -51,9 +51,15 @@ const GridExample = () => {
     [],
   );
 
-  const { data, loading } = useFetchJson<IOlympicData>(
-    "https://www.ag-grid.com/example-assets/olympic-winners.json",
-  );
+  const onGridReady = (params: GridReadyEvent) => {
+    const updateData = (data: any[]) => {
+      setRowData(data);
+    };
+
+    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
+      .then((resp) => resp.json())
+      .then((data) => updateData(data));
+  };
 
   const defaultColDef = useMemo(
     () => ({
@@ -76,10 +82,10 @@ const GridExample = () => {
         </div>
         <div id="myGrid" style={{ height: "100%", width: "100%" }}>
           <AgGridReact
-            rowData={data}
-            loading={loading}
+            rowData={rowData}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
+            onGridReady={onGridReady}
           />
         </div>
         <div className="form-container">

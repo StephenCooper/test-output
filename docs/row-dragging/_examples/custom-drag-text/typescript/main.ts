@@ -53,6 +53,7 @@ const gridOptions: GridOptions<IOlympicData> = {
   rowDragText: rowDragText,
 };
 
+// setup the grid after the page has finished loading
 const gridDiv = document.querySelector<HTMLElement>("#myGrid")!;
 gridApi = createGrid(gridDiv, gridOptions);
 

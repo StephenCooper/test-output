@@ -16,6 +16,7 @@ import {
   ColGroupDef,
   GridApi,
   GridOptions,
+  GridReadyEvent,
   ModuleRegistry,
   NumberEditorModule,
   TextEditorModule,
@@ -38,12 +39,8 @@ ModuleRegistry.registerModules([
   CellSelectionModule,
   ValidationModule /* Development Only */,
 ]);
-import { useFetchJson } from "./useFetchJson";
 
 const GridExample = () => {
-  const { data, loading } = useFetchJson<IOlympicData>(
-    "https://www.ag-grid.com/example-assets/small-olympic-winners.json",
-  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 
@@ -70,15 +67,22 @@ const GridExample = () => {
     return { suppressMultiRanges: true };
   }, []);
 
+  const onGridReady = useCallback((params: GridReadyEvent) => {
+    fetch("https://www.ag-grid.com/example-assets/small-olympic-winners.json")
+      .then((resp) => resp.json())
+      .then((data: IOlympicData[]) =>
+        params.api.setGridOption("rowData", data),
+      );
+  }, []);
+
   return (
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact<IOlympicData>
-          rowData={data}
-          loading={loading}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           cellSelection={cellSelection}
+          onGridReady={onGridReady}
         />
       </div>
     </div>

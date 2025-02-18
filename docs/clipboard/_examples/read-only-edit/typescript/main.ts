@@ -78,6 +78,7 @@ function onCellEditRequest(event: CellEditRequestEvent) {
   gridApi!.setGridOption("rowData", rowImmutableStore);
 }
 
+// setup the grid after the page has finished loading
 const gridDiv = document.querySelector<HTMLElement>("#myGrid")!;
 gridApi = createGrid(gridDiv, gridOptions);
 

@@ -26,6 +26,8 @@ const ragCellClassRules: CellClassRules = {
   "rag-green": (params) => params.value === true,
 };
 
+const gridDiv = document.querySelector<HTMLElement>("#myGrid")!;
+
 const VueExample = defineComponent({
   template: `
         <div style="height: 100%">

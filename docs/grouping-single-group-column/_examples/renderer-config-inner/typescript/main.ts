@@ -45,6 +45,7 @@ const gridOptions: GridOptions<IOlympicData> = {
   groupDisplayType: "singleColumn",
 };
 
+// setup the grid after the page has finished loading
 var gridDiv = document.querySelector<HTMLElement>("#myGrid")!;
 gridApi = createGrid(gridDiv, gridOptions);
 

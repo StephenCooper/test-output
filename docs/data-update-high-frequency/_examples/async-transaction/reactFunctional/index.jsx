@@ -53,7 +53,7 @@ const GridExample = () => {
   const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState();
+
   const [columnDefs, setColumnDefs] = useState([
     // these are the row groups, so they are all hidden (they are show in the group column)
     {
@@ -190,7 +190,7 @@ const GridExample = () => {
 
   const onGridReady = useCallback((params) => {
     getData();
-    setRowData(globalRowData);
+    params.api.setGridOption("rowData", globalRowData);
   }, []);
 
   const onNormalUpdate = useCallback(() => {
@@ -276,7 +276,6 @@ const GridExample = () => {
         <div style={gridStyle}>
           <AgGridReact
             ref={gridRef}
-            rowData={rowData}
             columnDefs={columnDefs}
             suppressAggFuncInHeader={true}
             rowGroupPanelShow={"always"}

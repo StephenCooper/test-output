@@ -104,7 +104,7 @@ const GridExample = () => {
   const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState();
+
   const [columnDefs, setColumnDefs] = useState([
     { field: "topGroup", rowGroup: true, hide: true },
     { field: "group", rowGroup: true, hide: true },
@@ -176,7 +176,7 @@ const GridExample = () => {
   const getRowId = useCallback((params) => String(params.data.id), []);
 
   const onGridReady = useCallback((params) => {
-    setRowData(createRowData());
+    params.api.setGridOption("rowData", createRowData());
   }, []);
 
   const updateOneRecord = useCallback(() => {
@@ -263,7 +263,6 @@ const GridExample = () => {
           <div style={gridStyle}>
             <AgGridReact
               ref={gridRef}
-              rowData={rowData}
               columnDefs={columnDefs}
               defaultColDef={defaultColDef}
               autoGroupColumnDef={autoGroupColumnDef}

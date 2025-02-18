@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState, StrictMode } from "react";
+import React, { useCallback, useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./styles.css";
@@ -20,7 +20,6 @@ ModuleRegistry.registerModules([
   SetFilterModule,
   ValidationModule /* Development Only */,
 ]);
-import { useFetchJson } from "./useFetchJson";
 
 let countDownDirection = true;
 
@@ -124,13 +123,9 @@ function getActions() {
 }
 
 const GridExample = () => {
-  const { data, loading } = useFetchJson(
-    "https://www.ag-grid.com/example-assets/olympic-winners.json",
-    50,
-  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-
+  const [rowData, setRowData] = useState();
   const [columnDefs, setColumnDefs] = useState([
     { field: "athlete", minWidth: 150 },
     { field: "country", minWidth: 150 },
@@ -144,6 +139,15 @@ const GridExample = () => {
       flex: 1,
       filter: true,
     };
+  }, []);
+
+  const onGridReady = useCallback((params) => {
+    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
+      .then((resp) => resp.json())
+      .then((data) => {
+        setRowData(data.slice(0, 50));
+        startInterval(params.api);
+      });
   }, []);
 
   return (
@@ -162,10 +166,10 @@ const GridExample = () => {
 
         <div style={gridStyle}>
           <AgGridReact
-            rowData={data}
-            loading={loading}
+            rowData={rowData}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
+            onGridReady={onGridReady}
           />
         </div>
       </div>

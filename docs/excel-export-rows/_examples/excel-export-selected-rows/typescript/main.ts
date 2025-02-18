@@ -70,6 +70,7 @@ function onBtExport() {
   });
 }
 
+// setup the grid after the page has finished loading
 const gridDiv = document.querySelector<HTMLElement>("#myGrid")!;
 gridApi = createGrid(gridDiv, gridOptions);
 fetch("https://www.ag-grid.com/example-assets/small-olympic-winners.json")

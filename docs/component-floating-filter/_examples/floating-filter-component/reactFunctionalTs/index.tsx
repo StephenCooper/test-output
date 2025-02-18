@@ -1,9 +1,12 @@
 'use client';
-import { useFetchJson } from './useFetchJson';
 import React, { StrictMode, useCallback, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
 
-import type { ColDef, INumberFilterParams } from "ag-grid-community";
+import type {
+  ColDef,
+  GridReadyEvent,
+  INumberFilterParams,
+} from "ag-grid-community";
 import {
   ClientSideRowModelModule,
   ModuleRegistry,
@@ -30,7 +33,7 @@ const filterParams: INumberFilterParams = {
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-
+  const [rowData, setRowData] = useState<IOlympicData[]>();
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
     { field: "athlete", filter: false },
     {
@@ -76,20 +79,24 @@ const GridExample = () => {
     };
   }, []);
 
-  const { data, loading } = useFetchJson<IOlympicData>(
-    "https://www.ag-grid.com/example-assets/olympic-winners.json",
-  );
+  const onGridReady = useCallback((params: GridReadyEvent) => {
+    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
+      .then((resp) => resp.json())
+      .then((data: IOlympicData[]) => {
+        setRowData(data);
+      });
+  }, []);
 
   return (
     <div style={containerStyle}>
       <div style={{ height: "100%", boxSizing: "border-box" }}>
         <div style={gridStyle}>
           <AgGridReact
-            rowData={data}
-            loading={loading}
+            rowData={rowData}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
             alwaysShowVerticalScroll
+            onGridReady={onGridReady}
           />
         </div>
       </div>

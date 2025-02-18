@@ -1,5 +1,4 @@
 'use client';
-import { useFetchJson } from './useFetchJson';
 import React, { StrictMode, useCallback, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
 
@@ -7,6 +6,7 @@ import type {
   ColDef,
   GetContextMenuItemsParams,
   GetMainMenuItemsParams,
+  GridReadyEvent,
 } from "ag-grid-community";
 import {
   ClientSideRowModelModule,
@@ -39,7 +39,7 @@ ModuleRegistry.registerModules([
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-
+  const [rowData, setRowData] = useState<IOlympicData[]>();
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
     { field: "athlete" },
     { field: "country" },
@@ -56,9 +56,13 @@ const GridExample = () => {
     };
   }, []);
 
-  const { data, loading } = useFetchJson<IOlympicData>(
-    "https://www.ag-grid.com/example-assets/olympic-winners.json",
-  );
+  const onGridReady = useCallback((params: GridReadyEvent) => {
+    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
+      .then((resp) => resp.json())
+      .then((data: IOlympicData[]) => {
+        setRowData(data);
+      });
+  }, []);
 
   const getMainMenuItems = useCallback((params: GetMainMenuItemsParams) => {
     return [
@@ -111,12 +115,12 @@ const GridExample = () => {
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact<IOlympicData>
-          rowData={data}
-          loading={loading}
+          rowData={rowData}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           getMainMenuItems={getMainMenuItems}
           getContextMenuItems={getContextMenuItems}
+          onGridReady={onGridReady}
         />
       </div>
     </div>

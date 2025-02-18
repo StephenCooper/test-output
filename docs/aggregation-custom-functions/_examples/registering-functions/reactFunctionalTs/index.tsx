@@ -15,6 +15,7 @@ import {
   ColGroupDef,
   GridApi,
   GridOptions,
+  GridReadyEvent,
   IAggFunc,
   IAggFuncParams,
   ModuleRegistry,
@@ -41,7 +42,6 @@ ModuleRegistry.registerModules([
   SetFilterModule,
   ValidationModule /* Development Only */,
 ]);
-import { useFetchJson } from "./useFetchJson";
 
 function ratioValueGetter(params: ValueGetterParams<IOlympicData>) {
   if (!(params.node && params.node.group)) {
@@ -78,12 +78,9 @@ function ratioFormatter(params: ValueFormatterParams) {
 }
 
 const GridExample = () => {
-  const { data, loading } = useFetchJson<IOlympicData>(
-    "https://www.ag-grid.com/example-assets/olympic-winners.json",
-  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-
+  const [rowData, setRowData] = useState<IOlympicData[]>();
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
     { field: "country", rowGroup: true, hide: true },
     { field: "total", aggFunc: "range" },
@@ -120,16 +117,22 @@ const GridExample = () => {
     };
   }, []);
 
+  const onGridReady = useCallback((params: GridReadyEvent) => {
+    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
+      .then((resp) => resp.json())
+      .then((data: IOlympicData[]) => setRowData(data));
+  }, []);
+
   return (
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact<IOlympicData>
-          rowData={data}
-          loading={loading}
+          rowData={rowData}
           columnDefs={columnDefs}
           aggFuncs={aggFuncs}
           defaultColDef={defaultColDef}
           autoGroupColumnDef={autoGroupColumnDef}
+          onGridReady={onGridReady}
         />
       </div>
     </div>
