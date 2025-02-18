@@ -15,7 +15,6 @@ import {
   ColGroupDef,
   GridApi,
   GridOptions,
-  GridReadyEvent,
   ModuleRegistry,
   NumberEditorModule,
   NumberFilterModule,
@@ -31,14 +30,18 @@ ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 const latinText =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
 
 const GridExample = () => {
+  const { data, loading } = useFetchJson<any>(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState<any[]>();
+
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
     { field: "latinText", width: 350, wrapText: true },
     { field: "athlete" },
@@ -58,27 +61,15 @@ const GridExample = () => {
     };
   }, []);
 
-  const onGridReady = useCallback((params: GridReadyEvent) => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data: any[]) => {
-        data.forEach(function (dataItem: any) {
-          dataItem.latinText = latinText;
-        });
-        // now set the data into the grid
-        setRowData(data);
-      });
-  }, []);
-
   return (
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact
-          rowData={rowData}
+          rowData={data}
+          loading={loading}
           columnDefs={columnDefs}
           rowHeight={120}
           defaultColDef={defaultColDef}
-          onGridReady={onGridReady}
         />
       </div>
     </div>

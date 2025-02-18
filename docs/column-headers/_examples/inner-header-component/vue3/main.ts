@@ -85,9 +85,7 @@ const VueExample = defineComponent({
     const onGridReady = (params: GridReadyEvent) => {
       gridApi.value = params.api;
 
-      const updateData = (data) => {
-        rowData.value = data;
-      };
+      const updateData = (data) => (rowData.value = data);
 
       fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
         .then((resp) => resp.json())

@@ -16,7 +16,6 @@ import {
   ColGroupDef,
   GridApi,
   GridOptions,
-  GridReadyEvent,
   ModuleRegistry,
   RowApiModule,
   ValidationModule,
@@ -28,6 +27,7 @@ ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 interface IRow {
   company: string;
@@ -48,6 +48,9 @@ const onClick = () => alert("Mission Launched");
 
 const GridExample = () => {
   const gridRef = useRef<AgGridReact>(null);
+  const { data, loading } = useFetchJson<any>(
+    "https://www.ag-grid.com/example-assets/small-space-mission-data.json",
+  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [rowData, setRowData] = useState<any[]>([] as IRow[]);
@@ -83,16 +86,6 @@ const GridExample = () => {
     };
   }, []);
 
-  const onGridReady = useCallback((params: GridReadyEvent) => {
-    fetch(
-      "https://www.ag-grid.com/example-assets/small-space-mission-data.json",
-    )
-      .then((resp) => resp.json())
-      .then((data: any[]) => {
-        setRowData(data);
-      });
-  }, []);
-
   const refreshData = useCallback(() => {
     gridRef.current!.api.forEachNode((rowNode) => {
       rowNode.setDataValue("successful", Math.random() > 0.5);
@@ -110,9 +103,10 @@ const GridExample = () => {
           <AgGridReact
             ref={gridRef}
             rowData={rowData}
+            rowData={data}
+            loading={loading}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
-            onGridReady={onGridReady}
           />
         </div>
       </div>

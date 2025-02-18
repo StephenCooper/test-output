@@ -18,7 +18,6 @@ import {
   ExternalFilterModule,
   GridApi,
   GridOptions,
-  GridReadyEvent,
   IDateFilterParams,
   IRowNode,
   IsExternalFilterPresentParams,
@@ -44,6 +43,7 @@ ModuleRegistry.registerModules([
   DateFilterModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 const dateFilterParams: IDateFilterParams = {
   comparator: (filterLocalDateAtMidnight: Date, cellValue: string) => {
@@ -74,9 +74,12 @@ function asDate(dateAsString: string) {
 
 const GridExample = () => {
   const gridRef = useRef<AgGridReact<IOlympicData>>(null);
+  const { data, loading } = useFetchJson<IOlympicData>(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState<IOlympicData[]>();
+
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
     { field: "athlete", minWidth: 180 },
     { field: "age", filter: "agNumberColumnFilter", maxWidth: 80 },
@@ -97,16 +100,6 @@ const GridExample = () => {
       minWidth: 120,
       filter: true,
     };
-  }, []);
-
-  const onGridReady = useCallback((params: GridReadyEvent) => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data: IOlympicData[]) => {
-        (document.querySelector("#everyone") as HTMLInputElement).checked =
-          true;
-        setRowData(data);
-      });
   }, []);
 
   const externalFilterChanged = useCallback((newValue: string) => {
@@ -194,12 +187,12 @@ const GridExample = () => {
         <div style={gridStyle}>
           <AgGridReact<IOlympicData>
             ref={gridRef}
-            rowData={rowData}
+            rowData={data}
+            loading={loading}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
             isExternalFilterPresent={isExternalFilterPresent}
             doesExternalFilterPass={doesExternalFilterPass}
-            onGridReady={onGridReady}
           />
         </div>
       </div>

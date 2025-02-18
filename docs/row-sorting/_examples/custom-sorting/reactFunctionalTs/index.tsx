@@ -16,7 +16,6 @@ import {
   ColGroupDef,
   GridApi,
   GridOptions,
-  GridReadyEvent,
   ModuleRegistry,
   ValidationModule,
 } from "ag-grid-community";
@@ -25,6 +24,7 @@ ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 function dateComparator(date1: string, date2: string) {
   const date1Number = monthToComparableNumber(date1);
@@ -53,9 +53,13 @@ function monthToComparableNumber(date: string) {
 }
 
 const GridExample = () => {
+  const { data, loading } = useFetchJson<IOlympicData>(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+    10,
+  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState<IOlympicData[]>();
+
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
     { field: "athlete", sort: "desc" },
     { field: "age", width: 90 },
@@ -70,20 +74,14 @@ const GridExample = () => {
     };
   }, []);
 
-  const onGridReady = useCallback((params: GridReadyEvent) => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data: IOlympicData[]) => setRowData(data.slice(0, 10)));
-  }, []);
-
   return (
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact<IOlympicData>
-          rowData={rowData}
+          rowData={data}
+          loading={loading}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
-          onGridReady={onGridReady}
         />
       </div>
     </div>

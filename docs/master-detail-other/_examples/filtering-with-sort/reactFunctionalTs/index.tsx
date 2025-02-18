@@ -16,7 +16,6 @@ import {
   FirstDataRenderedEvent,
   GridApi,
   GridOptions,
-  GridReadyEvent,
   IDetailCellRendererParams,
   ModuleRegistry,
   RowApiModule,
@@ -42,11 +41,15 @@ ModuleRegistry.registerModules([
   SetFilterModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 const GridExample = () => {
+  const { data, loading } = useFetchJson<IAccount>(
+    "https://www.ag-grid.com/example-assets/master-detail-data.json",
+  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState<IAccount[]>();
+
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
     // group cell renderer needed for expand / collapse icons
     { field: "name", cellRenderer: "agGroupCellRenderer" },
@@ -81,14 +84,6 @@ const GridExample = () => {
     } as IDetailCellRendererParams<IAccount, ICallRecord>;
   }, []);
 
-  const onGridReady = useCallback((params: GridReadyEvent) => {
-    fetch("https://www.ag-grid.com/example-assets/master-detail-data.json")
-      .then((resp) => resp.json())
-      .then((data: IAccount[]) => {
-        setRowData(data);
-      });
-  }, []);
-
   const onFirstDataRendered = useCallback((params: FirstDataRenderedEvent) => {
     // arbitrarily expand a row for presentational purposes
     setTimeout(() => {
@@ -100,12 +95,12 @@ const GridExample = () => {
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact<IAccount>
-          rowData={rowData}
+          rowData={data}
+          loading={loading}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           masterDetail={true}
           detailCellRendererParams={detailCellRendererParams}
-          onGridReady={onGridReady}
           onFirstDataRendered={onFirstDataRendered}
         />
       </div>

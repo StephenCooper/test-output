@@ -17,7 +17,6 @@ import {
   ColumnApiModule,
   GridApi,
   GridOptions,
-  GridReadyEvent,
   ModuleRegistry,
   NumberEditorModule,
   ProcessDataFromClipboardParams,
@@ -47,11 +46,16 @@ ModuleRegistry.registerModules([
   CellSelectionModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 const GridExample = () => {
+  const { data, loading } = useFetchJson<any>(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+    8,
+  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState<any[]>();
+
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
     { headerName: "Athlete", field: "athlete", width: 150 },
     { headerName: "Age", field: "age", width: 90 },
@@ -75,12 +79,6 @@ const GridExample = () => {
       enableClickSelection: true,
       copySelectedRows: true,
     };
-  }, []);
-
-  const onGridReady = useCallback((params: GridReadyEvent) => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data: any[]) => setRowData(data.slice(0, 8)));
   }, []);
 
   const processDataFromClipboard = useCallback(
@@ -124,12 +122,12 @@ const GridExample = () => {
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact
-          rowData={rowData}
+          rowData={data}
+          loading={loading}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           rowSelection={rowSelection}
           processDataFromClipboard={processDataFromClipboard}
-          onGridReady={onGridReady}
         />
       </div>
     </div>
