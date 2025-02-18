@@ -16,7 +16,6 @@ import {
   ColGroupDef,
   GridApi,
   GridOptions,
-  GridReadyEvent,
   ModuleRegistry,
   RowApiModule,
   ValidationModule,
@@ -28,6 +27,7 @@ ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 interface IRow {
   company: string;
@@ -47,10 +47,10 @@ function successIconSrc(params: boolean) {
 const onClick = () => alert("Mission Launched");
 
 const GridExample = () => {
-  const gridRef = useRef<AgGridReact>(null);
+  const gridRef = useRef<AgGridReact<IRow>>(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState<any[]>([] as IRow[]);
+  const [rowData, setRowData] = useState<IRow[]>([]);
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
     {
       field: "company",
@@ -69,29 +69,23 @@ const GridExample = () => {
       },
     },
     {
-      field: "actions",
+      colId: "actions",
       headerName: "Actions",
       cellRenderer: CustomButtonComponent,
       cellRendererParams: {
         onClick: onClick,
       },
     },
-  ] as ColDef[]);
+  ]);
   const defaultColDef = useMemo<ColDef>(() => {
     return {
       flex: 1,
     };
   }, []);
 
-  const onGridReady = useCallback((params: GridReadyEvent) => {
-    fetch(
-      "https://www.ag-grid.com/example-assets/small-space-mission-data.json",
-    )
-      .then((resp) => resp.json())
-      .then((data: any[]) => {
-        setRowData(data);
-      });
-  }, []);
+  const { data, loading } = useFetchJson<IRow>(
+    "https://www.ag-grid.com/example-assets/small-space-mission-data.json",
+  );
 
   const refreshData = useCallback(() => {
     gridRef.current!.api.forEachNode((rowNode) => {
@@ -107,12 +101,13 @@ const GridExample = () => {
         </div>
 
         <div style={gridStyle}>
-          <AgGridReact
+          <AgGridReact<IRow>
             ref={gridRef}
             rowData={rowData}
+            rowData={data}
+            loading={loading}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
-            onGridReady={onGridReady}
           />
         </div>
       </div>

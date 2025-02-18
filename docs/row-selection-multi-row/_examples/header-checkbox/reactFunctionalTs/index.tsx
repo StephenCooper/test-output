@@ -16,7 +16,6 @@ import {
   ColGroupDef,
   GridApi,
   GridOptions,
-  GridReadyEvent,
   ModuleRegistry,
   PaginationModule,
   QuickFilterModule,
@@ -32,6 +31,7 @@ ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 const GridExample = () => {
   const gridRef = useRef<AgGridReact<IOlympicData>>(null);
@@ -65,13 +65,9 @@ const GridExample = () => {
     };
   }, []);
 
-  const onGridReady = useCallback((params: GridReadyEvent) => {
-    fetch("https://www.ag-grid.com/example-assets/small-olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data: IOlympicData[]) =>
-        params.api.setGridOption("rowData", data),
-      );
-  }, []);
+  const { data, loading } = useFetchJson<IOlympicData>(
+    "https://www.ag-grid.com/example-assets/small-olympic-winners.json",
+  );
 
   const onQuickFilterChanged = useCallback(() => {
     gridRef.current!.api.setGridOption(
@@ -116,12 +112,13 @@ const GridExample = () => {
         <div style={gridStyle}>
           <AgGridReact<IOlympicData>
             ref={gridRef}
+            rowData={data}
+            loading={loading}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
             pagination={true}
             paginationAutoPageSize={true}
             rowSelection={rowSelection}
-            onGridReady={onGridReady}
           />
         </div>
       </div>

@@ -15,7 +15,6 @@ import {
   ColGroupDef,
   GridApi,
   GridOptions,
-  GridReadyEvent,
   GridState,
   GridStateModule,
   ModuleRegistry,
@@ -40,6 +39,7 @@ ModuleRegistry.registerModules([
   RowGroupingModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
@@ -71,23 +71,20 @@ const GridExample = () => {
     };
   }, []);
 
-  const onGridReady = useCallback((params: GridReadyEvent) => {
-    fetch("https://www.ag-grid.com/example-assets/small-olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data: IOlympicData[]) =>
-        params.api.setGridOption("rowData", data),
-      );
-  }, []);
+  const { data, loading } = useFetchJson<IOlympicData>(
+    "https://www.ag-grid.com/example-assets/small-olympic-winners.json",
+  );
 
   return (
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact<IOlympicData>
+          rowData={data}
+          loading={loading}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           rowSelection={rowSelection}
           initialState={initialState}
-          onGridReady={onGridReady}
         />
       </div>
     </div>

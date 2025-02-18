@@ -16,7 +16,6 @@ import {
   ColGroupDef,
   GridApi,
   GridOptions,
-  GridReadyEvent,
   ModuleRegistry,
   RowSelectionMode,
   RowSelectionModule,
@@ -39,6 +38,7 @@ ModuleRegistry.registerModules([
   RowGroupingModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 const getSelectValue: (id: string) => RowSelectionMode = (id: string) => {
   return (
@@ -78,13 +78,9 @@ const GridExample = () => {
     };
   }, []);
 
-  const onGridReady = useCallback((params: GridReadyEvent) => {
-    fetch("https://www.ag-grid.com/example-assets/small-olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data: IOlympicData[]) =>
-        params.api.setGridOption("rowData", data),
-      );
-  }, []);
+  const { data, loading } = useFetchJson<IOlympicData>(
+    "https://www.ag-grid.com/example-assets/small-olympic-winners.json",
+  );
 
   const updateSelectionOptions = useCallback(() => {
     gridRef.current!.api.setGridOption("rowSelection", {
@@ -108,10 +104,11 @@ const GridExample = () => {
         <div style={gridStyle}>
           <AgGridReact<IOlympicData>
             ref={gridRef}
+            rowData={data}
+            loading={loading}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
             rowSelection={rowSelection}
-            onGridReady={onGridReady}
           />
         </div>
       </div>

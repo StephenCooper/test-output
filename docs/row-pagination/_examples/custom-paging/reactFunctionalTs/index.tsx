@@ -17,7 +17,6 @@ import {
   FirstDataRenderedEvent,
   GridApi,
   GridOptions,
-  GridReadyEvent,
   ModuleRegistry,
   NumberEditorModule,
   NumberFilterModule,
@@ -40,11 +39,12 @@ ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState<IOlympicData[]>();
+
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
     {
       headerName: "Athlete",
@@ -87,13 +87,9 @@ const GridExample = () => {
     [],
   );
 
-  const onGridReady = useCallback((params: GridReadyEvent) => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data: IOlympicData[]) => {
-        setRowData(data);
-      });
-  }, []);
+  const { data, loading } = useFetchJson<IOlympicData>(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
 
   const onFirstDataRendered = useCallback((params: FirstDataRenderedEvent) => {
     params.api.paginationGoToPage(4);
@@ -104,7 +100,8 @@ const GridExample = () => {
       <div className="example-wrapper">
         <div style={gridStyle}>
           <AgGridReact<IOlympicData>
-            rowData={rowData}
+            rowData={data}
+            loading={loading}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
             rowSelection={rowSelection}
@@ -112,7 +109,6 @@ const GridExample = () => {
             paginationPageSize={500}
             paginationPageSizeSelector={paginationPageSizeSelector}
             paginationNumberFormatter={paginationNumberFormatter}
-            onGridReady={onGridReady}
             onFirstDataRendered={onFirstDataRendered}
           />
         </div>

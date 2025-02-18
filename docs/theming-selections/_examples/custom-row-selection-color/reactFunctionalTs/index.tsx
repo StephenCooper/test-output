@@ -15,7 +15,6 @@ import {
   ColGroupDef,
   GridApi,
   GridOptions,
-  GridReadyEvent,
   ModuleRegistry,
   RowSelectionOptions,
   Theme,
@@ -23,6 +22,7 @@ import {
 } from "ag-grid-community";
 import { IOlympicData } from "./interfaces";
 ModuleRegistry.registerModules([AllCommunityModule]);
+import { useFetchJson } from "./useFetchJson";
 
 const myTheme = themeQuartz.withParams({
   /* bright green, 10% opacity */
@@ -60,13 +60,9 @@ const GridExample = () => {
     };
   }, []);
 
-  const onGridReady = useCallback((params: GridReadyEvent) => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data: IOlympicData[]) => {
-        params.api.setGridOption("rowData", data);
-      });
-  }, []);
+  const { data, loading } = useFetchJson<IOlympicData>(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
 
   const onFirstDataRendered = useCallback((params) => {
     params.api.forEachNode((node) => {
@@ -80,11 +76,12 @@ const GridExample = () => {
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact<IOlympicData>
+          rowData={data}
+          loading={loading}
           columnDefs={columnDefs}
           theme={theme}
           rowSelection={rowSelection}
           defaultColDef={defaultColDef}
-          onGridReady={onGridReady}
           onFirstDataRendered={onFirstDataRendered}
         />
       </div>
