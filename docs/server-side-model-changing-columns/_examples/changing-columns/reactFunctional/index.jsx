@@ -123,6 +123,15 @@ const GridExample = () => {
   }, []);
 
   const onGridReady = useCallback((params) => {
+    document.getElementById("athlete").checked = true;
+    document.getElementById("age").checked = true;
+    document.getElementById("country").checked = true;
+    document.getElementById("year").checked = true;
+    document.getElementById("sport").checked = true;
+    document.getElementById("gold").checked = true;
+    document.getElementById("silver").checked = true;
+    document.getElementById("bronze").checked = true;
+
     fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
       .then((resp) => resp.json())
       .then((data) => {
@@ -133,15 +142,6 @@ const GridExample = () => {
         // register the datasource with the grid
         params.api.setGridOption("serverSideDatasource", datasource);
       });
-
-    document.getElementById("athlete").checked = true;
-    document.getElementById("age").checked = true;
-    document.getElementById("country").checked = true;
-    document.getElementById("year").checked = true;
-    document.getElementById("sport").checked = true;
-    document.getElementById("gold").checked = true;
-    document.getElementById("silver").checked = true;
-    document.getElementById("bronze").checked = true;
   }, []);
 
   const onBtApply = useCallback(() => {

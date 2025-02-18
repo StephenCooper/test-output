@@ -1,5 +1,6 @@
 'use client';
-import React, { StrictMode, useMemo, useRef, useState } from "react";
+import { useFetchJson } from './useFetchJson';
+import React, { StrictMode, useMemo, useRef } from "react";
 import { createRoot } from "react-dom/client";
 import {
   AlignedGridsModule,
@@ -62,8 +63,6 @@ const GridExample = () => {
     [],
   );
 
-  const [rowData, setRowData] = useState([]);
-
   const autoSizeStrategy = useMemo(
     () => ({
       type: "fitGridWidth",
@@ -71,11 +70,9 @@ const GridExample = () => {
     [],
   );
 
-  const onGridReady = (params) => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data) => setRowData(data));
-  };
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
 
   const onCbAthlete = (event) => {
     // we only need to update one grid, as the other is a slave
@@ -125,11 +122,11 @@ const GridExample = () => {
         <AgGridReact
           ref={topGrid}
           alignedGrids={[bottomGrid]}
-          rowData={rowData}
+          rowData={data}
+          loading={loading}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           autoSizeStrategy={autoSizeStrategy}
-          onGridReady={onGridReady}
         />
       </div>
 
@@ -139,7 +136,8 @@ const GridExample = () => {
         <AgGridReact
           ref={bottomGrid}
           alignedGrids={[topGrid]}
-          rowData={rowData}
+          rowData={data}
+          loading={loading}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
         />

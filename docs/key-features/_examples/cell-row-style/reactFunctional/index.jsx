@@ -12,8 +12,6 @@ const ragCellClassRules = {
   "rag-green": (params) => params.value === true,
 };
 
-const gridDiv = document.querySelector("#myGrid");
-
 const GridExample = () => {
   const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
