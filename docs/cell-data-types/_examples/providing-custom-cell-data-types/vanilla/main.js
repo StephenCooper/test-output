@@ -49,7 +49,6 @@ document.addEventListener("DOMContentLoaded", () => {
       gridApi.setGridOption(
         "rowData",
         data.map((rowData) => {
-          const dateParts = rowData.date.split("/");
           return {
             ...rowData,
             countryObject: {

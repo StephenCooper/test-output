@@ -87,7 +87,6 @@ fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
     gridApi!.setGridOption(
       "rowData",
       data.map((rowData) => {
-        const dateParts = rowData.date.split("/");
         return {
           ...rowData,
           countryObject: {
