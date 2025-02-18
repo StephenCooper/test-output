@@ -16,6 +16,7 @@ import {
   CellClassRules,
   ColDef,
   ColGroupDef,
+  GridApi,
   GridOptions,
   ModuleRegistry,
   RowClassRules,

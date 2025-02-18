@@ -62,10 +62,11 @@ const gridOptions: GridOptions<IOlympicData> = {
   },
 };
 
-// setup the grid after the page has finished loading
 const gridDiv = document.querySelector<HTMLElement>("#myGrid")!;
 gridApi = createGrid(gridDiv, gridOptions);
 
 fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
   .then((response) => response.json())
-  .then((data) => gridApi!.setGridOption("rowData", data));
+  .then((data) => {
+    gridApi!.setGridOption("rowData", data);
+  });

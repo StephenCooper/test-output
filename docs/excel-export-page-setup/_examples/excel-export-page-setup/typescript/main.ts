@@ -86,7 +86,6 @@ function onFormSubmit(e: any) {
   gridApi!.exportDataAsExcel({ pageSetup, margins });
 }
 
-// setup the grid after the page has finished loading
 const gridDiv = document.querySelector<HTMLElement>("#myGrid");
 const form = document.querySelector<HTMLFormElement>("form");
 

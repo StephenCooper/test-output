@@ -221,7 +221,6 @@ function jumpTo500() {
   gridApi!.ensureIndexVisible(500);
 }
 
-// setup the grid after the page has finished loading
 const gridDiv = document.querySelector<HTMLElement>("#myGrid")!;
 gridApi = createGrid(gridDiv, gridOptions);
 

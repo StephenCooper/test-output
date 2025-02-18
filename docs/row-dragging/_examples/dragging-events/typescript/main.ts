@@ -70,7 +70,6 @@ function onRowDragCancel(e: RowDragCancelEvent) {
   console.log("onRowDragCancel", e);
 }
 
-// setup the grid after the page has finished loading
 const gridDiv = document.querySelector<HTMLElement>("#myGrid")!;
 gridApi = createGrid(gridDiv, gridOptions);
 

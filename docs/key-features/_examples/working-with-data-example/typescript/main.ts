@@ -324,7 +324,6 @@ const gridOptions: GridOptions = {
   paginationPageSizeSelector: [10, 25, 50],
 };
 
-// setup the grid after the page has finished loading
 const gridDiv = document.querySelector<HTMLElement>("#myGrid")!;
 const gridApi = createGrid(gridDiv, gridOptions);
 /** DARK INTEGRATED START **/
