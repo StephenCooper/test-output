@@ -118,7 +118,6 @@ function makeGrid(valueCacheOn: boolean) {
   gridApi = createGrid(gridDiv, gridOptions);
 }
 
-// setup the grid after the page has finished loading
 onValueCache(false);
 
 if (typeof window !== "undefined") {

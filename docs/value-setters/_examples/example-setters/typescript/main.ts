@@ -130,6 +130,5 @@ function onCellValueChanged(event: CellValueChangedEvent) {
   console.log("Data after change is", event.data);
 }
 
-// setup the grid after the page has finished loading
 const gridDiv = document.querySelector<HTMLElement>("#myGrid")!;
 gridApi = createGrid(gridDiv, gridOptions);

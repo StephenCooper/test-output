@@ -86,6 +86,5 @@ function valueFormatter(params: ValueFormatterParams): string {
   return params.value ? pathLookup[params.value.join(".")] : "(Blanks)";
 }
 
-// setup the grid after the page has finished loading
 const gridDiv = document.querySelector<HTMLElement>("#myGrid")!;
 gridApi = createGrid(gridDiv, gridOptions);

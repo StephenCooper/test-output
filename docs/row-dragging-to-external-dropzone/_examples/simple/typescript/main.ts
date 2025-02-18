@@ -119,7 +119,6 @@ function addDropZones(params: GridReadyEvent) {
   params.api.addRowDropZone(dropZone);
 }
 
-// setup the grid after the page has finished loading
 const gridDiv = document.querySelector<HTMLElement>("#myGrid")!;
 
 gridApi = createGrid(gridDiv, gridOptions);
