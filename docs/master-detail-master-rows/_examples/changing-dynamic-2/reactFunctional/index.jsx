@@ -28,11 +28,15 @@ ModuleRegistry.registerModules([
   ContextMenuModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 const GridExample = () => {
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/master-detail-dynamic-data.json",
+  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState();
+
   const isRowMaster = useCallback((dataItem) => {
     return dataItem ? dataItem.callRecords.length > 0 : false;
   }, []);
@@ -69,16 +73,6 @@ const GridExample = () => {
     };
   }, []);
 
-  const onGridReady = useCallback((params) => {
-    fetch(
-      "https://www.ag-grid.com/example-assets/master-detail-dynamic-data.json",
-    )
-      .then((resp) => resp.json())
-      .then((data) => {
-        setRowData(data);
-      });
-  }, []);
-
   const onFirstDataRendered = useCallback((params) => {
     // arbitrarily expand a row for presentational purposes
     setTimeout(() => {
@@ -90,14 +84,14 @@ const GridExample = () => {
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact
-          rowData={rowData}
+          rowData={data}
+          loading={loading}
           masterDetail={true}
           isRowMaster={isRowMaster}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           getRowId={getRowId}
           detailCellRendererParams={detailCellRendererParams}
-          onGridReady={onGridReady}
           onFirstDataRendered={onFirstDataRendered}
         />
       </div>
