@@ -66,11 +66,11 @@ const GridExample = () => {
   }, []);
 
   const onGridReady = useCallback((params) => {
-    document.getElementById("selectedOnly").checked = true;
-
     fetch("https://www.ag-grid.com/example-assets/small-olympic-winners.json")
       .then((resp) => resp.json())
       .then((data) => setRowData(data.filter((rec) => rec.country != null)));
+
+    document.getElementById("selectedOnly").checked = true;
   }, []);
 
   const onBtExport = useCallback(() => {
