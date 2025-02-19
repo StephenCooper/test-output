@@ -23,6 +23,7 @@ ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 function successIconSrc(params) {
   if (params === true) {
@@ -57,7 +58,7 @@ const GridExample = () => {
       },
     },
     {
-      field: "actions",
+      colId: "actions",
       headerName: "Actions",
       cellRenderer: CustomButtonComponent,
       cellRendererParams: {
@@ -71,15 +72,9 @@ const GridExample = () => {
     };
   }, []);
 
-  const onGridReady = useCallback((params) => {
-    fetch(
-      "https://www.ag-grid.com/example-assets/small-space-mission-data.json",
-    )
-      .then((resp) => resp.json())
-      .then((data) => {
-        setRowData(data);
-      });
-  }, []);
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/small-space-mission-data.json",
+  );
 
   const refreshData = useCallback(() => {
     gridRef.current.api.forEachNode((rowNode) => {
@@ -98,9 +93,10 @@ const GridExample = () => {
           <AgGridReact
             ref={gridRef}
             rowData={rowData}
+            rowData={data}
+            loading={loading}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
-            onGridReady={onGridReady}
           />
         </div>
       </div>

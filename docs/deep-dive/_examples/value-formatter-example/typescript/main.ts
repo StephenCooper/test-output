@@ -27,9 +27,9 @@ interface IRow {
 let gridApi: GridApi;
 
 // Grid Options: Contains all of the grid configurations
-const gridOptions: GridOptions = {
+const gridOptions: GridOptions<IRow> = {
   // Data to be displayed
-  rowData: [] as IRow[],
+  rowData: [],
   // Columns to be displayed (Should match rowData properties)
   columnDefs: [
     {
@@ -47,11 +47,11 @@ const gridOptions: GridOptions = {
     },
     { field: "successful" },
     { field: "rocket" },
-  ] as ColDef[],
+  ],
   // Configurations applied to all columns
   defaultColDef: {
     filter: true,
-  } as ColDef,
+  },
   // Grid Options
   pagination: true,
 };

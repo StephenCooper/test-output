@@ -40,7 +40,7 @@ const gridOptions = {
       },
     },
     {
-      field: "actions",
+      colId: "actions",
       headerName: "Actions",
       cellRenderer: CustomButtonComponent,
       cellRendererParams: {

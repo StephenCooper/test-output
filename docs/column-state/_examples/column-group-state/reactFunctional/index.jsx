@@ -21,12 +21,13 @@ ModuleRegistry.registerModules([
   RowGroupingModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 const GridExample = () => {
   const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState();
+
   const [columnDefs, setColumnDefs] = useState([
     {
       headerName: "Athlete",
@@ -54,11 +55,9 @@ const GridExample = () => {
     };
   }, []);
 
-  const onGridReady = useCallback((params) => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data) => setRowData(data));
-  }, []);
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
 
   const saveState = useCallback(() => {
     window.groupState = gridRef.current.api.getColumnGroupState();
@@ -95,10 +94,10 @@ const GridExample = () => {
         <div style={gridStyle}>
           <AgGridReact
             ref={gridRef}
-            rowData={rowData}
+            rowData={data}
+            loading={loading}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
-            onGridReady={onGridReady}
           />
         </div>
       </div>

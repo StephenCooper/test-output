@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useMemo, useState, StrictMode } from "react";
+import React, { useMemo, useState, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
 import "./styles.css";
@@ -20,6 +20,7 @@ ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
@@ -52,32 +53,28 @@ const GridExample = () => {
     },
     {
       field: "hardware",
-      headerName: "Hardware",
       cellRenderer: MissionResultRenderer,
     },
     {
-      field: "actions",
+      colId: "actions",
       headerName: "Actions",
       cellRenderer: CustomButtonComponent,
     },
   ]);
 
-  const onGridReady = useCallback((params) => {
-    fetch("https://www.ag-grid.com/example-assets/small-company-data.json")
-      .then((resp) => resp.json())
-      .then((data) => {
-        setRowData(data);
-      });
-  }, []);
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/small-company-data.json",
+  );
 
   return (
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact
           rowData={rowData}
+          rowData={data}
+          loading={loading}
           defaultColDef={defaultColDef}
           columnDefs={columnDefs}
-          onGridReady={onGridReady}
         />
       </div>
     </div>

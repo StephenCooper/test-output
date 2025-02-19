@@ -26,6 +26,7 @@ ModuleRegistry.registerModules([
   RowGroupingModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
@@ -57,11 +58,9 @@ const GridExample = () => {
     };
   }, []);
 
-  const onGridReady = useCallback((params) => {
-    fetch("https://www.ag-grid.com/example-assets/small-olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data) => params.api.setGridOption("rowData", data));
-  }, []);
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/small-olympic-winners.json",
+  );
 
   const onFirstDataRendered = useCallback((params) => {
     const nodesToSelect = [];
@@ -77,11 +76,12 @@ const GridExample = () => {
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact
+          rowData={data}
+          loading={loading}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           rowSelection={rowSelection}
           selectionColumnDef={selectionColumnDef}
-          onGridReady={onGridReady}
           onFirstDataRendered={onFirstDataRendered}
         />
       </div>

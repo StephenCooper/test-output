@@ -101,7 +101,6 @@ const GridExample = () => {
       .then((data: IOlympicDataTypes[]) =>
         setRowData(
           data.map((rowData) => {
-            const dateParts = rowData.date.split("/");
             return {
               ...rowData,
               countryObject: {

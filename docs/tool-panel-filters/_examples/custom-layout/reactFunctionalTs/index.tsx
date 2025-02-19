@@ -16,7 +16,6 @@ import {
   ColGroupDef,
   GridApi,
   GridOptions,
-  GridReadyEvent,
   ModuleRegistry,
   NumberFilterModule,
   SideBarDef,
@@ -40,6 +39,7 @@ ModuleRegistry.registerModules([
   TextFilterModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 const sortedToolPanelColumnDefs = [
   {
@@ -95,7 +95,7 @@ const GridExample = () => {
   const gridRef = useRef<AgGridReact<IOlympicData>>(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState<IOlympicData[]>();
+
   const [columnDefs, setColumnDefs] = useState<(ColDef | ColGroupDef)[]>([
     {
       headerName: "Athlete",
@@ -153,11 +153,9 @@ const GridExample = () => {
     };
   }, []);
 
-  const onGridReady = useCallback((params: GridReadyEvent) => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data: IOlympicData[]) => setRowData(data));
-  }, []);
+  const { data, loading } = useFetchJson<IOlympicData>(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
 
   const setCustomSortLayout = useCallback(() => {
     const filtersToolPanel =
@@ -184,11 +182,11 @@ const GridExample = () => {
         <div style={gridStyle}>
           <AgGridReact<IOlympicData>
             ref={gridRef}
-            rowData={rowData}
+            rowData={data}
+            loading={loading}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
             sideBar={sideBar}
-            onGridReady={onGridReady}
           />
         </div>
       </div>

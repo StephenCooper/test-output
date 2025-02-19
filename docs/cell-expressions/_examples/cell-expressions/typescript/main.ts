@@ -97,7 +97,6 @@ function cellValueChanged() {
   leftGridApi!.refreshCells();
 }
 
-// setup the grid after the page has finished loading
 const gridDivLeft = document.querySelector<HTMLElement>("#myGridLeft")!;
 leftGridApi = createGrid(gridDivLeft, gridOptionsLeft);
 const gridDivRight = document.querySelector<HTMLElement>("#myGridRight")!;

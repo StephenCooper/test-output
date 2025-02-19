@@ -16,13 +16,13 @@ import {
   ColGroupDef,
   GridApi,
   GridOptions,
-  GridReadyEvent,
   ModuleRegistry,
   Theme,
   themeQuartz,
 } from "ag-grid-community";
 import { IOlympicData } from "./interfaces";
 ModuleRegistry.registerModules([AllCommunityModule]);
+import { useFetchJson } from "./useFetchJson";
 
 const myTheme = themeQuartz.withParams({
   /* Low spacing = very compact */
@@ -41,7 +41,7 @@ const GridExample = () => {
   const gridRef = useRef<AgGridReact<IOlympicData>>(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState<IOlympicData[]>();
+
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
     { field: "athlete", minWidth: 170 },
     { field: "age" },
@@ -64,11 +64,9 @@ const GridExample = () => {
     };
   }, []);
 
-  const onGridReady = useCallback((params: GridReadyEvent) => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data: IOlympicData[]) => setRowData(data));
-  }, []);
+  const { data, loading } = useFetchJson<IOlympicData>(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
   /** DARK INTEGRATED START **/ const [tick, setTick] = useState(0);
   useEffect(() => {
     setTick(1);
@@ -142,11 +140,11 @@ const GridExample = () => {
       <div style={gridStyle}>
         <AgGridReact<IOlympicData>
           ref={gridRef}
-          rowData={rowData}
+          rowData={data}
+          loading={loading}
           columnDefs={columnDefs}
           theme={theme}
           defaultColDef={defaultColDef}
-          onGridReady={onGridReady}
         />
       </div>
     </div>

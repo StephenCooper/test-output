@@ -33,6 +33,7 @@ ModuleRegistry.registerModules([
   ContextMenuModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 const getRows = (params) => {
   const rows = [
@@ -79,7 +80,7 @@ const GridExample = () => {
   const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState();
+
   const defaultCsvExportParams = useMemo(() => {
     return {
       getCustomContentBelowRow: (params) => {
@@ -145,13 +146,9 @@ const GridExample = () => {
     ];
   }, []);
 
-  const onGridReady = useCallback((params) => {
-    fetch("https://www.ag-grid.com/example-assets/master-detail-data.json")
-      .then((resp) => resp.json())
-      .then((data) => {
-        setRowData(data);
-      });
-  }, []);
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/master-detail-data.json",
+  );
 
   const onBtExport = useCallback(() => {
     gridRef.current.api.exportDataAsExcel();
@@ -172,7 +169,8 @@ const GridExample = () => {
           <div style={gridStyle}>
             <AgGridReact
               ref={gridRef}
-              rowData={rowData}
+              rowData={data}
+              loading={loading}
               defaultCsvExportParams={defaultCsvExportParams}
               defaultExcelExportParams={defaultExcelExportParams}
               columnDefs={columnDefs}
@@ -180,7 +178,6 @@ const GridExample = () => {
               masterDetail={true}
               detailCellRendererParams={detailCellRendererParams}
               excelStyles={excelStyles}
-              onGridReady={onGridReady}
             />
           </div>
         </div>

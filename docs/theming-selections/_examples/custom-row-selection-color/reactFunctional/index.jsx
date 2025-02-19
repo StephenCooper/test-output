@@ -9,6 +9,7 @@ import {
   themeQuartz,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([AllCommunityModule]);
+import { useFetchJson } from "./useFetchJson";
 
 const myTheme = themeQuartz.withParams({
   /* bright green, 10% opacity */
@@ -44,13 +45,9 @@ const GridExample = () => {
     };
   }, []);
 
-  const onGridReady = useCallback((params) => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data) => {
-        params.api.setGridOption("rowData", data);
-      });
-  }, []);
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
 
   const onFirstDataRendered = useCallback((params) => {
     params.api.forEachNode((node) => {
@@ -64,11 +61,12 @@ const GridExample = () => {
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact
+          rowData={data}
+          loading={loading}
           columnDefs={columnDefs}
           theme={theme}
           rowSelection={rowSelection}
           defaultColDef={defaultColDef}
-          onGridReady={onGridReady}
           onFirstDataRendered={onFirstDataRendered}
         />
       </div>

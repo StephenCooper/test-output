@@ -61,7 +61,7 @@ const GridExample = () => {
     immutableStore.forEach(function (data, index) {
       data.id = index;
     });
-    params.api.setGridOption("rowData", immutableStore);
+    setRowData(immutableStore);
   }, []);
 
   // listen for change on sort changed

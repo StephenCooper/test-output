@@ -43,6 +43,7 @@ ModuleRegistry.registerModules([
   ContextMenuModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 const initialAdvancedFilterModel: AdvancedFilterModel = {
   filterType: "join",
@@ -79,7 +80,7 @@ const GridExample = () => {
   const gridRef = useRef<AgGridReact<IOlympicData>>(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState<IOlympicData[]>();
+
   const advancedFilterBuilderParams =
     useMemo<IAdvancedFilterBuilderParams>(() => {
       return {
@@ -114,10 +115,6 @@ const GridExample = () => {
   }, []);
 
   const onGridReady = useCallback((params: GridReadyEvent) => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data: IOlympicData[]) => setRowData(data));
-
     // Could also be provided via grid option `advancedFilterParent`.
     // Setting the parent removes the Advanced Filter input from the grid,
     // allowing the Advanced Filter to be edited only via the Builder, launched via the API.
@@ -126,6 +123,9 @@ const GridExample = () => {
       document.getElementById("advancedFilterParent"),
     );
   }, []);
+  const { data, loading } = useFetchJson<IOlympicData>(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
 
   const onAdvancedFilterBuilderVisibleChanged = useCallback(
     (event: AdvancedFilterBuilderVisibleChangedEvent<IOlympicData>) => {
@@ -165,7 +165,8 @@ const GridExample = () => {
         <div style={gridStyle}>
           <AgGridReact<IOlympicData>
             ref={gridRef}
-            rowData={rowData}
+            rowData={data}
+            loading={loading}
             advancedFilterBuilderParams={advancedFilterBuilderParams}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}

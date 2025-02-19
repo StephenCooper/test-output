@@ -1,4 +1,5 @@
 'use client';
+import { useFetchJson } from './useFetchJson';
 import React, { StrictMode, useMemo, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 
@@ -46,13 +47,10 @@ const GridExample = () => {
     }),
     [],
   );
-  const [rowData, setRowData] = useState();
 
-  const onGridReady = () => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data) => setRowData(data));
-  };
+  const { data, loading } = useFetchJson<IOlympicData>(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
 
   function toggleHideCheckbox() {
     grid.current?.api.setGridOption("rowSelection", {
@@ -78,11 +76,11 @@ const GridExample = () => {
       <div id="myGrid" className="grid">
         <AgGridReact
           ref={grid}
-          rowData={rowData}
+          rowData={data}
+          loading={loading}
           defaultColDef={defaultColDef}
           columnDefs={columnDefs}
           rowSelection={rowSelection}
-          onGridReady={onGridReady}
         />
       </div>
     </div>

@@ -23,6 +23,7 @@ ModuleRegistry.registerModules([
   PivotModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 const getColumnDefs = () => {
   return [
@@ -40,7 +41,7 @@ const GridExample = () => {
   const gridRef = useRef(null);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState();
+
   const defaultColDef = useMemo(() => {
     return {
       width: 150,
@@ -51,11 +52,9 @@ const GridExample = () => {
   }, []);
   const [columnDefs, setColumnDefs] = useState(getColumnDefs());
 
-  const onGridReady = useCallback((params) => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data) => setRowData(data));
-  }, []);
+  const { data, loading } = useFetchJson(
+    "https://www.ag-grid.com/example-assets/olympic-winners.json",
+  );
 
   const onSortChanged = useCallback((e) => {
     console.log("Event Sort Changed", e);
@@ -273,10 +272,10 @@ const GridExample = () => {
         <div style={gridStyle}>
           <AgGridReact
             ref={gridRef}
-            rowData={rowData}
+            rowData={data}
+            loading={loading}
             defaultColDef={defaultColDef}
             columnDefs={columnDefs}
-            onGridReady={onGridReady}
             onSortChanged={onSortChanged}
             onColumnResized={onColumnResized}
             onColumnVisible={onColumnVisible}

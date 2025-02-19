@@ -401,5 +401,3 @@ export class AppComponent {
     );
   } /** DARK INTEGRATED END **/
 }
-
-const gridDiv = document.querySelector<HTMLElement>("#myGrid")!;

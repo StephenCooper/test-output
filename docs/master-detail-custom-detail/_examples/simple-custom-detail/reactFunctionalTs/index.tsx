@@ -16,7 +16,6 @@ import {
   FirstDataRenderedEvent,
   GridApi,
   GridOptions,
-  GridReadyEvent,
   ModuleRegistry,
   RowApiModule,
   ValidationModule,
@@ -38,11 +37,12 @@ ModuleRegistry.registerModules([
   ContextMenuModule,
   ValidationModule /* Development Only */,
 ]);
+import { useFetchJson } from "./useFetchJson";
 
 const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState<IAccount[]>();
+
   const detailCellRenderer = useCallback(DetailCellRenderer, []);
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
     // group cell renderer needed for expand / collapse icons
@@ -57,13 +57,9 @@ const GridExample = () => {
     };
   }, []);
 
-  const onGridReady = useCallback((params: GridReadyEvent) => {
-    fetch("https://www.ag-grid.com/example-assets/master-detail-data.json")
-      .then((resp) => resp.json())
-      .then((data: IAccount[]) => {
-        setRowData(data);
-      });
-  }, []);
+  const { data, loading } = useFetchJson<IAccount>(
+    "https://www.ag-grid.com/example-assets/master-detail-data.json",
+  );
 
   const onFirstDataRendered = useCallback((params: FirstDataRenderedEvent) => {
     params.api.forEachNode(function (node) {
@@ -75,12 +71,12 @@ const GridExample = () => {
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact<IAccount>
-          rowData={rowData}
+          rowData={data}
+          loading={loading}
           masterDetail={true}
           detailCellRenderer={detailCellRenderer}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
-          onGridReady={onGridReady}
           onFirstDataRendered={onFirstDataRendered}
         />
       </div>

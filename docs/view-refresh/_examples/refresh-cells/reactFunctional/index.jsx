@@ -113,7 +113,7 @@ const GridExample = () => {
     data = createData(14);
     topRowData = createData(2);
     bottomRowData = createData(2);
-    params.api.setGridOption("rowData", data);
+    setRowData(data);
     params.api.setGridOption("pinnedTopRowData", topRowData);
     params.api.setGridOption("pinnedBottomRowData", bottomRowData);
   }, []);

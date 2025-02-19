@@ -44,9 +44,9 @@ function refreshData() {
 }
 
 const onClick = () => alert("Mission Launched");
-const gridOptions: GridOptions = {
+const gridOptions: GridOptions<IRow> = {
   // Data to be displayed
-  rowData: [] as IRow[],
+  rowData: [],
   // Columns to be displayed (Should match rowData properties)
   columnDefs: [
     {
@@ -66,20 +66,19 @@ const gridOptions: GridOptions = {
       },
     },
     {
-      field: "actions",
+      colId: "actions",
       headerName: "Actions",
       cellRenderer: CustomButtonComponent,
       cellRendererParams: {
         onClick: onClick,
       },
     },
-  ] as ColDef[],
+  ],
   defaultColDef: {
     flex: 1,
   },
 };
 
-// setup the grid after the page has finished loading
 const gridDiv = document.querySelector<HTMLElement>("#myGrid")!;
 gridApi = createGrid(gridDiv, gridOptions);
 
